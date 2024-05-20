@@ -1,0 +1,7 @@
+*.o
+*.ghc
+*.a
+a.out
+cub3D
+*.dSYM
+capture.bmp
