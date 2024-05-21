@@ -18,7 +18,7 @@ libmlx:
 	@if [ ! -d "$(LIBMLX)" ]; then \
 			git clone $(LIBMLX_URL) $(LIBMLX); \
 	fi
-	@cmake $(LIBMLX) -H $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
+	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
 
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
