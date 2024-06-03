@@ -7,7 +7,7 @@ LIBFT_DIR := libft
 LIBFT := $(LIBFT_DIR)/libft.a
 HEADERS := -I ./include -I $(LIBMLX)/include
 LIBS := $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm -L$(LIBFT_DIR) -lft
-SRCS :=
+SRCS := srcs/main.c
 BONUS_SRCS :=
 OBJS := $(SRCS:.c=.o)
 BONUS_OBJS := $(BONUS_SRCS:.c=.o)
@@ -18,7 +18,8 @@ libmlx:
 	@if [ ! -d "$(LIBMLX)" ]; then \
 			git clone $(LIBMLX_URL) $(LIBMLX); \
 	fi
-	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
+	@cmake -S $(LIBMLX) -B $(LIBMLX)/build
+	@cmake --build $(LIBMLX)/build --parallel 4
 
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
