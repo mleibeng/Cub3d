@@ -3,12 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/04 07:44:32 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/04 18:57:15 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+------------------------------- initial setup ----------------------------------
+ */
 
 #if !defined(CUB3D_H)
 # define CUB3D_H
@@ -23,8 +27,28 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+/* -------------------- non-adjustable pre-settings ------------------------- */
+
 # define MAP_WIDTH 5
 # define MAP_HEIGHT 6
+
+/* ----------------------- adjustable pre-settings -------------------------- */
+
+# define PLAYER_MOVE_SPEED 0.03
+# define PLAYER_ROTATE_SPEED 0.03
+
+extern int g_map[MAP_WIDTH][MAP_HEIGHT];
+
+/* -------------------------------- structs --------------------------------- */
+
+typedef struct s_tar
+{
+	float	target_x;
+	float	target_y;
+	float	distance;
+	int		wall_height;
+	int32_t		color;
+}	t_tar;
 
 //	coordinates of the player
 typedef struct s_player
@@ -68,8 +92,25 @@ typedef struct s_app
 	int			cur_ray;
 }				t_app;
 
-typedef struct s_rendering
-{
-}				t_rendering;
+/*
+--------------------------------- functions ------------------------------------
+*/
 
+// ----------------------------- calculations ----------------------------------
+
+//	calculations.c
+float	cast_ray(t_player *player, float ray_angle, t_tar *wall);
+void	calc_walls(t_app *app);
+
+// ------------------------------ rendering ------------------------------------
+
+//	rendering.c
+int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
+void	draw_part_ray(t_app *app, int start, int end, int32_t color);
+void	draw_ray(t_app *app, t_tar *wall);
+// ------------------------------ user input -----------------------------------
+
+//	user_input.c
+void	key_hook(mlx_key_data_t keydata, void *param);
+int		ft_hook_key(t_app *app);
 #endif
