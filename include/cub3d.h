@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/03 17:50:14 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/04 07:44:32 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,19 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-# define SCREEN_WIDTH 640
-# define SCREEN_HEIGHT 480
 # define MAP_WIDTH 5
-# define MAP_HEIGHT 5
-# define NUM_RAYS 200
-# define FOV (M_PI / 3)
-# define PLAYER_MOVE_SPEED 0.1
-# define PLAYER_ROTATE_SPEED 0.05
-# define WIDTH 512
-# define HEIGHT 512
+# define MAP_HEIGHT 6
 
-typedef struct s_vec
+//	coordinates of the player
+typedef struct s_player
 {
-	double		x;
-	double		y;
-}				t_vec;
+	float		x;
+	float		y;
+	float		std_x;
+	float		std_y;
+	float		std_angle;
+	float		angle;
+}				t_player;
 
 typedef enum
 {
@@ -57,17 +54,19 @@ typedef enum
 
 typedef t_tile	**t_map;
 
-typedef struct s_data
+typedef struct s_app
 {
-	int			map_length;
-	int			map_width;
-	t_vec		position;
-	t_vec		direction;
-	t_map		map;
-
 	mlx_t		*mlx;
 	mlx_image_t	*img;
-}				t_data;
+	t_player	player;
+	int			window_width;
+	int			window_height;
+	int			map_height;
+	int			map_width;
+	float		fov;
+	int			num_rays;
+	int			cur_ray;
+}				t_app;
 
 typedef struct s_rendering
 {
