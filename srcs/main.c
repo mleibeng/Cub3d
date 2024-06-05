@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/05 03:24:51 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/05 03:36:07 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 // 	exit(EXIT_FAILURE);
 // }
 
-int		g_map[MAP_WIDTH][MAP_HEIGHT] = {
+int			g_map[MAP_WIDTH][MAP_HEIGHT] = {
 	{1, 1, 1, 1, 1, 1},
 	{1, 0, 0, 0, 0, 1},
 	{1, 0, 0, 1, 0, 1},
@@ -64,27 +64,26 @@ int	_init_app(t_app *app)
 	return (0);
 }
 
-void emergency_exit(void *malloc)
+void	emergency_exit(void *malloc)
 {
-	if(!malloc)
+	if (!malloc)
 		exit(1);
 }
 
-void _init_texture(t_texture *texture)
+void	_init_texture(t_texture *texture)
 {
 	texture = malloc(sizeof(t_texture));
 	emergency_exit(texture);
-
 	texture->e_text = NULL;
 	texture->n_text = NULL;
 	texture->s_text = NULL;
 	texture->w_text = NULL;
-
 }
 
-void parse_textures(char *line, int fd, t_texture *texture)
+void	parse_textures(char *line, int fd, t_texture *texture)
 {
-	while (line = get_next_line(fd) && (!texture->e_text || !texture->w_text || !texture->s_text || !texture->n_text))
+	while (line = get_next_line(fd) && (!texture->e_text || !texture->w_text
+			|| !texture->s_text || !texture->n_text))
 	{
 		if (ft_strlen(line) > 0)
 		{
@@ -97,40 +96,66 @@ void parse_textures(char *line, int fd, t_texture *texture)
 			else if (!ft_strncmp(line, "EA ", 3))
 				texture->e_text = ft_strdup(line + 3);
 			else
-				continue;
+				continue ;
 		}
 		if (!line)
 		{
-			perror ("invalid textures");
+			perror("invalid textures");
 			emergency_exit(line);
 		}
 	}
 }
 
-void save_rgb(char *line, int *color)
+void	color_validation(char *end, char *line, int val)
 {
-	int i = 0;
-	while (line[i])
+	if (end == line || *end != ',')
 	{
-
+		perror("invalid RGB values");
+		exit(1);
+	}
+	if (val < 0 || val > 255)
+	{
+		perror("RGB values must be between 0 and 255");
+		exit(1);
 	}
 }
 
-void parse_floor_ceiling(char *line, int fd, t_texture *texture)
+void	save_rgb(char *line, int *color)
+{
+	char	*end;
+	int		r;
+	int		g;
+	int		b;
+
+	r = ft_strtoi(line, &end);
+	color_validation(end, line, r);
+	line = end + 1;
+	g = ft_strtoi(line, &end);
+	color_validation(end, line, g);
+	line = end + 1;
+	b = ft_strtoi(line, &end);
+	color_validation(end, line, b);
+	line = end + 1;
+	color[0] = r;
+	color[1] = g;
+	color[2] = b;
+}
+
+void	parse_floor_ceiling(char *line, int fd, t_texture *texture)
 {
 	if (!ft_strncmp(line, "F ", 3))
-		save_rgb(line, texture->floor);
+		save_rgb(line + 2, texture->floor);
 	else if (!ft_strncmp(line, "C ", 3))
-		save_rgb(line, texture->skybox);
+		save_rgb(line + 2, texture->skybox);
 }
 
 t_texture	*read_map(char *file, char ***map, int *rows, int *columns)
 {
-	int	fd;
-	char buffer[MAX_LINE_LENGTH];
-	char **new_map;
-	char *line;
-	t_texture *texture;
+	int			fd;
+	char		buffer[MAX_LINE_LENGTH];
+	char		**new_map;
+	char		*line;
+	t_texture	*texture;
 
 	_init_texture(texture);
 	if (fd = open(file, O_RDONLY) == -1)
@@ -151,10 +176,10 @@ t_texture	*read_map(char *file, char ***map, int *rows, int *columns)
 
 char	**map_validate(t_app *app, char *file)
 {
-	int	fd;
-	int	rows;
-	int	columns;
-	char **map;
+	int		fd;
+	int		rows;
+	int		columns;
+	char	**map;
 
 	rows = 0;
 	columns = 0;
@@ -165,7 +190,7 @@ char	**map_validate(t_app *app, char *file)
 
 int	main(int argc, char **argv)
 {
-	t_app	app;
+	t_app app;
 
 	if (argc != 2)
 		return (1);
