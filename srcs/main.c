@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/05 04:25:46 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/05 04:32:32 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,12 +226,13 @@ int	character_validation(char ***map, int *rows, int *columns)
 				perror("invalid char inside of map");
 				// free_maps();
 				// free_textures();
-				exit(1);
+				return (1);
 			}
 			j++;
 		}
 		i++;
 	}
+	return (0);
 }
 
 char	**map_validate(t_app *app, char *file)
@@ -248,6 +249,9 @@ char	**map_validate(t_app *app, char *file)
 		exit(1);
 	if (character_validation(&map, &rows, &columns))
 		exit(1);
+	//Now i need to start on flood fill for player and bounds validation//
+	// find the players position and from there walk through and keep in memory which were traversed.
+	// I need to watch some yt vids on the topic
 }
 
 int	main(int argc, char **argv)
