@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/05 03:36:07 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/05 04:25:46 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	parse_textures(char *line, int fd, t_texture *texture)
 		}
 		if (!line)
 		{
-			perror("invalid textures");
+			perror("invalid filestop at texture readin");
 			emergency_exit(line);
 		}
 	}
@@ -143,10 +143,41 @@ void	save_rgb(char *line, int *color)
 
 void	parse_floor_ceiling(char *line, int fd, t_texture *texture)
 {
-	if (!ft_strncmp(line, "F ", 3))
-		save_rgb(line + 2, texture->floor);
-	else if (!ft_strncmp(line, "C ", 3))
-		save_rgb(line + 2, texture->skybox);
+	while (line = get_next_line(fd) && (!texture->floor || !texture->skybox))
+	{
+		if (ft_strlen(line) > 0)
+		{
+			if (!ft_strncmp(line, "F ", 3))
+				save_rgb(line + 2, texture->floor);
+			else if (!ft_strncmp(line, "C ", 3))
+				save_rgb(line + 2, texture->skybox);
+			else
+				continue ;
+		}
+	}
+	if (!line)
+	{
+		perror("invalid filestop at floor/ceiling parse");
+		emergency_exit(line);
+	}
+}
+
+void	parse_map(char *line, char ***map, int *rows, int *columns)
+{
+	if (ft_strlen(line) > 0)
+	{
+		if (*rows == 0)
+		{
+			*map = malloc(MAX_LINE_LENGTH * sizeof(char *));
+			emergency_exit(*map);
+		}
+		(*map)[*rows] = strdup(line);
+		emergency_exit((*map)[*rows]);
+		if (ft_strlen(line) > *columns)
+			*columns = ft_strlen(line);
+		(*rows)++;
+	}
+	free(line);
 }
 
 t_texture	*read_map(char *file, char ***map, int *rows, int *columns)
@@ -165,12 +196,41 @@ t_texture	*read_map(char *file, char ***map, int *rows, int *columns)
 	parse_textures(line, fd, texture);
 	parse_floor_ceiling(line, fd, texture);
 	while (line = get_next_line(fd))
+		parse_map(line, map, rows, columns);
+	close(fd);
+	return (texture);
+}
+
+int	is_valid(char c)
+{
+	return (c == '0' || c == '1' || c == 'N' || c == 'S' || c == 'W'
+		|| c == "E");
+}
+
+// need to implement free map and free textures...
+// also need to do a leak checkover for the previous functions when reading in this data.
+
+int	character_validation(char ***map, int *rows, int *columns)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (i < *rows)
 	{
-		if (ft_strlen > 0)
+		while (j < ft_strlen(*map[i]))
 		{
-			new_map[*rows] = malloc((ft_strlen(line) + 1) * sizeof(char));
-			emergency_exit(new_map[*rows]);
+			if (!is_valid(*map[i][j]))
+			{
+				perror("invalid char inside of map");
+				// free_maps();
+				// free_textures();
+				exit(1);
+			}
+			j++;
 		}
+		i++;
 	}
 }
 
@@ -185,6 +245,8 @@ char	**map_validate(t_app *app, char *file)
 	columns = 0;
 	app->textures = read_map(file, &map, &rows, &columns);
 	if (!app->textures)
+		exit(1);
+	if (character_validation(&map, &rows, &columns))
 		exit(1);
 }
 
