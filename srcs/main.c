@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/03 17:49:58 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/05 03:21:33 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,126 +18,14 @@
 // 	exit(EXIT_FAILURE);
 // }
 
-int				g_map[MAP_WIDTH][MAP_HEIGHT] = {
-	{1, 1, 1, 1, 1},
-	{1, 0, 0, 0, 1},
-	{1, 0, 1, 0, 1},
-	{1, 0, 0, 0, 1},
-	{1, 1, 1, 1, 1},
+int		g_map[MAP_WIDTH][MAP_HEIGHT] = {
+	{1, 1, 1, 1, 1, 1},
+	{1, 0, 0, 0, 0, 1},
+	{1, 0, 0, 1, 0, 1},
+	{1, 0, 0, 0, 0, 1},
+	{1, 1, 1, 1, 1, 1},
 };
-typedef struct s_player
-{
-	float		x;
-	float		y;
-	float		std_x;
-	float		std_y;
-	float		std_angle;
-	float		angle;
-}				t_player;
-typedef struct s_app
-{
-	mlx_t		*mlx;
-	mlx_image_t	*img;
-	t_player	player;
-}				t_app;
-float	cast_ray(t_player *player, float ray_angle)
-{
-	float	depth;
-	float	target_x;
-	float	target_y;
 
-	depth = 0.0f;
-	while (depth < 20.0f)
-	{
-		target_x = player->x + depth * cos(ray_angle);
-		target_y = player->y + depth * sin(ray_angle);
-		if (target_x >= MAP_WIDTH || target_y >= MAP_HEIGHT || target_x < 0
-			|| target_y < 0 || g_map[(int)target_y][(int)target_x] == 1)
-		{
-			return (depth);
-		}
-		depth += 0.01f;
-	}
-	return (20.0f);
-}
-void	draw_walls(t_app *app)
-{
-	int		i;
-	float	ray_angle;
-	float	distance;
-	int		wall_height;
-	int		clr;
-	int		x;
-	int		y;
-	int		y_start;
-	int		y_end;
-
-	i = 0;
-	while (i < NUM_RAYS)
-	{
-		ray_angle = app->player.angle - FOV / 2 + i * FOV / NUM_RAYS;
-		distance = cast_ray(&app->player, ray_angle);
-		distance *= cos(app->player.angle - ray_angle);
-		wall_height = (int)(SCREEN_HEIGHT / (distance + 0.0001f));
-		clr = 255 / (1 + distance * distance * 0.0001f);
-		x = i * SCREEN_WIDTH / NUM_RAYS;
-		y_start = (SCREEN_HEIGHT - wall_height) / 2;
-		y_end = (SCREEN_HEIGHT + wall_height) / 2;
-		if (y_start < 0)
-			y_start = 0;
-		if (y_end > SCREEN_HEIGHT)
-			y_end = SCREEN_HEIGHT;
-		y = y_start;
-		while (y < y_end)
-		{
-			if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT)
-			{
-				mlx_put_pixel(app->img, x, y, (clr << 16) | (clr << 8) | clr);
-			}
-			y++;
-		}
-		i++;
-	}
-}
-void	key_hook(mlx_key_data_t keydata, void *param)
-{
-	t_app	*app;
-
-	app = (t_app *)param;
-	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-	{
-		mlx_close_window(app->mlx);
-	}
-	if (keydata.key == MLX_KEY_UP)
-	{
-		app->player.x += PLAYER_MOVE_SPEED * cos(app->player.angle);
-		app->player.y += PLAYER_MOVE_SPEED * sin(app->player.angle);
-	}
-	if (keydata.key == MLX_KEY_DOWN)
-	{
-		app->player.x -= PLAYER_MOVE_SPEED * cos(app->player.angle);
-		app->player.y -= PLAYER_MOVE_SPEED * sin(app->player.angle);
-	}
-	if (keydata.key == MLX_KEY_LEFT)
-	{
-		app->player.angle -= PLAYER_ROTATE_SPEED;
-	}
-	if (keydata.key == MLX_KEY_RIGHT)
-	{
-		app->player.angle += PLAYER_ROTATE_SPEED;
-	}
-	if (keydata.key == MLX_KEY_P && keydata.action == MLX_PRESS)
-	{
-		printf("Position X: %f Y : %f deg: %f\n", app->player.x, app->player.y,
-			app->player.angle);
-	}
-	if (keydata.key == MLX_KEY_R && keydata.action == MLX_PRESS)
-	{
-		app->player.x = app->player.std_x;
-		app->player.y = app->player.std_y;
-		app->player.angle = app->player.std_angle;
-	}
-}
 void	loop_hook(void *param)
 {
 	t_app	*app;
@@ -150,24 +38,141 @@ void	loop_hook(void *param)
 	draw_walls(app);
 	mlx_image_to_window(app->mlx, app->img, 0, 0);
 }
-int	main(void)
+
+int	_init_app(t_app *app)
 {
-	t_app app;
-	app.player.x = 2;
-	app.player.y = 2;
-	app.player.angle = 30.0;
-	app.player.std_x = app.player.x;
-	app.player.std_y = app.player.y;
-	app.player.std_angle = app.player.angle;
-	app.mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Ray Casting", true);
-	if (!app.mlx)
+	app->player.x = 2;
+	app->player.y = 2;
+	app->player.angle = 0.0;
+	app->player.std_x = app->player.x;
+	app->player.std_y = app->player.y;
+	app->player.std_angle = app->player.angle;
+	app->fov = (M_PI / 3);
+	app->window_width = 1920;
+	app->window_height = 1080;
+	app->num_rays = app->window_width;
+	app->cur_ray = 0;
+	app->mlx = mlx_init(app->window_width, app->window_height, "cub3d", true);
+	if (!app->mlx)
 		return (1);
-	app.img = mlx_new_image(app.mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-	if (!app.img)
+	app->img = mlx_new_image(app->mlx, app->window_width, app->window_height);
+	if (!app->img)
 	{
-		mlx_terminate(app.mlx);
+		mlx_terminate(app->mlx);
 		return (1);
 	}
+	return (0);
+}
+
+void emergency_exit(void *malloc)
+{
+	if(!malloc)
+		exit(1);
+}
+
+void _init_texture(t_texture *texture)
+{
+	texture = malloc(sizeof(t_texture));
+	emergency_exit(texture);
+
+	texture->e_text = NULL;
+	texture->n_text = NULL;
+	texture->s_text = NULL;
+	texture->w_text = NULL;
+
+}
+
+void parse_textures(char *line, int fd, t_texture *texture)
+{
+	while (line = get_next_line(fd) && (!texture->e_text || !texture->w_text || !texture->s_text || !texture->n_text))
+	{
+		if (ft_strlen(line) > 0)
+		{
+			if (!ft_strncmp(line, "NO ", 3))
+				texture->n_text = ft_strdup(line + 3);
+			else if (!ft_strncmp(line, "WE ", 3))
+				texture->w_text = ft_strdup(line + 3);
+			else if (!ft_strncmp(line, "SO ", 3))
+				texture->s_text = ft_strdup(line + 3);
+			else if (!ft_strncmp(line, "EA ", 3))
+				texture->e_text = ft_strdup(line + 3);
+			else
+				continue;
+		}
+		if (!line)
+		{
+			perror ("invalid textures");
+			emergency_exit(line);
+		}
+	}
+}
+
+void save_rgb(char *line, int *color)
+{
+	int i = 0;
+	while (line[i])
+	{
+
+	}
+}
+
+void parse_floor_ceiling(char *line, int fd, t_texture *texture)
+{
+	if (!ft_strncmp(line, "F ", 3))
+		save_rgb(line, texture->floor);
+	else if (!ft_strncmp(line, "C ", 3))
+		save_rgb(line, texture->skybox);
+}
+
+t_texture	*read_map(char *file, char ***map, int *rows, int *columns)
+{
+	int	fd;
+	char buffer[MAX_LINE_LENGTH];
+	char **new_map;
+	char *line;
+	t_texture *texture;
+
+	_init_texture(texture);
+	if (fd = open(file, O_RDONLY) == -1)
+		return (NULL);
+	new_map = malloc(MAX_LINE_LENGTH * sizeof(char *));
+	emergency_exit(new_map);
+	parse_textures(line, fd, texture);
+	parse_floor_ceiling(line, fd, texture);
+	while (line = get_next_line(fd))
+	{
+		if (ft_strlen > 0)
+		{
+			new_map[*rows] = malloc((ft_strlen(line) + 1) * sizeof(char));
+			emergency_exit(new_map[*rows]);
+		}
+	}
+}
+
+char	**map_validate(t_app *app, char *file)
+{
+	int	fd;
+	int	rows;
+	int	columns;
+	char **map;
+
+	rows = 0;
+	columns = 0;
+	app->textures = read_map(file, &map, &rows, &columns);
+	if (!app->textures)
+		exit(1);
+}
+
+int	main(int argc, char **argv)
+{
+	t_app	app;
+
+	if (argc != 2)
+		return (1);
+	if (map_validate(&app, argv[1]))
+		return (1);
+	if (_init_app(&app))
+		return (1);
 	mlx_key_hook(app.mlx, key_hook, &app);
 	mlx_loop_hook(app.mlx, loop_hook, &app);
 	mlx_loop(app.mlx);
