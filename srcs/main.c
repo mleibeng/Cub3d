@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/05 04:32:32 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/06 20:39:08 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 // 	exit(EXIT_FAILURE);
 // }
 
-int			g_map[MAP_WIDTH][MAP_HEIGHT] = {
+int				g_map[MAP_WIDTH][MAP_HEIGHT] = {
 	{1, 1, 1, 1, 1, 1},
 	{1, 0, 0, 0, 0, 1},
-	{1, 0, 0, 1, 0, 1},
+	{1, 0, 1, 0, 0, 1},
 	{1, 0, 0, 0, 0, 1},
 	{1, 1, 1, 1, 1, 1},
 };
@@ -32,11 +32,12 @@ void	loop_hook(void *param)
 
 	app = (t_app *)param;
 	mlx_delete_image(app->mlx, app->img);
-	app->img = mlx_new_image(app->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	app->img = mlx_new_image(app->mlx, app->window_width, app->window_height);
 	if (!app->img)
 		return ;
-	draw_walls(app);
+	calc_walls(app);
 	mlx_image_to_window(app->mlx, app->img, 0, 0);
+	display_compass(app, app->player.angle);
 }
 
 int	_init_app(t_app *app)
@@ -264,6 +265,8 @@ int	main(int argc, char **argv)
 		return (1);
 	if (_init_app(&app))
 		return (1);
+	mlx_image_to_window(app.mlx, app.compass, app.window_width - COMPASS_SIZE - 10, 10);
+	app.compass->instances->z = 1;
 	mlx_key_hook(app.mlx, key_hook, &app);
 	mlx_loop_hook(app.mlx, loop_hook, &app);
 	mlx_loop(app.mlx);
