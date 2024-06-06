@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/06 20:42:10 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/06 23:41:14 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,12 @@
 extern int g_map[MAP_WIDTH][MAP_HEIGHT];
 
 /* -------------------------------- structs --------------------------------- */
+
+typedef struct s_vec
+{
+	int x;
+	int y;
+}	t_vec;
 
 typedef struct s_tar
 {
@@ -108,6 +114,8 @@ typedef struct s_app
 	float		fov;
 	int			num_rays;
 	int			cur_ray;
+	t_vec		*check_queue;
+	int			**walked_map;
 }				t_app;
 
 /*

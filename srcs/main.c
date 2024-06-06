@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/06 22:47:24 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/06 23:42:36 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 // 	exit(EXIT_FAILURE);
 // }
 
-int				g_map[MAP_WIDTH][MAP_HEIGHT] = {
+int			g_map[MAP_WIDTH][MAP_HEIGHT] = {
 	{1, 1, 1, 1, 1, 1},
 	{1, 0, 0, 0, 0, 1},
 	{1, 0, 1, 0, 0, 1},
@@ -208,14 +208,16 @@ int	is_valid(char c)
 		|| c == "E");
 }
 
-void free_map(char **map)
+void	free_map(char **map)
 {
-	int i = 0;
-	int j = 0;
+	int	i;
+	int	j;
 
-	while(map[i])
+	i = 0;
+	j = 0;
+	while (map[i])
 	{
-		if(map[i])
+		if (map[i])
 		{
 			free(map[i]);
 			map[i] = NULL;
@@ -226,10 +228,11 @@ void free_map(char **map)
 	map = NULL;
 }
 
-void free_textures(t_texture *textures)
+void	free_textures(t_texture *textures)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	if (textures->n_text)
 		free(textures->n_text);
 	if (textures->e_text)
@@ -241,7 +244,8 @@ void free_textures(t_texture *textures)
 	free(textures);
 }
 
-int	character_validation(char ***map, int *rows, int *columns, t_texture *textures)
+int	character_validation(char ***map, int *rows, int *columns,
+		t_texture *textures)
 {
 	int	i;
 	int	j;
@@ -266,20 +270,23 @@ int	character_validation(char ***map, int *rows, int *columns, t_texture *textur
 	return (0);
 }
 
-void f_player_start(char **map, int *player_x, int *player_y)
+void	f_player_start(char **map, int *player_x, int *player_y)
 {
-	int i = 0;
-	int j = 0;
+	int	i;
+	int	j;
 
+	i = 0;
+	j = 0;
 	while (map[i])
 	{
 		while (j < ft_strlen(map[i]))
 		{
-			if (map[i][j] == 'N' || map[i][j] == 'W' || map[i][j] == 'S' || map[i][j] == 'E')
+			if (map[i][j] == 'N' || map[i][j] == 'W' || map[i][j] == 'S'
+				|| map[i][j] == 'E')
 			{
 				*player_x = j;
 				*player_y = i;
-				return;
+				return ;
 			}
 			j++;
 		}
@@ -289,12 +296,47 @@ void f_player_start(char **map, int *player_x, int *player_y)
 	*player_y = -1;
 }
 
-int _validate_field(char **map, int *rows, int *columns, t_app *app)
+int fill_map(char **map, t_app *app, int *direct_x, int *direct_y)
+{
+	int end = 0;
+	int start = 0;
+
+	app->check_queue[end++] = (t_vec){app->player.x, app->player.y};
+
+}
+
+int	closed_map(char **map, int rows, int columns, t_app *app)
+{
+	int	i;
+	int	direct_x[] = {0, 0, -1, 1};
+	int	direct_y[] = {-1, 1, 0, 0};
+
+	i = 0;
+	app->walked_map = malloc(rows * sizeof(int *));
+	emergency_exit(app->walked_map);
+	while (i < rows)
+	{
+		app->walked_map[i] = ft_calloc(columns, sizeof(int));
+		emergency_exit(app->walked_map[i]);
+	}
+	app->check_queue = malloc(rows * columns * sizeof(t_vec));
+	emergency_exit(app->check_queue);
+	return (fill_map(map, app, &direct_x, &direct_y));
+}
+
+int	_validate_field(char **map, int *rows, int *columns, t_app *app)
 {
 	f_player_start(map, &app->player.x, &app->player.y);
 	if (app->player.y == -1)
 	{
 		perror("no player found");
+		free_map(map);
+		free_textures(app->textures);
+		exit(1);
+	}
+	if (!closed_map(map, rows, columns, app))
+	{
+		perror("map has leaky walls...");
 		free_map(map);
 		free_textures(app->textures);
 		exit(1);
@@ -324,7 +366,7 @@ char	**map_validate(t_app *app, char *file)
 
 int	main(int argc, char **argv)
 {
-	t_app app;
+	t_app	app;
 
 	if (argc != 2)
 		return (1);
@@ -332,7 +374,8 @@ int	main(int argc, char **argv)
 		return (1);
 	if (_init_app(&app))
 		return (1);
-	mlx_image_to_window(app.mlx, app.compass, app.window_width - COMPASS_SIZE - 10, 10);
+	mlx_image_to_window(app.mlx, app.compass, app.window_width - COMPASS_SIZE
+		- 10, 10);
 	app.compass->instances->z = 1;
 	mlx_key_hook(app.mlx, key_hook, &app);
 	mlx_loop_hook(app.mlx, loop_hook, &app);
