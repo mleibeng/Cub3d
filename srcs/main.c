@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/06 20:39:08 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/06 22:47:24 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,10 +208,40 @@ int	is_valid(char c)
 		|| c == "E");
 }
 
-// need to implement free map and free textures...
-// also need to do a leak checkover for the previous functions when reading in this data.
+void free_map(char **map)
+{
+	int i = 0;
+	int j = 0;
 
-int	character_validation(char ***map, int *rows, int *columns)
+	while(map[i])
+	{
+		if(map[i])
+		{
+			free(map[i]);
+			map[i] = NULL;
+		}
+		i++;
+	}
+	free(map);
+	map = NULL;
+}
+
+void free_textures(t_texture *textures)
+{
+	int i = 0;
+
+	if (textures->n_text)
+		free(textures->n_text);
+	if (textures->e_text)
+		free(textures->n_text);
+	if (textures->w_text)
+		free(textures->n_text);
+	if (textures->s_text)
+		free(textures->n_text);
+	free(textures);
+}
+
+int	character_validation(char ***map, int *rows, int *columns, t_texture *textures)
 {
 	int	i;
 	int	j;
@@ -225,8 +255,8 @@ int	character_validation(char ***map, int *rows, int *columns)
 			if (!is_valid(*map[i][j]))
 			{
 				perror("invalid char inside of map");
-				// free_maps();
-				// free_textures();
+				free_maps(map);
+				free_textures(textures);
 				return (1);
 			}
 			j++;
@@ -234,6 +264,41 @@ int	character_validation(char ***map, int *rows, int *columns)
 		i++;
 	}
 	return (0);
+}
+
+void f_player_start(char **map, int *player_x, int *player_y)
+{
+	int i = 0;
+	int j = 0;
+
+	while (map[i])
+	{
+		while (j < ft_strlen(map[i]))
+		{
+			if (map[i][j] == 'N' || map[i][j] == 'W' || map[i][j] == 'S' || map[i][j] == 'E')
+			{
+				*player_x = j;
+				*player_y = i;
+				return;
+			}
+			j++;
+		}
+		i++;
+	}
+	*player_x = -1;
+	*player_y = -1;
+}
+
+int _validate_field(char **map, int *rows, int *columns, t_app *app)
+{
+	f_player_start(map, &app->player.x, &app->player.y);
+	if (app->player.y == -1)
+	{
+		perror("no player found");
+		free_map(map);
+		free_textures(app->textures);
+		exit(1);
+	}
 }
 
 char	**map_validate(t_app *app, char *file)
@@ -248,9 +313,11 @@ char	**map_validate(t_app *app, char *file)
 	app->textures = read_map(file, &map, &rows, &columns);
 	if (!app->textures)
 		exit(1);
-	if (character_validation(&map, &rows, &columns))
+	if (character_validation(&map, &rows, &columns, app->textures))
 		exit(1);
-	//Now i need to start on flood fill for player and bounds validation//
+	if (_validate_field)
+		exit(1);
+	// Now i need to start on flood fill for player and bounds validation//
 	// find the players position and from there walk through and keep in memory which were traversed.
 	// I need to watch some yt vids on the topic
 }

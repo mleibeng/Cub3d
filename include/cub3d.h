@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/06 20:40:59 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/06 20:42:10 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ typedef struct s_app
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 	mlx_image_t	*compass;
+	t_texture	*textures;
 	int			needle_x;
 	int			needle_y;
 	t_player	player;
@@ -133,4 +134,5 @@ void display_compass(t_app *app, float player_angle);
 //	user_input.c
 void	key_hook(mlx_key_data_t keydata, void *param);
 int		ft_hook_key(t_app *app);
+
 #endif
