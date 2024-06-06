@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   user_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:49:06 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/04 16:40:12 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/05 15:35:37 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,17 @@ int	ft_hook_key(t_app *app)
 		&& !mlx_is_key_down(app->mlx, MLX_KEY_DOWN))
 	{
 		if (app->player.x + move_x < max_dis_x && app->player.x + move_x > 1.2f)
-			app->player.x += move_x;
+			app->player.x = norm_ang(app->player.x + move_x);
 		if (app->player.y + move_y < max_dis_y && app->player.y + move_y > 1.2f)
-			app->player.y += move_y;
+			app->player.y = norm_ang(app->player.y + move_y);
 	}
 	if (mlx_is_key_down(app->mlx, MLX_KEY_DOWN)
 		&& !mlx_is_key_down(app->mlx, MLX_KEY_UP))
 	{
 		if (app->player.x - move_x < max_dis_x && app->player.x - move_x > 1.2f)
-			app->player.x -= move_x;
+			app->player.x = norm_ang(app->player.x - move_x);
 		if (app->player.y - move_y < max_dis_y && app->player.y - move_y > 1.2f)
-			app->player.y -= move_y;
+			app->player.y = norm_ang(app->player.y - move_y);
 	}
 	if (mlx_is_key_down(app->mlx, MLX_KEY_LEFT)
 		&& !mlx_is_key_down(app->mlx, MLX_KEY_RIGHT))
