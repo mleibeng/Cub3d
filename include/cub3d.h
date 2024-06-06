@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/05 03:24:59 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/06 20:33:22 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ typedef struct s_texture
 	char		*e_text;
 	char		*s_text;
 	char		*w_text;
-	t_tile		floor[3];
-	t_tile		skybox[3];
+	int			floor[3];
+	int			skybox[3];
 }				t_texture;
 
 typedef enum
@@ -89,8 +89,6 @@ typedef struct s_data
 {
 	int			map_length;
 	int			map_width;
-	t_vec		position;
-	t_vec		direction;
 	t_map		map;
 
 	mlx_t		*mlx;
