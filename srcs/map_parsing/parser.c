@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/07 12:17:29 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/07 22:41:09 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,9 +175,6 @@ void	free_map(char **map)
 
 void	free_textures(t_texture *textures)
 {
-	int	i;
-
-	i = 0;
 	if (textures->n_text)
 		free(textures->n_text);
 	if (textures->e_text)

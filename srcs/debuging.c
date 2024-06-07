@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debuging.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:39:07 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/07 10:58:25 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/07 22:42:49 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ void	print_info(t_app *app)
 		return;
 
 	// Print the map
-	//if (app->map)
-	//	print_map(app->map);
+	if (app->map)
+		print_map(app->map);
 
 	if (app->walked_map)
 		print_walkedmap(app->walked_map, app->rows, app->cols);

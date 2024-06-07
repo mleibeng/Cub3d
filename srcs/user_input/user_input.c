@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   user_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:49:06 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/07 17:51:09 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/07 22:41:30 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ int	check_wall_collision(t_app *app, float new_x, float new_y)
 	if (y < original_y && app->walked_map[y][original_x] == 1)
 		return (1);
 	if (y > original_y && app->walked_map[y][x] == 1)
-		return (write(1, "y", 1), 1);
+		return (write(1, "y", 1));
 	if (x > original_y && app->walked_map[y][x] == 1)
-		return (write(1, "y", 1), 1);
+		return (write(1, "y", 1));
 	return (0);
 }
 

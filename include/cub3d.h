@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/06/07 15:57:03 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/07 22:40:59 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,18 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <string.h>
+
+/*--------------------- OS-specific constant definitions--------------------- */
+
+# ifndef M_PI
+	#define M_PI       3.14159265358979323846264338328      // Pi
+# endif 
+#ifndef M_PI_2
+	#define M_PI_2     1.57079632679489661923132169164      // Pi/2
+#endif 
+#ifndef M_PI_4
+	#define M_PI_4     0.78539816339744830961566084582      // Pi/4
+#endif
 
 /* -------------------- non-adjustable pre-settings ------------------------- */
 

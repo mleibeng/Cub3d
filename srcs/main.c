@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/06/07 12:17:02 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/07 22:46:43 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,11 @@ void	loop_hook(void *param)
 	t_app	*app;
 
 	app = (t_app *)param;
-	if (!app)
+	if (!app->img)
+	{
+		mlx_delete_image(app->mlx, app->img); // this line causes a core dump abort
 		return ;
-	mlx_delete_image(app->mlx, app->img);
+	}
 	app->img = mlx_new_image(app->mlx, app->window_width, app->window_height);
 	if (!app->img)
 		return ;
