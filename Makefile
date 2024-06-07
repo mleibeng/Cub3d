@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/06/04 14:26:27 by fkeitel           #+#    #+#              #
+#    Updated: 2024/06/06 12:01:30 by fkeitel          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME := cub3d
 BONUS_NAME := cub3d_bonus
 CFLAGS := -Wall -Wextra -Werror -Wunreachable-code -Ofast
@@ -6,13 +18,20 @@ LIBMLX_URL := https://github.com/codam-coding-college/MLX42.git
 LIBFT_DIR := libft
 LIBFT := $(LIBFT_DIR)/libft.a
 HEADERS := -I ./include -I $(LIBMLX)/include
+
+# Directories
+SRC_DIR := srcs
+OBJ_DIR := obj
+
 LIBS := $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm -L$(LIBFT_DIR) -lft
-SRCS := srcs/main.c
+SRCS := $(shell find $(SRC_DIR) -name '*.c')
 BONUS_SRCS :=
-OBJS := $(SRCS:.c=.o)
-BONUS_OBJS := $(BONUS_SRCS:.c=.o)
+
+OBJS := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
+BONUS_OBJS := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(BONUS_SRCS))
 
 all: $(LIBFT) libmlx $(NAME)
+	@echo "$(NAME) successfully built!"
 
 libmlx:
 	@if [ ! -d "$(LIBMLX)" ]; then \
@@ -24,8 +43,13 @@ libmlx:
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
 
-%.o: %.c
+# Ensure the obj directory and necessary subdirectories are created
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS) && printf "Compiling: $(notdir $<)\n"
+
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
 
 $(NAME): $(OBJS)
 	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME)
@@ -36,7 +60,7 @@ $(BONUS_NAME): $(BONUS_OBJS)
 	@$(CC) $(BONUS_OBJS) $(LIBS) $(HEADERS) -o $(BONUS_NAME)
 
 clean:
-	@rm -rf $(OBJS) $(BONUS_OBJS)
+	@rm -rf $(OBJ_DIR)
 	@rm -rf $(LIBMLX)/build
 	@$(MAKE) -C $(LIBFT_DIR) clean
 

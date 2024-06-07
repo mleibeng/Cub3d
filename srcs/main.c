@@ -3,12 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
+<<<<<<< HEAD
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
 /*   Updated: 2024/06/05 04:32:32 by mleibeng         ###   ########.fr       */
+=======
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/06/07 12:17:02 by fkeitel          ###   ########.fr       */
+>>>>>>> a38d1c79cddc19bd574efd1f98035736dddbf468
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "cub3d.h"
 
@@ -18,6 +24,7 @@
 // 	exit(EXIT_FAILURE);
 // }
 
+<<<<<<< HEAD
 int			g_map[MAP_WIDTH][MAP_HEIGHT] = {
 	{1, 1, 1, 1, 1, 1},
 	{1, 0, 0, 0, 0, 1},
@@ -26,19 +33,34 @@ int			g_map[MAP_WIDTH][MAP_HEIGHT] = {
 	{1, 1, 1, 1, 1, 1},
 };
 
+=======
+// int			g_map[MAP_WIDTH][MAP_HEIGHT] = {
+// 	{1, 1, 1, 1, 1, 1},
+// 	{1, 0, 0, 0, 0, 1},
+// 	{1, 0, 1, 0, 0, 1},
+// 	{1, 0, 0, 0, 0, 1},
+// 	{1, 1, 1, 1, 1, 1},
+// };
+
+//	main loop function, if there is a change in movement
+>>>>>>> a38d1c79cddc19bd574efd1f98035736dddbf468
 void	loop_hook(void *param)
 {
 	t_app	*app;
 
 	app = (t_app *)param;
+	if (!app)
+		return ;
 	mlx_delete_image(app->mlx, app->img);
-	app->img = mlx_new_image(app->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	app->img = mlx_new_image(app->mlx, app->window_width, app->window_height);
 	if (!app->img)
 		return ;
-	draw_walls(app);
+	calc_walls(app);
 	mlx_image_to_window(app->mlx, app->img, 0, 0);
+	display_compass(app, app->player.angle);
 }
 
+<<<<<<< HEAD
 int	_init_app(t_app *app)
 {
 	app->player.x = 2;
@@ -269,5 +291,29 @@ int	main(int argc, char **argv)
 	mlx_loop(app.mlx);
 	mlx_delete_image(app.mlx, app.img);
 	mlx_terminate(app.mlx);
+=======
+int	main(int argc, char **argv)
+{
+	t_app	app;
+
+	if (argc != 2)
+		return (1);
+	if (!(app.map = map_validate(&app, argv[1])))
+		return (1);
+	if (_init_app(&app))
+		return (1);
+	print_info(&app);
+	mlx_image_to_window(app.mlx, app.compass, app.window_width - COMPASS_SIZE
+		- 10, 10);
+	app.compass->instances->z = 1;
+	if (app.map)
+	{
+		mlx_key_hook(app.mlx, key_hook, &app);
+		mlx_loop_hook(app.mlx, loop_hook, &app);
+		mlx_loop(app.mlx);
+		mlx_delete_image(app.mlx, app.img);
+		mlx_terminate(app.mlx);
+	}
+>>>>>>> a38d1c79cddc19bd574efd1f98035736dddbf468
 	return (0);
 }
