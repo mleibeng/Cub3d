@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/07 04:39:46 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/07 07:40:14 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	parse_textures(int fd, t_texture *texture)
 	char	*line;
 
 	while ((!texture->e_text || !texture->w_text || !texture->s_text
-			|| !texture->n_text) && (line = get_next_line(fd)))
+			|| !texture->n_text) && (line = get_cut_next_line(fd)))
 	{
 		if (ft_strlen(line) > 0)
 		{
@@ -154,7 +154,7 @@ void	parse_floor_ceiling(int fd, t_texture *texture)
 	char	*line;
 
 	while ((!texture->floor[0] || !texture->skybox[0])
-		&& (line = get_next_line(fd)))
+		&& (line = get_cut_next_line(fd)))
 	{
 		if (ft_strlen(line) > 0)
 		{
@@ -181,8 +181,9 @@ void	parse_map(char *line, char ***map, int *rows, int *columns)
 			*map = malloc(MAX_LINE_LENGTH * sizeof(char *));
 			emergency_exit(*map);
 		}
-		(*map)[*rows] = ft_strdup(line);
+		(*map)[*rows] = malloc((ft_strlen(line) + 1) * sizeof(char));
 		emergency_exit((*map)[*rows]);
+		ft_strlcpy((*map)[*rows], line, ft_strlen(line) + 1);
 		if ((int)ft_strlen(line) > *columns)
 			*columns = (int)ft_strlen(line);
 		(*rows)++;
@@ -204,10 +205,34 @@ t_texture	*read_map(char *file, char ***map, int *rows, int *columns)
 	_init_texture(texture);
 	parse_textures(fd, texture);
 	parse_floor_ceiling(fd, texture);
-	while ((line = get_next_line(fd)))
+	while ((line = get_cut_next_line(fd)))
 		parse_map(line, map, rows, columns);
 	close(fd);
 	return (texture);
+}
+
+void	print_map(char **map)
+{
+	for (int i = 0; map[i]; i++)
+	{
+		for (int j = 0; map[i][j]; j++)
+		{
+			printf("%c ", map[i][j]);
+		}
+		printf("\n");
+	}
+}
+
+void	print_walkedmap(int **map, int rows, int cols)
+{
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < cols; j++)
+		{
+			printf("%d ", map[i][j]);
+		}
+		printf("\n");
+	}
 }
 
 int	is_valid(char c)
@@ -325,12 +350,13 @@ int	fill_bounds(int next_x, int next_y, t_app *app, char **map)
 		if (map[next_y][next_x] == '0')
 		{
 			app->check_queue[app->end++] = (t_vec){next_x, next_y};
-			app->walked_map[next_y][next_x] = 1;
+			app->walked_map[next_y][next_x] = 2;
 		}
 		else if (map[next_y][next_x] == '1')
 			app->walked_map[next_y][next_x] = 1;
 		else
 		{
+			perror("error in fill_bounds\n");
 			free_queue(app);
 			return (0);
 		}
@@ -338,24 +364,70 @@ int	fill_bounds(int next_x, int next_y, t_app *app, char **map)
 	return (1);
 }
 
-int	check_bounds(char **map, t_app *app)
+int	check_column_bound(t_app *app)
 {
-	int	i;
 	int	j;
 
-	i = 0;
 	j = 0;
-	while (i < app->rows)
+	while (j < app->cols)
 	{
-		while (j < app->cols)
+		if (app->walked_map[0][j] == 2)
 		{
-			if (map[i][j] == '0' && !app->walked_map[i][j])
-			{
-				free_queue(app);
-				return (0);
-			}
+			perror("error in check_bounds: invalid 2 found\n");
+			free_queue(app);
+			return (0);
 		}
+		j++;
 	}
+	j = 0;
+	while ( j < app->cols)
+	{
+		if (app->walked_map[app->rows - 1][j] == 2)
+		{
+			perror("error in check_bounds: invalid 2 found\n");
+			free_queue(app);
+			return (0);
+		}
+		j++;
+	}
+	return (1);
+}
+
+int	check_row_bound(t_app *app)
+{
+	int	i;
+
+	i = 0;
+	while(i < app->rows)
+	{
+		if (app->walked_map[i][0] == 2)
+		{
+			perror("error in check_bounds: invalid 2 found\n");
+			free_queue(app);
+			return (0);
+		}
+		i++;
+	}
+	i = 0;
+	while( i < app->rows)
+	{
+		if (app->walked_map[i][app->cols - 1] == 2)
+		{
+			perror("error in check_bounds: invalid 2 found\n");
+			free_queue(app);
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+}
+
+int	check_bounds(t_app *app)
+{
+	if (!check_column_bound(app))
+		return(0);
+	if (!check_row_bound(app))
+		return(0);
 	return (1);
 }
 
@@ -367,24 +439,25 @@ int	fill_map(char **map, t_app *app, int *direct_x, int *direct_y)
 
 	app->end = 0;
 	app->start = 0;
-	j = 0;
-	app->check_queue[app->end++] = (t_vec){app->player.x, app->player.y};
-	app->walked_map[app->player.start_y][app->player.start_x] = 1;
+	app->check_queue[app->end++] = (t_vec){app->player.start_x,
+		app->player.start_y};
+	app->walked_map[app->player.start_y][app->player.start_x] = 2;
 	while (app->start < app->end)
 	{
 		app->pos = app->check_queue[app->start++];
+		j = 0;
 		while (j < 4)
 		{
-			next_x = app->player.start_x + direct_x[j];
-			next_y = app->player.start_y + direct_y[j];
+			next_x = app->pos.x + direct_x[j];
+			next_y = app->pos.y + direct_y[j];
 			if (!fill_bounds(next_x, next_y, app, map))
 				return (perror("fill_maperror"), 0);
 			j++;
 		}
 	}
-	if (!check_bounds(map, app))
+	if (!check_bounds(app))
 		return (perror("maperror"), 0);
-	free_queue(app);
+	// free_queue(app);
 	return (1);
 }
 
@@ -411,7 +484,6 @@ int	closed_map(char **map, int rows, int columns, t_app *app)
 void	_validate_field(char **map, int *rows, int *columns, t_app *app)
 {
 	f_player_start(map, &app->player.start_x, &app->player.start_y);
-	printf("current player position x %d, and y %d\n", app->player.start_x, app->player.start_y);
 	if (app->player.start_y == -1)
 	{
 		perror("no player found");
@@ -460,7 +532,7 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 		return (1);
-	if ((app.map = map_validate(&app, argv[1])))
+	if (!(app.map = map_validate(&app, argv[1])))
 		return (1);
 	if (_init_app(&app))
 		return (1);
