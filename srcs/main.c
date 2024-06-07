@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
+/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/07 22:52:29 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/07 23:46:27 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,13 @@ void	loop_hook(void *param)
 	t_app	*app;
 
 	app = (t_app *)param;
-	if (!app->img)
-	{
-		mlx_delete_image(app->mlx, app->img); // this line causes a core dump abort
-		return ;
-	}
+	mlx_delete_image(app->mlx, app->img);
 	app->img = mlx_new_image(app->mlx, app->window_width, app->window_height);
 	if (!app->img)
 		return ;
 	calc_walls(app);
-	mlx_image_to_window(app->mlx, app->img, 0, 0);
+	if (mlx_image_to_window(app->mlx, app->img, 0, 0) == -1)
+		exit(1);
 	display_compass(app, app->player.angle);
 }
 
@@ -58,9 +55,6 @@ int	main(int argc, char **argv)
 	if (_init_app(&app))
 		return (1);
 	print_info(&app);
-	mlx_image_to_window(app.mlx, app.compass, app.window_width - COMPASS_SIZE
-		- 10, 10);
-	app.compass->instances->z = 1;
 	if (app.map)
 	{
 		mlx_key_hook(app.mlx, key_hook, &app);

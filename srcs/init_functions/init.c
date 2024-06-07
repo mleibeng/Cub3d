@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:42:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/07 15:02:06 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/07 23:18:57 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,8 @@ int	init_compass(t_app *app)
 	app->compass = mlx_new_image(app->mlx, COMPASS_SIZE, COMPASS_SIZE);
 	if (!app->compass)
 		return (mlx_terminate(app->mlx), 1);
-
 	app->compass->count = 2;
-	app->compass->instances = malloc(sizeof(app->compass->instances)
+	app->compass->instances = malloc(sizeof(mlx_instance_t)
 			* app->compass->count);
 	if (!app->compass->instances)
 	{
@@ -51,8 +50,9 @@ int	init_compass(t_app *app)
 		ft_printf("Error: Compass instances are not properly initialized.\n");
 		return (1);
 	}
-	mlx_image_to_window(app->mlx, app->compass,
-		app->window_width - COMPASS_SIZE - 10, 10);
+	if (mlx_image_to_window(app->mlx, app->compass,
+		app->window_width - COMPASS_SIZE - 10, 10) == -1)
+		return (1);
 	return (0);
 }
 
@@ -88,7 +88,7 @@ int	_init_app(t_app *app)
 		return (1);
 	}
 	app->img->count = 2;
-	app->img->instances = malloc(sizeof(app->img->instances)
+	app->img->instances = malloc(sizeof(mlx_instance_t)
 			* app->img->count);
 	if (!app->img->instances)
 	{
@@ -107,7 +107,8 @@ int	_init_app(t_app *app)
 		ft_printf("Error: img instances are not properly initialized.\n");
 		return (1);
 	}
-	if (init_compass(app) == 1)
+	if (mlx_image_to_window(app->mlx, app->img, 0, 0) == -1
+		|| init_compass(app) == 1)
 		return (1);
 	return (0);
 }

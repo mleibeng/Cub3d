@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
+/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/07 22:41:09 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/07 23:38:29 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ t_texture	*read_map(char *file, char ***map, int *rows, int *columns)
 	parse_floor_ceiling(fd, texture);
 	while ((line = get_cut_next_line(fd)))
 		parse_map(line, map, rows, columns);
+	(*map)[*rows] = NULL;
 	close(fd);
 	return (texture);
 }
