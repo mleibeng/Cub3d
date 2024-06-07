@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/07 02:49:20 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/07 02:51:11 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -429,9 +429,15 @@ char	**map_validate(t_app *app, char *file)
 	columns = 0;
 	app->textures = read_map(file, &map, &rows, &columns);
 	if (!app->textures)
+	{
+		perror("Error in textures");
 		exit(1);
+	}
 	if (character_validation(&map, &rows, app->textures))
+	{
+		perror("Error in char_validation");
 		exit(1);
+	}
 	app->cols = columns;
 	app->rows = rows;
 	_validate_field(map, &rows, &columns, app);
