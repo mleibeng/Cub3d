@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calculations.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:03:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/05 22:32:14 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/07 02:42:28 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ float	norm_ang(float angle)
 
 //	function for raycasting the return value will be taken with the cos
 //	from the player angle and the actual angle (fisheye)
-float	cast_ray(t_player *player, float ray_angle, t_tar *wall)
+float	cast_ray(t_player *player, float ray_angle, t_tar *wall, char **map)
 {
 	float	depth;
 	float	max_units;
@@ -35,7 +35,7 @@ float	cast_ray(t_player *player, float ray_angle, t_tar *wall)
 	{
 		wall->target_x = player->x + depth * cos(ray_angle);
 		wall->target_y = player->y + depth * sin(ray_angle);
-		if (g_map[(int)wall->target_y][(int)wall->target_x] == 1)
+		if (map[(int)wall->target_y][(int)wall->target_x] == 1)
 		{
 			float hit_x = fabs(wall->target_x - round(wall->target_x));
 			float hit_y = fabs(wall->target_y - round(wall->target_y));
@@ -108,7 +108,7 @@ void	calc_walls(t_app *app)
 	{
 		ray_angle = norm_ang(app->player.angle - app->fov / 2
 			+ app->cur_ray * app->fov / app->num_rays);
-		wall.distance = cast_ray(&app->player, ray_angle, &wall);
+		wall.distance = cast_ray(&app->player, ray_angle, &wall, app->map);
 		wall.wall_height = (int)(app->window_height / (wall.distance + 0.01f));
 		calc_side(app, ray_angle, &wall);
 		draw_ray(app, &wall);

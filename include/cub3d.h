@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/06 23:41:14 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/07 02:43:13 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <string.h>
 
 /* -------------------- non-adjustable pre-settings ------------------------- */
 
@@ -63,6 +64,8 @@ typedef struct s_tar
 //	coordinates of the player
 typedef struct s_player
 {
+	int			start_x;
+	int			start_y;
 	float		x;
 	float		y;
 	float		std_x;
@@ -114,8 +117,14 @@ typedef struct s_app
 	float		fov;
 	int			num_rays;
 	int			cur_ray;
+	t_vec		pos;
 	t_vec		*check_queue;
 	int			**walked_map;
+	int			cols;
+	int			rows;
+	int			end;
+	int			start;
+	char		**map;
 }				t_app;
 
 /*
@@ -125,7 +134,7 @@ typedef struct s_app
 // ----------------------------- calculations ----------------------------------
 
 //	calculations.c
-float	cast_ray(t_player *player, float ray_angle, t_tar *wall);
+float	cast_ray(t_player *player, float ray_angle, t_tar *wall, char **map);
 void	calc_walls(t_app *app);
 float	norm_ang(float angle);
 
