@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/07 03:16:40 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/07 04:39:46 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,10 @@ void	_init_texture(t_texture *texture)
 
 void	parse_textures(int fd, t_texture *texture)
 {
-	char *line;
-	while ((line = get_next_line(fd)) && (!texture->e_text || !texture->w_text
-			|| !texture->s_text || !texture->n_text))
+	char	*line;
+
+	while ((!texture->e_text || !texture->w_text || !texture->s_text
+			|| !texture->n_text) && (line = get_next_line(fd)))
 	{
 		if (ft_strlen(line) > 0)
 		{
@@ -112,9 +113,9 @@ void	parse_textures(int fd, t_texture *texture)
 
 void	color_validation(char *end, char *line, int val)
 {
-	if (end == line || *end != ',')
+	if (end != line && *end != ',')
 	{
-		perror("invalid RGB values");
+		perror("invalid RGB values\n");
 		exit(1);
 	}
 	if (val < 0 || val > 255)
@@ -138,7 +139,11 @@ void	save_rgb(char *line, int *color)
 	color_validation(end, line, g);
 	line = end + 1;
 	b = ft_strtoi(line, &end);
-	color_validation(end, line, b);
+	if (b < 0 || b > 255)
+	{
+		perror("RGB values must be between 0 and 255");
+		exit(1);
+	}
 	color[0] = r;
 	color[1] = g;
 	color[2] = b;
@@ -146,8 +151,10 @@ void	save_rgb(char *line, int *color)
 
 void	parse_floor_ceiling(int fd, t_texture *texture)
 {
-	char *line;
-	while ((line = get_next_line(fd)) && (!texture->floor[0] || !texture->skybox[0]))
+	char	*line;
+
+	while ((!texture->floor[0] || !texture->skybox[0])
+		&& (line = get_next_line(fd)))
 	{
 		if (ft_strlen(line) > 0)
 		{
@@ -177,7 +184,7 @@ void	parse_map(char *line, char ***map, int *rows, int *columns)
 		(*map)[*rows] = ft_strdup(line);
 		emergency_exit((*map)[*rows]);
 		if ((int)ft_strlen(line) > *columns)
-			*columns = ft_strlen(line);
+			*columns = (int)ft_strlen(line);
 		(*rows)++;
 	}
 	free(line);
@@ -243,7 +250,7 @@ void	free_textures(t_texture *textures)
 	free(textures);
 }
 
-int	character_validation(char ***map, int *rows, t_texture *textures)
+int	character_validation(char **map, int *rows, t_texture *textures)
 {
 	int	i;
 	int	j;
@@ -252,12 +259,14 @@ int	character_validation(char ***map, int *rows, t_texture *textures)
 	while (i < *rows)
 	{
 		j = 0;
-		while (j < (int)ft_strlen(*map[i]))
+		while (j < (int)ft_strlen(map[i]) - 1)
 		{
-			if (!is_valid(*map[i][j]))
+			if (ft_isspace(map[i][j]))
+				j++;
+			if (!is_valid(map[i][j]))
 			{
 				perror("invalid char inside of map");
-				free_map(*map);
+				free_map(map);
 				free_textures(textures);
 				return (1);
 			}
@@ -294,7 +303,7 @@ void	f_player_start(char **map, int *player_x, int *player_y)
 	*player_y = -1;
 }
 
-void free_queue(t_app *app)
+void	free_queue(t_app *app)
 {
 	int	i;
 
@@ -402,6 +411,7 @@ int	closed_map(char **map, int rows, int columns, t_app *app)
 void	_validate_field(char **map, int *rows, int *columns, t_app *app)
 {
 	f_player_start(map, &app->player.start_x, &app->player.start_y);
+	printf("current player position x %d, and y %d\n", app->player.start_x, app->player.start_y);
 	if (app->player.start_y == -1)
 	{
 		perror("no player found");
@@ -433,7 +443,7 @@ char	**map_validate(t_app *app, char *file)
 		perror("Error in textures");
 		exit(1);
 	}
-	if (character_validation(&map, &rows, app->textures))
+	if (character_validation(map, &rows, app->textures))
 	{
 		perror("Error in char_validation");
 		exit(1);
