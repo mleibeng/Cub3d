@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:00:43 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/06 12:05:03 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/07 11:14:33 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,11 @@ void	draw_part_ray(t_app *app, int start, int end, int32_t color)
 //	function to draw one ray
 void	draw_ray(t_app *app, t_tar *wall)
 {
-	int	shade;
-	int	wall_start;
-	int	wall_end;
+	int		shade;
+	int		wall_start;
+	int		wall_end;
+	int32_t	sky_color;
+	int32_t	floor_color;
 
 	shade = 150 / (1.0 + wall->distance * 0.3);
 	wall_start = (app->window_height - wall->wall_height) / 2;
@@ -48,8 +50,11 @@ void	draw_ray(t_app *app, t_tar *wall)
 	if (wall_end > app->window_height)
 		wall_end = app->window_height;
 	wall->color += shade;
-	draw_part_ray(app, 0, wall_start - 1, ft_pixel(240, 30, 30, 150));
+	sky_color = ft_pixel(app->textures->skybox[0],
+			app->textures->skybox[1], app->textures->skybox[2], 150);
+	floor_color = ft_pixel(app->textures->floor[0],
+			app->textures->floor[1], app->textures->floor[2], shade / 2);
+	draw_part_ray(app, 0, wall_start - 1, sky_color);
 	draw_part_ray(app, wall_start, wall_end, wall->color);
-	draw_part_ray(app, wall_end, app->window_height,
-		ft_pixel(0, 0, 0, 150));
+	draw_part_ray(app, wall_end, app->window_height, floor_color);
 }

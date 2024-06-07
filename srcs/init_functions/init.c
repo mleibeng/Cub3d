@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:42:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/06 20:54:31 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/07 15:02:06 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	init_compass(t_app *app)
 	if (!app->compass)
 		return (mlx_terminate(app->mlx), 1);
 
-	app->compass->count = 1;
+	app->compass->count = 2;
 	app->compass->instances = malloc(sizeof(app->compass->instances)
 			* app->compass->count);
 	if (!app->compass->instances)
@@ -40,7 +40,11 @@ int	init_compass(t_app *app)
 		return (1);
 	}
 	if (app->compass->instances != NULL && app->compass->count > 0)
+	{
 		app->compass->instances[0].z = 10;
+		app->compass->instances[0].enabled = true;
+
+	}
 	else
 	{
 		free(app->compass->instances);
@@ -49,5 +53,61 @@ int	init_compass(t_app *app)
 	}
 	mlx_image_to_window(app->mlx, app->compass,
 		app->window_width - COMPASS_SIZE - 10, 10);
+	return (0);
+}
+
+void	_init_texture(t_texture *texture)
+{
+	texture->e_text = NULL;
+	texture->n_text = NULL;
+	texture->s_text = NULL;
+	texture->w_text = NULL;
+	ft_memset(texture->floor, 0, sizeof(texture->floor));
+	ft_memset(texture->skybox, 0, sizeof(texture->skybox));
+}
+
+int	_init_app(t_app *app)
+{
+	app->player.x = (float)app->player.start_x + 0.5;
+	app->player.y = (float)app->player.start_y + 0.5;
+	app->player.std_x = app->player.x;
+	app->player.std_y = app->player.y;
+	app->player.std_angle = app->player.angle;
+	app->fov = (M_PI / 3);
+	app->window_width = WINDOW_WIDTH;
+	app->window_height = WINDOW_HEIGHT;
+	app->num_rays = app->window_width;
+	app->cur_ray = 0;
+	app->mlx = mlx_init(app->window_width, app->window_height, "cub3d", true);
+	if (!app->mlx)
+		return (1);
+	app->img = mlx_new_image(app->mlx, app->window_width, app->window_height);
+	if (!app->img)
+	{
+		mlx_terminate(app->mlx);
+		return (1);
+	}
+	app->img->count = 2;
+	app->img->instances = malloc(sizeof(app->img->instances)
+			* app->img->count);
+	if (!app->img->instances)
+	{
+		ft_printf("Failed to allocate memory for img instances.\n");
+		mlx_terminate(app->mlx);
+		return (1);
+	}
+	if (app->img->instances != NULL && app->img->count > 0)
+	{
+		app->img->instances[1].enabled = true;
+		app->img->instances[0].z = 5;
+	}
+	else
+	{
+		free(app->img->instances);
+		ft_printf("Error: img instances are not properly initialized.\n");
+		return (1);
+	}
+	if (init_compass(app) == 1)
+		return (1);
 	return (0);
 }

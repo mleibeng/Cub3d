@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:49:06 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/06 21:11:38 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/07 17:51:09 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 	t_player	player;
 
 	app = (t_app *)param;
+	if (!app)
+		return ;
 	player = app->player;
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 	{
@@ -26,9 +28,9 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 	}
 	if (keydata.key == MLX_KEY_P && keydata.action == MLX_PRESS)
 	{
-		printf("Position X: %f Y : %f deg: %f\n", player.x, player.y,
-			cos(player.angle));
-		printf("%f", player.x * (player.angle - player.std_angle));
+		printf("Position X: %f Y : %f deg: %f map_pos: %d\n", player.x, player.y,
+			cos(player.angle), app->walked_map[(int)app->player.y][(int)app->player.x]);
+		//printf("angle%f\n", player.x * (player.angle - player.std_angle));
 	}
 	if (keydata.key == MLX_KEY_R && keydata.action == MLX_PRESS)
 	{
@@ -36,42 +38,78 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 		player.y = player.std_y;
 		player.angle = player.std_angle;
 	}
-	if (keydata.key == MLX_KEY_C && keydata.action == MLX_PRESS)
-	{
-		app->compass->instances[0].z *= -1;
-		mlx_clear_image(app->mlx, app->compass);
-
-	}
 }
+
+int	check_wall_collision(t_app *app, float new_x, float new_y)
+{
+	int	x = (int)round(new_x);
+	int	y = (int)round(new_y);
+	int	original_x = (int)round(app->player.x);
+	int	original_y = (int)round(app->player.y);
+
+	if (x < 0 || x >= app->cols || y < 0 || y >= app->rows)
+		return (1);
+	if (app->walked_map[y][x] == 1)
+		return (1);
+	if (x < original_x && app->walked_map[original_y][x] == 1)
+		return (1);
+	if (y < original_y && app->walked_map[y][original_x] == 1)
+		return (1);
+	if (y > original_y && app->walked_map[y][x] == 1)
+		return (write(1, "y", 1), 1);
+	if (x > original_y && app->walked_map[y][x] == 1)
+		return (write(1, "y", 1), 1);
+	return (0);
+}
+
 
 //	this function calculates the shift of the coordinates with W and S keys
 void	direction_change_hook(t_app *app)
 {
-	float	move_x;
-	float	move_y;
-	float	max_dis_x;
-	float	max_dis_y;
+	float		move_x;
+	float		move_y;
+	float		new_x;
+    float		new_y;
+	static int	key_pressed = 0;
 
 	move_x = PLAYER_MOVE_SPEED * cos(app->player.angle);
 	move_y = PLAYER_MOVE_SPEED * sin(app->player.angle);
-	max_dis_x = MAP_HEIGHT - 1.2f;
-	max_dis_y = MAP_WIDTH - 1.2f;
 	if (mlx_is_key_down(app->mlx, MLX_KEY_UP)
 		&& !mlx_is_key_down(app->mlx, MLX_KEY_DOWN))
 	{
-		if (app->player.x + move_x < max_dis_x && app->player.x + move_x > 1.2f)
-			app->player.x = norm_ang(app->player.x + move_x);
-		if (app->player.y + move_y < max_dis_y && app->player.y + move_y > 1.2f)
-			app->player.y = norm_ang(app->player.y + move_y);
+		new_x = app->player.x + move_x;
+		new_y = app->player.y + move_y;
+		if (check_wall_collision(app, new_x, app->player.y) == 0)
+			app->player.x = norm_ang(new_x);
+		if (check_wall_collision(app, app->player.x, new_y) == 0)
+			app->player.y = norm_ang(new_y);
 	}
 	if (mlx_is_key_down(app->mlx, MLX_KEY_DOWN)
 		&& !mlx_is_key_down(app->mlx, MLX_KEY_UP))
 	{
-		if (app->player.x - move_x < max_dis_x && app->player.x - move_x > 1.2f)
-			app->player.x = norm_ang(app->player.x - move_x);
-		if (app->player.y - move_y < max_dis_y && app->player.y - move_y > 1.2f)
-			app->player.y = norm_ang(app->player.y - move_y);
+		new_x = app->player.x - move_x;
+		new_y = app->player.y - move_y;
+		if (check_wall_collision(app, new_x, app->player.y) == 0)
+			app->player.x = norm_ang(new_x);
+		if (check_wall_collision(app, app->player.x, new_y) == 0)
+			app->player.y = norm_ang(new_y);
 	}
+	if (mlx_is_key_down(app->mlx, MLX_KEY_C) && key_pressed == 0)
+	{
+		if (app->compass->instances[0].z == 10)
+		{
+			app->compass->instances[0].z = 0;
+		}
+		else
+		{
+			app->compass->instances[0].z = 10;
+		}
+		mlx_image_to_window(app->mlx, app->compass,
+			app->window_width - COMPASS_SIZE - 10, 10);
+		key_pressed = 1;
+	}
+	else if (!mlx_is_key_down(app->mlx, MLX_KEY_C))
+		key_pressed = 0;
 }
 
 //	this function calculates the shift of the coordinates with the A and D keys

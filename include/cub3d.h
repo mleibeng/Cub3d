@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/06 10:56:51 by fkeitel          ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/06/07 15:57:03 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 /*
 ------------------------------- initial setup ----------------------------------
@@ -27,22 +28,27 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <string.h>
 
 /* -------------------- non-adjustable pre-settings ------------------------- */
 
-# define MAP_WIDTH 5
-# define MAP_HEIGHT 6
 # define COMPASS_SIZE 81 // Size of the compass image
 # define CENTER (COMPASS_SIZE / 2) // Center of the compass
-
+# define MAX_LINE_LENGTH 1024
+# define WINDOW_WIDTH 620
+# define WINDOW_HEIGHT 480
 /* ----------------------- adjustable pre-settings -------------------------- */
 
 # define PLAYER_MOVE_SPEED 0.03
 # define PLAYER_ROTATE_SPEED 0.03
 
-extern int g_map[MAP_WIDTH][MAP_HEIGHT];
-
 /* -------------------------------- structs --------------------------------- */
+
+typedef struct s_vec
+{
+	int	x;
+	int	y;
+}	t_vec;
 
 //	struct for one coordinate point on the map for drawing a line
 typedef struct s_coord{
@@ -64,6 +70,8 @@ typedef struct s_tar
 //	coordinates of the player
 typedef struct s_player
 {
+	int			start_x;
+	int			start_y;
 	float		x;
 	float		y;
 	float		std_x;
@@ -72,19 +80,29 @@ typedef struct s_player
 	float		angle;
 }				t_player;
 
+typedef struct s_texture
+{
+	char		*n_text;
+	char		*e_text;
+	char		*s_text;
+	char		*w_text;
+	int			floor[3];
+	int			skybox[3];
+}				t_texture;
+
 typedef enum
 {
-	EMPTY_TILE,
-	WALL_TILE,
-	ITEM_TILE,
-	GROUND_TILE,
-	DOOR_TILE,
-	EXIT_TILE,
-	SKY_TILE,
-	NORTH_TILE,
-	EAST_TILE,
-	SOUTH_TILE,
-	WEST_TILE
+	EMPTY_TILE = BLACK,
+	WALL_TILE = WHITE,
+	ITEM_TILE = RED,
+	GROUND_TILE = LIME,
+	DOOR_TILE = BLUE,
+	EXIT_TILE = YELLOW,
+	SKY_TILE = MAGENTA,
+	NORTH_TILE = MAROON,
+	EAST_TILE = TEAL,
+	SOUTH_TILE = NAVY,
+	WEST_TILE = PURPLE
 }				t_tile;
 
 typedef struct s_app
@@ -92,6 +110,7 @@ typedef struct s_app
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 	mlx_image_t	*compass;
+	t_texture	*textures;
 	int			needle_x;
 	int			needle_y;
 	t_player	player;
@@ -102,6 +121,14 @@ typedef struct s_app
 	float		fov;
 	int			num_rays;
 	int			cur_ray;
+	t_vec		pos;
+	t_vec		*check_queue;
+	int			**walked_map;
+	int			cols;
+	int			rows;
+	int			end;
+	int			start;
+	char		**map;
 }				t_app;
 
 /*
@@ -111,7 +138,7 @@ typedef struct s_app
 // ----------------------------- calculations ----------------------------------
 
 //	calculations.c
-float	cast_ray(t_player *player, float ray_angle, t_tar *wall);
+float	cast_ray(t_app *app, float ray_angle, t_tar *wall);
 void	calc_walls(t_app *app);
 float	norm_ang(float angle);
 //	line_algorithm.c
@@ -121,6 +148,16 @@ void	draw_line(t_app *app, t_coord point_a, t_coord point_b);
 //	init.c
 t_coord	init_coord(int point_x, int point_y, int32_t color);
 int		init_compass(t_app *app);
+void	_init_texture(t_texture *texture);
+int		_init_app(t_app *app);
+
+// ----------------------------- map_parsing -----------------------------------
+
+//	map_parsing.c
+char	**map_validate(t_app *app, char *file);
+void	print_walkedmap(int **map, int rows, int cols);
+void	print_map(char **map);
+
 // ------------------------------ rendering ------------------------------------
 
 //	rendering.c
@@ -135,4 +172,7 @@ void	display_compass(t_app *app, float player_angle);
 void	key_hook(mlx_key_data_t keydata, void *param);
 void	direction_change_hook(t_app *app);
 void	view_change_hook(t_app *app);
+
+// ------------------------------  debugging ------------------------------------
+void	print_info(t_app *app);
 #endif
