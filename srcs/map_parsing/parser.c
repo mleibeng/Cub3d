@@ -6,7 +6,7 @@
 /*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/09 00:41:47 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/09 00:43:18 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -443,11 +443,9 @@ void	fill_minimap(char **map, int **mini_map, int rows, int columns)
 
 int	closed_map(char **map, int rows, int columns, t_app *app)
 {
-	int	i;
 	int	direct_x[] = {0, 0, -1, 1};
 	int	direct_y[] = {-1, 1, 0, 0};
 
-	i = 0;
 	app->walked_map = create_map(rows, columns);
 	app->minimap = create_map(rows, columns);
 	app->check_queue = malloc(rows * columns * sizeof(t_vec));

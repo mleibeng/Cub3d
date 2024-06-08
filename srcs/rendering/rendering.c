@@ -6,7 +6,7 @@
 /*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:00:43 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/09 00:00:52 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/09 00:48:14 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void	draw_textured_ray(t_app *app, t_tar *wall, xpm_t *tyle, int y_start, int y_
 	{
 		percentage = (float)(y - y_start) / (y_end - y_start);
 		texture_y = (int)(tyle->texture.height * percentage);
-		//printf("%d\n", texture_x);
 		color = get_texture_pixel(&tyle->texture, texture_x, texture_y, shade);
 		draw_y = y;
 		if (app->cur_ray >= 0 && app->cur_ray < app->window_width &&
