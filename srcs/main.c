@@ -6,7 +6,7 @@
 /*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/08 15:42:14 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/09 00:41:15 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	main_loop(void *param)
 	calc_walls(app);
 	if (mlx_image_to_window(app->mlx, app->img, 0, 0) == -1)
 		exit(1);
+	// display_minimap(app);
 	display_compass(app, app->player.angle);
 }
 

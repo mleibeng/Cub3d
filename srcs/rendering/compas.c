@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   compas.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 22:37:06 by flo               #+#    #+#             */
-/*   Updated: 2024/06/07 23:48:05 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/08 23:16:32 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ void	display_compass(t_app *app, float player_angle)
 	int		needle_length;
 	int32_t	background_color;
 
-	color = 0xFFFFFFCC;
-	background_color = 0x000000FF;
+	color = CLEAR;
+	background_color = BLACK;
 	clear_compass(app->compass, background_color);
 	draw_compass_ring(app->compass, color);
 	draw_line(app, init_coord(CENTER, CENTER, color),

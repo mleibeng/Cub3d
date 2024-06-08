@@ -6,7 +6,7 @@
 /*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:39:07 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/08 13:19:19 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/09 00:41:09 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,20 @@ void	print_info(t_app *app)
 	// Print the map
 	printf("\n-----Struct data-----\n\n");
 	if (app->map)
+	{
+		printf("Original map\n");
 		print_map(app->map);
+	}
 	if (app->walked_map)
+	{
+		printf("Validated map\n");
 		print_walkedmap(app->walked_map, app->rows, app->cols);
+	}
+	if (app->minimap)
+	{
+		printf("Mini_map\n");
+		print_walkedmap(app->minimap,app->rows, app->cols);
+	}
 	//Print the mlx and image information
 	if (app->mlx)
 		printf("mlx: %p\n", app->mlx);
@@ -123,4 +134,3 @@ void	print_info(t_app *app)
 	printf("start: %d\n", app->start);
 	printf("----------------------------------------\n");
 }
-

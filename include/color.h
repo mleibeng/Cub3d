@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 17:53:53 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/01/06 17:53:56 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/08 23:22:18 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,7 @@
 # define PURPLE		0x800080FF
 # define TEAL		0x008080FF
 # define NAVY		0x000080FF
+# define CLEAR		0xFFFFFFCC
+# define BRIGHTRED  0xFF0000CC
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/08 13:20:40 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/09 00:41:47 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,28 +271,6 @@ void	free_queue(t_app *app)
 	free(app->walked_map);
 }
 
-int	fill_bounds(int next_x, int next_y, t_app *app, char **map)
-{
-	if (next_x >= 0 && next_x < app->cols && next_y >= 0 && next_y < app->rows
-		&& !app->walked_map[next_y][next_x])
-	{
-		if (map[next_y][next_x] == '0')
-		{
-			app->check_queue[app->end++] = (t_vec){next_x, next_y};
-			app->walked_map[next_y][next_x] = 2;
-		}
-		else if (map[next_y][next_x] == '1')
-			app->walked_map[next_y][next_x] = 1;
-		else
-		{
-			perror("error in fill_bounds\n");
-			free_queue(app);
-			return (0);
-		}
-	}
-	return (1);
-}
-
 int	check_column_bound(t_app *app)
 {
 	int	j;
@@ -360,6 +338,44 @@ int	check_bounds(t_app *app)
 	return (1);
 }
 
+int	fill_bounds(int next_x, int next_y, t_app *app, char **map)
+{
+	if (next_x >= 0 && next_x < app->cols && next_y >= 0 && next_y < app->rows
+		&& !app->walked_map[next_y][next_x])
+	{
+		if (map[next_y][next_x] == '0')
+		{
+			app->check_queue[app->end++] = (t_vec){next_x, next_y};
+			app->walked_map[next_y][next_x] = 2;
+		}
+		else if (map[next_y][next_x] == '1')
+			app->walked_map[next_y][next_x] = 1;
+		else
+		{
+			perror("error in fill_bounds\n");
+			free_queue(app);
+			return (0);
+		}
+	}
+	return (1);
+}
+
+void	fill_minimap_bounds(char **map, int **mini_map, int *i, int *j)
+{
+	if (*j < (int)ft_strlen(map[*i]))
+	{
+		if (map[*i][*j] == '1')
+			mini_map[*i][*j] = 1;
+		else if (map[*i][*j] == '0')
+			mini_map[*i][*j] = 0;
+		else if (map[*i][*j] == 'N' || map[*i][*j] == 'W' || map[*i][*j] == 'S'
+			|| map[*i][*j] == 'E')
+			mini_map[*i][*j] = 2;
+	}
+	else
+		mini_map[*i][*j] = 0;
+}
+
 int	fill_map(char **map, t_app *app, int *direct_x, int *direct_y)
 {
 	int	next_x;
@@ -390,6 +406,41 @@ int	fill_map(char **map, t_app *app, int *direct_x, int *direct_y)
 	return (1);
 }
 
+int	**create_map(int rows, int columns)
+{
+	int		i;
+	int		**map;
+
+	i = 0;
+	map = malloc(rows * sizeof(int *));
+	emergency_exit(map);
+	while (i < rows)
+	{
+		map[i] = ft_calloc(columns, sizeof(int));
+		emergency_exit(map[i]);
+		i++;
+	}
+	return (map);
+}
+
+void	fill_minimap(char **map, int **mini_map, int rows, int columns)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < rows)
+	{
+		j = 0;
+		while (j < columns)
+		{
+			fill_minimap_bounds(map, mini_map, &i, &j);
+			j++;
+		}
+		i++;
+	}
+}
+
 int	closed_map(char **map, int rows, int columns, t_app *app)
 {
 	int	i;
@@ -397,16 +448,11 @@ int	closed_map(char **map, int rows, int columns, t_app *app)
 	int	direct_y[] = {-1, 1, 0, 0};
 
 	i = 0;
-	app->walked_map = malloc(rows * sizeof(int *));
-	emergency_exit(app->walked_map);
-	while (i < rows)
-	{
-		app->walked_map[i] = ft_calloc(columns, sizeof(int));
-		emergency_exit(app->walked_map[i]);
-		i++;
-	}
+	app->walked_map = create_map(rows, columns);
+	app->minimap = create_map(rows, columns);
 	app->check_queue = malloc(rows * columns * sizeof(t_vec));
 	emergency_exit(app->check_queue);
+	fill_minimap(map, app->minimap, rows, columns);
 	return (fill_map(map, app, direct_x, direct_y));
 }
 
