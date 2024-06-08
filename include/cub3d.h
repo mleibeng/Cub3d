@@ -6,7 +6,7 @@
 /*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/08 08:50:11 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/09 00:26:53 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@
 # define COMPASS_SIZE 81 // Size of the compass image
 # define CENTER (COMPASS_SIZE / 2) // Center of the compass
 # define MAX_LINE_LENGTH 1024
-# define WINDOW_WIDTH 620
+# define WINDOW_WIDTH 660
 # define WINDOW_HEIGHT 480
 /* ----------------------- adjustable pre-settings -------------------------- */
 
@@ -77,6 +77,9 @@ typedef struct s_tar
 	float	distance;
 	int		hit_vertical;
 	int		wall_height;
+	int		side;
+	int		x;
+	float	pos_x_cur_tyle;
 	int32_t	color;
 }	t_tar;
 
@@ -95,10 +98,14 @@ typedef struct s_player
 
 typedef struct s_texture
 {
-	char		*n_text;
-	char		*e_text;
-	char		*s_text;
-	char		*w_text;
+	char		*n_path;
+	char		*e_path;
+	char		*s_path;
+	char		*w_path;
+	xpm_t		*n_text;
+	xpm_t		*e_text;
+	xpm_t		*s_text;
+	xpm_t		*w_text;
 	int			floor[3];
 	int			skybox[3];
 }				t_texture;
@@ -187,6 +194,8 @@ void	direction_change_hook(t_app *app);
 void	view_change_hook(t_app *app);
 //	mouse_input.c
 int		mouse_shift(t_app *app);
+//		user_input.c
+void	user_input_hook(t_app *app);
 
 // ------------------------------  debugging ------------------------------------
 void	print_info(t_app *app);

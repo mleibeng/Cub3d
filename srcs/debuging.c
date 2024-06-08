@@ -6,7 +6,7 @@
 /*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:39:07 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/08 00:01:03 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/08 13:19:19 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,14 @@ void	print_info(t_app *app)
 	//Print the texture information
 	if (app->textures) {
 		printf("textures:\n%p\n", app->textures);
-		if (app->textures->n_text)
-			printf("NO: %s\n", app->textures->n_text);
-		if (app->textures->s_text)
-			printf("SO: %s\n", app->textures->s_text);
-		if (app->textures->w_text)
-			printf("WE: %s\n", app->textures->w_text);
-		if (app->textures->e_text)
-			printf("EA: %s\n", app->textures->e_text);
+		if (app->textures->n_path)
+			printf("NO: %s\n", app->textures->n_path);
+		if (app->textures->s_path)
+			printf("SO: %s\n", app->textures->s_path);
+		if (app->textures->w_path)
+			printf("WE: %s\n", app->textures->w_path);
+		if (app->textures->e_path)
+			printf("EA: %s\n", app->textures->e_path);
 		printf("floor: (%d, %d, %d)\n", app->textures->floor[0],
 			app->textures->floor[1], app->textures->floor[2]);
 		printf("ceiling: (%d, %d, %d)\n", app->textures->skybox[0],

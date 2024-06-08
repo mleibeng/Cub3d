@@ -6,7 +6,7 @@
 /*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:42:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/07 23:18:57 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/08 19:52:01 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,22 @@ int	init_compass(t_app *app)
 
 void	_init_texture(t_texture *texture)
 {
-	texture->e_text = NULL;
-	texture->n_text = NULL;
-	texture->s_text = NULL;
-	texture->w_text = NULL;
+	texture->e_path = NULL;
+	texture->n_path = NULL;
+	texture->s_path = NULL;
+	texture->w_path = NULL;
 	ft_memset(texture->floor, 0, sizeof(texture->floor));
 	ft_memset(texture->skybox, 0, sizeof(texture->skybox));
+}
+
+void load_textures(t_app *app)
+{
+	app->textures->n_text = mlx_load_xpm42(app->textures->n_path);
+	app->textures->s_text = mlx_load_xpm42(app->textures->s_path);
+	app->textures->e_text = mlx_load_xpm42(app->textures->e_path);
+	app->textures->w_text = mlx_load_xpm42(app->textures->w_path);
+	if (!app->textures->n_text)
+		printf("hello\n");
 }
 
 int	_init_app(t_app *app)
@@ -110,5 +120,6 @@ int	_init_app(t_app *app)
 	if (mlx_image_to_window(app->mlx, app->img, 0, 0) == -1
 		|| init_compass(app) == 1)
 		return (1);
+	load_textures(app);
 	return (0);
 }

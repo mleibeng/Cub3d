@@ -6,7 +6,7 @@
 /*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:49:06 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/08 08:49:44 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/08 09:34:26 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,5 +123,4 @@ void	view_change_hook(t_app *app)
 	if (mlx_is_key_down(app->mlx, MLX_KEY_RIGHT)
 		&& !mlx_is_key_down(app->mlx, MLX_KEY_LEFT))
 		app->player.angle += PLAYER_ROTATE_SPEED;
-	mouse_shift(app);
 }
