@@ -6,7 +6,7 @@
 /*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:39:07 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/07 23:57:28 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/08 00:01:03 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	print_info(t_app *app)
 	printf("map width: %d\n", app->map_width);
 	printf("\n");
 	//Print the FOV and ray information
-	printf("FOV: %.2f\n", app->fov);
+	printf("FOV: %f\n", app->fov);
 	printf("num rays: %d\n", app->num_rays);
 	printf("cur ray: %d\n", app->cur_ray);
 	//Print the check queue and walked map information

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   user_input.c                                       :+:      :+:    :+:   */
+/*   key_input.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
+/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:49:06 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/08 04:17:01 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/08 08:49:44 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,25 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 
 int check_wall_collision(t_app *app, float new_x, float new_y)
 {
-    float player_radius = PLAYER_SIZE;
+	float player_radius = PLAYER_SIZE;
 
-    int min_x = (int)(new_x - player_radius);
-    int max_x = (int)(new_x + player_radius);
-    int min_y = (int)(new_y - player_radius);
-    int max_y = (int)(new_y + player_radius);
-    if (min_x < 0 || max_x >= app->cols || min_y < 0 || max_y >= app->rows)
-        return 1;
-    if (app->walked_map[min_y][min_x] == 1 ||
-        app->walked_map[min_y][max_x] == 1 ||
-        app->walked_map[max_y][min_x] == 1 ||
-        app->walked_map[max_y][max_x] == 1)
-        return 1;
-    return 0;
+	int min_x;
+	int max_x;
+	int min_y;
+	int max_y;
+
+	min_x = (int)(new_x - player_radius);
+	max_x = (int)(new_x + player_radius);
+	min_y = (int)(new_y - player_radius);
+	max_y = (int)(new_y + player_radius);
+	if (min_x < 0 || max_x >= app->cols || min_y < 0 || max_y >= app->rows)
+		return 1;
+	if (app->walked_map[min_y][min_x] == 1 ||
+		app->walked_map[min_y][max_x] == 1 ||
+		app->walked_map[max_y][min_x] == 1 ||
+		app->walked_map[max_y][max_x] == 1)
+		return 1;
+	return 0;
 }
 
 
@@ -118,4 +123,5 @@ void	view_change_hook(t_app *app)
 	if (mlx_is_key_down(app->mlx, MLX_KEY_RIGHT)
 		&& !mlx_is_key_down(app->mlx, MLX_KEY_LEFT))
 		app->player.angle += PLAYER_ROTATE_SPEED;
+	mouse_shift(app);
 }

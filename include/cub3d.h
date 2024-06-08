@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
+/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/08 04:17:30 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/08 08:50:11 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@
 
 # ifndef M_PI
 	#define M_PI       3.14159265358979323846264338328      // Pi
-# endif 
+# endif
 #ifndef M_PI_2
 	#define M_PI_2     1.57079632679489661923132169164      // Pi/2
-#endif 
+#endif
 #ifndef M_PI_4
 	#define M_PI_4     0.78539816339744830961566084582      // Pi/4
 #endif
@@ -53,7 +53,7 @@
 
 # define PLAYER_MOVE_SPEED 0.03
 # define PLAYER_ROTATE_SPEED 0.03
-# define PLAYER_SIZE 0.5
+# define PLAYER_SIZE 0.1
 
 /* -------------------------------- structs --------------------------------- */
 
@@ -181,10 +181,12 @@ void	draw_ray(t_app *app, t_tar *wall);
 void	display_compass(t_app *app, float player_angle);
 // ------------------------------ user input -----------------------------------
 
-//	user_input.c
+//	key_input.c
 void	key_hook(mlx_key_data_t keydata, void *param);
 void	direction_change_hook(t_app *app);
 void	view_change_hook(t_app *app);
+//	mouse_input.c
+int		mouse_shift(t_app *app);
 
 // ------------------------------  debugging ------------------------------------
 void	print_info(t_app *app);
