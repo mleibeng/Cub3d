@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/08 20:43:17 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/08 22:40:12 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@
 
 # define COMPASS_SIZE 81 // Size of the compass image
 # define CENTER (COMPASS_SIZE / 2) // Center of the compass
+# define MINIMAP_SIZE 100
+# define MINIMAP_PLAYER 5
 # define MAX_LINE_LENGTH 1024
 # define WINDOW_WIDTH 620
 # define WINDOW_HEIGHT 480
@@ -103,26 +105,28 @@ typedef struct s_texture
 	int			skybox[3];
 }				t_texture;
 
-typedef enum
-{
-	EMPTY_TILE = BLACK,
-	WALL_TILE = WHITE,
-	ITEM_TILE = RED,
-	GROUND_TILE = LIME,
-	DOOR_TILE = BLUE,
-	EXIT_TILE = YELLOW,
-	SKY_TILE = MAGENTA,
-	NORTH_TILE = MAROON,
-	EAST_TILE = TEAL,
-	SOUTH_TILE = NAVY,
-	WEST_TILE = PURPLE
-}				t_tile;
+// typedef enum
+// {
+// 	EMPTY_TILE = BLACK,
+// 	WALL_TILE = WHITE,
+// 	ITEM_TILE = RED,
+// 	GROUND_TILE = LIME,
+// 	DOOR_TILE = BLUE,
+// 	EXIT_TILE = YELLOW,
+// 	SKY_TILE = MAGENTA,
+// 	NORTH_TILE = MAROON,
+// 	EAST_TILE = TEAL,
+// 	SOUTH_TILE = NAVY,
+// 	WEST_TILE = PURPLE
+// }				t_tile;
 
 typedef struct s_app
 {
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 	mlx_image_t	*compass;
+	mlx_image_t *minimap_img;
+	mlx_image_t *player_on_mini;
 	t_texture	*textures;
 	int			needle_x;
 	int			needle_y;
