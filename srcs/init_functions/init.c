@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:42:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/07 23:18:57 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/08 20:47:23 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ void	_init_texture(t_texture *texture)
 
 int	_init_app(t_app *app)
 {
-	app->player.x = (float)app->player.start_x + 0.5;
-	app->player.y = (float)app->player.start_y + 0.5;
+	app->player.x = (float)app->player.start_x + PLAYER_SIZE;
+	app->player.y = (float)app->player.start_y + PLAYER_SIZE;
 	app->player.std_x = app->player.x;
 	app->player.std_y = app->player.y;
 	app->player.std_angle = app->player.angle;
