@@ -6,7 +6,7 @@
 /*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/07 22:49:43 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/08 04:17:30 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@
 
 # define PLAYER_MOVE_SPEED 0.03
 # define PLAYER_ROTATE_SPEED 0.03
+# define PLAYER_SIZE 0.5
 
 /* -------------------------------- structs --------------------------------- */
 

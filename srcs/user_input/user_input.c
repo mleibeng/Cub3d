@@ -6,7 +6,7 @@
 /*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:49:06 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/07 22:41:30 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/08 04:17:01 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,27 +40,24 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 	}
 }
 
-int	check_wall_collision(t_app *app, float new_x, float new_y)
+int check_wall_collision(t_app *app, float new_x, float new_y)
 {
-	int	x = (int)round(new_x);
-	int	y = (int)round(new_y);
-	int	original_x = (int)round(app->player.x);
-	int	original_y = (int)round(app->player.y);
+    float player_radius = PLAYER_SIZE;
 
-	if (x < 0 || x >= app->cols || y < 0 || y >= app->rows)
-		return (1);
-	if (app->walked_map[y][x] == 1)
-		return (1);
-	if (x < original_x && app->walked_map[original_y][x] == 1)
-		return (1);
-	if (y < original_y && app->walked_map[y][original_x] == 1)
-		return (1);
-	if (y > original_y && app->walked_map[y][x] == 1)
-		return (write(1, "y", 1));
-	if (x > original_y && app->walked_map[y][x] == 1)
-		return (write(1, "y", 1));
-	return (0);
+    int min_x = (int)(new_x - player_radius);
+    int max_x = (int)(new_x + player_radius);
+    int min_y = (int)(new_y - player_radius);
+    int max_y = (int)(new_y + player_radius);
+    if (min_x < 0 || max_x >= app->cols || min_y < 0 || max_y >= app->rows)
+        return 1;
+    if (app->walked_map[min_y][min_x] == 1 ||
+        app->walked_map[min_y][max_x] == 1 ||
+        app->walked_map[max_y][min_x] == 1 ||
+        app->walked_map[max_y][max_x] == 1)
+        return 1;
+    return 0;
 }
+
 
 
 //	this function calculates the shift of the coordinates with W and S keys
