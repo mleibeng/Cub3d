@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/08 22:40:12 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/08 23:32:55 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,7 @@ void	draw_part_ray(t_app *app, int start, int end, int32_t color);
 void	draw_ray(t_app *app, t_tar *wall);
 //	compass.c
 void	display_compass(t_app *app, float player_angle);
+void	display_minimap(t_app *app);
 // ------------------------------ user input -----------------------------------
 
 //	key_input.c

@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/08 22:59:36 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/09 00:24:26 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	loop_hook(void *param)
 	calc_walls(app);
 	if (mlx_image_to_window(app->mlx, app->img, 0, 0) == -1)
 		exit(1);
-	display_minimap(app, app->player.angle);
+	// display_minimap(app);
 	display_compass(app, app->player.angle);
 }
 

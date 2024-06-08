@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calculations.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:03:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/07 20:20:33 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/09 00:26:59 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	calc_side(float ray_angle, t_tar *wall)
 void	calc_walls(t_app *app)
 {
 	float	ray_angle;
+	float	correction;
 	t_tar	wall;
 
 	wall.color = 0;
@@ -90,8 +91,9 @@ void	calc_walls(t_app *app)
 	app->cur_ray = 0;
 	while (app->cur_ray < app->num_rays)
 	{
-		ray_angle = norm_ang(app->player.angle - app->fov / 3
-				+ app->cur_ray * app->fov / app->num_rays);
+		correction = app->cur_ray - app->num_rays / 2;
+		ray_angle = app->player.angle + atan(correction / app->num_rays * tan(app->fov / 2));
+		ray_angle = norm_ang(ray_angle);
 		wall.distance = cast_ray(app, ray_angle, &wall);
 		wall.wall_height = (int)(app->window_height / (wall.distance + 0.01f));
 		calc_side(ray_angle, &wall);

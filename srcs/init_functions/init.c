@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:42:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/08 22:57:05 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/08 23:10:46 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	init_minimap(t_app *app)
 	app->player_on_mini->instances[0].y = app->player.y;
 	app->player_on_mini->instances[0].z = 10;
 	app->player_on_mini->instances[0].enabled = true;
-	if (mlx_image_to_window(app->mlx, app->minimap, app->window_width
+	if (mlx_image_to_window(app->mlx, app->minimap_img, app->window_width
 			- MINIMAP_SIZE - 10, 10) == -1)
 		return (1);
 	if (mlx_image_to_window(app->mlx, app->player_on_mini, app->window_width
