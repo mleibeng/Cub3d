@@ -6,7 +6,7 @@
 /*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:42:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/09 09:18:01 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/09 09:26:41 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,45 @@ t_coord	init_coord(int point_x, int point_y, int32_t color)
 	new_coord.yw = point_y;
 	new_coord.color = color;
 	return (new_coord);
+}
+
+int	init_minimap(t_app *app)
+{
+	app->minimap_img = mlx_new_image(app->mlx, MINIMAP_SIZE, MINIMAP_SIZE);
+	if (!app->minimap_img)
+		return (mlx_terminate(app->mlx), 1);
+	app->player_on_mini = mlx_new_image(app->mlx, MINIMAP_PLAYER,
+			MINIMAP_PLAYER);
+	if (!app->minimap_img)
+		return (mlx_terminate(app->mlx), 1);
+	app->minimap_img->count = 1;
+	app->minimap_img->instances = malloc(sizeof(mlx_instance_t)
+			* app->minimap_img->count);
+	if (!app->minimap_img->instances)
+	{
+		ft_printf("Failed to allocate memory for compass instances.\n");
+		return (mlx_terminate(app->mlx), 1);
+	}
+	app->player_on_mini->count = 1;
+	app->player_on_mini->instances = malloc(sizeof(mlx_instance_t)
+			* app->player_on_mini->count);
+	if (!app->player_on_mini->instances)
+	{
+		ft_printf("Failed to allocate memory for compass instances.\n");
+		return (mlx_terminate(app->mlx), 1);
+	}
+	app->minimap_img->instances[0].x = 0;
+	app->minimap_img->instances[0].y = 0;
+	app->player_on_mini->instances[0].x = MINIMAP_SIZE / 2;
+	app->player_on_mini->instances[0].y = MINIMAP_SIZE / 2;
+	app->player_on_mini->instances[0].z = 10;
+	app->player_on_mini->instances[0].enabled = true;
+	if (mlx_image_to_window(app->mlx, app->minimap_img, 0, 0) == -1)
+		return (1);
+	if (mlx_image_to_window(app->mlx, app->player_on_mini, MINIMAP_SIZE / 2,
+			MINIMAP_SIZE / 2) == -1)
+		return (1);
+	return (0);
 }
 
 //	function to inititialize the compass and assiging the default values
@@ -78,8 +117,10 @@ void load_textures(t_app *app)
 
 int	_init_app(t_app *app)
 {
-	app->player.x = (float)app->player.start_x + 0.5;
-	app->player.y = (float)app->player.start_y + 0.5;
+	app->map_height = 6;
+	app->map_width = 5;
+	app->player.x = (float)app->player.start_x + PLAYER_SIZE;
+	app->player.y = (float)app->player.start_y + PLAYER_SIZE;
 	app->player.std_x = app->player.x;
 	app->player.std_y = app->player.y;
 	app->player.std_angle = app->player.angle;

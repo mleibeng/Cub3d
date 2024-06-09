@@ -6,10 +6,9 @@
 /*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/09 09:19:23 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/09 09:27:18 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 /*
 ------------------------------- initial setup ----------------------------------
@@ -20,31 +19,31 @@
 
 # include "../libft/libft.h"
 # include "MLX42/MLX42.h"
-# include <limits.h>
 # include "color.h"
 # include <errno.h>
 # include <fcntl.h>
+# include <limits.h>
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <unistd.h>
 # include <string.h>
+# include <unistd.h>
 
 /*--------------------- OS-specific constant definitions--------------------- */
 
 # ifndef M_PI
-	#define M_PI       3.14159265358979323846264338328      // Pi
+#  define M_PI 3.14159265358979323846264338328 // Pi
 # endif
-#ifndef M_PI_2
-	#define M_PI_2     1.57079632679489661923132169164      // Pi/2
-#endif
-#ifndef M_PI_4
-	#define M_PI_4     0.78539816339744830961566084582      // Pi/4
-#endif
+# ifndef M_PI_2
+#  define M_PI_2 1.57079632679489661923132169164 // Pi/2
+# endif
+# ifndef M_PI_4
+#  define M_PI_4 0.78539816339744830961566084582 // Pi/4
+# endif
 
 /* -------------------- non-adjustable pre-settings ------------------------- */
 
-# define COMPASS_SIZE 81 // Size of the compass image
+# define COMPASS_SIZE 81           // Size of the compass image
 # define CENTER (COMPASS_SIZE / 2) // Center of the compass
 # define MINIMAP_SIZE 100
 # define MINIMAP_PLAYER 5
@@ -61,16 +60,17 @@
 
 typedef struct s_vec
 {
-	int	x;
-	int	y;
-}	t_vec;
+	int			x;
+	int			y;
+}				t_vec;
 
 //	struct for one coordinate point on the map for drawing a line
-typedef struct s_coord{
-	int		xw;
-	int		yw;
-	int32_t	color;
-}	t_coord;
+typedef struct s_coord
+{
+	int			xw;
+	int			yw;
+	int32_t		color;
+}				t_coord;
 
 typedef struct s_tar
 {
@@ -112,28 +112,24 @@ typedef struct s_texture
 	int			skybox[3];
 }				t_texture;
 
-// typedef enum
-// {
-// 	EMPTY_TILE = BLACK,
-// 	WALL_TILE = WHITE,
-// 	ITEM_TILE = RED,
-// 	GROUND_TILE = LIME,
-// 	DOOR_TILE = BLUE,
-// 	EXIT_TILE = YELLOW,
-// 	SKY_TILE = MAGENTA,
-// 	NORTH_TILE = MAROON,
-// 	EAST_TILE = TEAL,
-// 	SOUTH_TILE = NAVY,
-// 	WEST_TILE = PURPLE
-// }				t_tile;
+typedef struct s_minimap
+{
+	int			half_size;
+	t_vec		xy;
+	int			wall_size;
+	int			minimap_x;
+	int			minimap_y;
+	int			map_x;
+	int			map_y;
+}				t_minimap;
 
 typedef struct s_app
 {
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 	mlx_image_t	*compass;
-	mlx_image_t *minimap_img;
-	mlx_image_t *player_on_mini;
+	mlx_image_t	*minimap_img;
+	mlx_image_t	*player_on_mini;
 	t_texture	*textures;
 	int			needle_x;
 	int			needle_y;
@@ -149,6 +145,7 @@ typedef struct s_app
 	t_vec		*check_queue;
 	int			**walked_map;
 	int			**minimap;
+	t_minimap	mini_info;
 	int			cols;
 	int			rows;
 	int			end;
@@ -163,46 +160,46 @@ typedef struct s_app
 // ----------------------------- calculations ----------------------------------
 
 //	calculations.c
-float	cast_ray(t_app *app, float ray_angle, t_tar *wall);
-void	calc_walls(t_app *app);
-float	norm_ang(float angle);
+float			cast_ray(t_app *app, float ray_angle, t_tar *wall);
+void			calc_walls(t_app *app);
+float			norm_ang(float angle);
 //	line_algorithm.c
-void	draw_line(t_app *app, t_coord point_a, t_coord point_b);
+void			draw_line(t_app *app, t_coord point_a, t_coord point_b);
 
 // -------------------------------- init.c -------------------------------------
 //	init.c
-t_coord	init_coord(int point_x, int point_y, int32_t color);
-int		init_compass(t_app *app);
-void	_init_texture(t_texture *texture);
-int		_init_app(t_app *app);
+t_coord			init_coord(int point_x, int point_y, int32_t color);
+int				init_compass(t_app *app);
+void			_init_texture(t_texture *texture);
+int				_init_app(t_app *app);
 
 // ----------------------------- map_parsing -----------------------------------
 
 //	map_parsing.c
-char	**map_validate(t_app *app, char *file);
-void	print_walkedmap(int **map, int rows, int cols);
-void	print_map(char **map);
+char			**map_validate(t_app *app, char *file);
+void			print_walkedmap(int **map, int rows, int cols);
+void			print_map(char **map);
 
 // ------------------------------ rendering ------------------------------------
 
 //	rendering.c
-int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
-void	draw_part_ray(t_app *app, int start, int end, int32_t color, int shade);
-void	draw_ray(t_app *app, t_tar *wall);
+int32_t			ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
+void			draw_part_ray(t_app *app, int start, int end, int32_t color, int shade);
+void			draw_ray(t_app *app, t_tar *wall);
 //	compass.c
-void	display_compass(t_app *app, float player_angle);
-void	display_minimap(t_app *app);
+void			display_compass(t_app *app, float player_angle);
+void			display_minimap(t_app *app);
 // ------------------------------ user input -----------------------------------
 
 //	key_input.c
-void	key_hook(mlx_key_data_t keydata, void *param);
-void	direction_change_hook(t_app *app);
-void	view_change_hook(t_app *app);
+void			key_hook(mlx_key_data_t keydata, void *param);
+void			direction_change_hook(t_app *app);
+void			view_change_hook(t_app *app);
 //	mouse_input.c
 int		mouse_shift(t_app *app);
 //		user_input.c
 void	user_input_hook(t_app *app);
 
 // ------------------------------  debugging ------------------------------------
-void	print_info(t_app *app);
+void			print_info(t_app *app);
 #endif
