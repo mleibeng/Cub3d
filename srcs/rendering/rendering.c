@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rendering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:00:43 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/09 00:48:14 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/10 00:24:34 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,18 +105,11 @@ void draw_ray(t_app *app, t_tar *wall)
 	shade = 256 / (1.0 + wall->distance * 0.1);
 	wall_start = (app->window_height - wall->wall_height) / 2;
 	wall_end = (app->window_height + wall->wall_height) / 2;
-	if (wall_start < 0)
-		wall_start = 0;
-	if (wall_end > app->window_height)
-		wall_end = app->window_height;
 	wall->color += shade;
 	sky_color = ft_pixel(app->textures->skybox[0], app->textures->skybox[1], app->textures->skybox[2], 150);
 	floor_color = ft_pixel(app->textures->floor[0], app->textures->floor[1], app->textures->floor[2], shade);
 
- 	// Draw sky
 	draw_part_ray(app, 0, wall_start - 1, sky_color);
-	// Draw textured wall
 	draw_textured_ray(app, wall, get_text(app, wall->side), wall_start, wall_end, shade);
-	// Draw floor
 	draw_part_ray(app, wall_end, app->window_height, floor_color);
 }
