@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/09 00:43:18 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/10 00:37:18 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ t_texture	*read_map(char *file, char ***map, int *rows, int *columns)
 int	is_valid(char c)
 {
 	return (c == '0' || c == '1' || c == 'N' || c == 'S' || c == 'W'
-		|| c == 'E');
+		|| c == 'E' || c == 'D');
 }
 
 void	free_map(char **map)
