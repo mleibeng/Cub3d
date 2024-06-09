@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 23:01:46 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/09 02:54:37 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/09 22:43:26 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,8 @@ void	calculate_xy_coordinates(t_app *app, int map_x, int map_y,
 {
 	app->mini_info.xy.x = (map_y * app->mini_info.wall_size + minimap_y)
 		- app->player.y * app->mini_info.wall_size + app->mini_info.half_size;
-	app->mini_info.xy.y = (app->map_width - map_x - 1)
-		* app->mini_info.wall_size + minimap_x - app->player.x
-		* app->mini_info.wall_size + app->mini_info.half_size;
+	app->mini_info.xy.y = (map_x * app->mini_info.wall_size + minimap_x)
+		- app->player.x * app->mini_info.wall_size + app->mini_info.half_size;
 	app->mini_info.xy.y = MINIMAP_SIZE - app->mini_info.xy.y - 1;
 }
 

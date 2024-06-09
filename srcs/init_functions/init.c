@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:42:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/09 02:58:54 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/09 22:17:04 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,8 @@ void load_textures(t_app *app)
 
 int	_init_app(t_app *app)
 {
-	app->map_height = 6;
-	app->map_width = 5;
+	app->map_height = app->rows;
+	app->map_width = app->cols;
 	app->player.x = (float)app->player.start_x + PLAYER_SIZE;
 	app->player.y = (float)app->player.start_y + PLAYER_SIZE;
 	app->player.std_x = app->player.x;
