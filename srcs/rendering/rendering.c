@@ -6,7 +6,7 @@
 /*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:00:43 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/09 00:48:14 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/09 01:43:21 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 }
 
 //	function to draw a partial ray
-void	draw_part_ray(t_app *app, int start, int end, int32_t color)
+void	draw_part_ray(t_app *app, int start, int end, int32_t color, int shade)
 {
 	int	y;
 
@@ -41,7 +41,7 @@ void	draw_part_ray(t_app *app, int start, int end, int32_t color)
 	{
 		if (app->cur_ray >= 0 && app->cur_ray < app->window_width
 			&& y >= 0 && y < app->window_height)
-			mlx_put_pixel(app->img, app->cur_ray, y, color);
+			mlx_put_pixel(app->img, app->cur_ray, y, color - shade--);
 		y++;
 	}
 }
@@ -114,9 +114,9 @@ void draw_ray(t_app *app, t_tar *wall)
 	floor_color = ft_pixel(app->textures->floor[0], app->textures->floor[1], app->textures->floor[2], shade);
 
  	// Draw sky
-	draw_part_ray(app, 0, wall_start - 1, sky_color);
+	draw_part_ray(app, 0, wall_start - 1, sky_color, shade);
 	// Draw textured wall
 	draw_textured_ray(app, wall, get_text(app, wall->side), wall_start, wall_end, shade);
 	// Draw floor
-	draw_part_ray(app, wall_end, app->window_height, floor_color);
+	draw_part_ray(app, wall_end, app->window_height, floor_color, shade);
 }

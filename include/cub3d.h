@@ -6,7 +6,7 @@
 /*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/09 00:41:03 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/09 09:19:23 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@
 # define MINIMAP_SIZE 100
 # define MINIMAP_PLAYER 5
 # define MAX_LINE_LENGTH 1024
-# define WINDOW_WIDTH 660
+# define WINDOW_WIDTH 480
 # define WINDOW_HEIGHT 480
 /* ----------------------- adjustable pre-settings -------------------------- */
 
@@ -187,7 +187,7 @@ void	print_map(char **map);
 
 //	rendering.c
 int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
-void	draw_part_ray(t_app *app, int start, int end, int32_t color);
+void	draw_part_ray(t_app *app, int start, int end, int32_t color, int shade);
 void	draw_ray(t_app *app, t_tar *wall);
 //	compass.c
 void	display_compass(t_app *app, float player_angle);
