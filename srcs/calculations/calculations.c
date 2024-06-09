@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calculations.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:03:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/09 00:26:59 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/09 00:41:24 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,23 @@ float	norm_ang(float angle)
 	while (angle >= 2 * M_PI)
 		angle -= 2 * M_PI;
 	return (angle);
+}
+
+double	get_fractional_part(double num)
+{
+	double	integral_part;
+	double	fractional_part;
+
+	fractional_part = modf(num, &integral_part);
+	return (fractional_part);
+}
+
+float	find_tyle_pos(t_tar *wall)
+{
+	if (wall->hit_vertical == 0)
+		return (get_fractional_part(wall->target_x));
+	else
+		return (get_fractional_part(wall->target_y));
 }
 
 //	function for raycasting the return value will be taken with the cos
@@ -45,7 +62,8 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 		{
 			hit_x = fabs(wall->target_x - round(wall->target_x));
 			hit_y = fabs(wall->target_y - round(wall->target_y));
-			wall->hit_vertical = hit_x < 0.005f && hit_x <= hit_y;
+			wall->hit_vertical = hit_x < 0.005f && hit_x < hit_y;
+			wall->pos_x_cur_tyle = find_tyle_pos(wall);
 			return (depth * cos(app->player.angle - ray_angle));
 		}
 		depth += 0.005f;
@@ -60,20 +78,26 @@ void	calc_side(float ray_angle, t_tar *wall)
 	{
 		if (cos(ray_angle) >= 0)
 		{
-			wall->color = ft_pixel(1.0 + wall->distance * 0.1, 0, 255 / (1.0 + wall->distance * 0.05), 0);
+			wall->side = 1;
+			//wall->color = ft_pixel(1.0 + wall->distance * 0.1, 0, 255 / (1.0 + wall->distance * 0.05), 0);
 		}
 		else
-			wall->color = ft_pixel(255, 255 / (1.0 + wall->distance * 0.05), 0, 0);
+		{
+			wall->side = 2;
+			//wall->color = ft_pixel(255, 255 / (1.0 + wall->distance * 0.05), 0, 0);
+		}
 	}
 	else
 	{
 		if (sin(ray_angle) >= 0)
 		{
-			wall->color = ft_pixel(1.0 + wall->distance * 0.1, 255 / (1.0 + wall->distance * 0.05), 0, 0);
+			wall->side = 3;
+			//wall->color = ft_pixel(1.0 + wall->distance * 0.1, 255 / (1.0 + wall->distance * 0.05), 0, 0);
 		}
 		else
 		{
-			wall->color = ft_pixel(255, 0 / (1.0 + wall->distance * 0.05), 0, 0);
+			wall->side = 4;
+			//wall->color = ft_pixel(255, 0 / (1.0 + wall->distance * 0.05), 0, 0);
 		}
 	}
 }
@@ -86,8 +110,6 @@ void	calc_walls(t_app *app)
 	t_tar	wall;
 
 	wall.color = 0;
-	direction_change_hook(app);
-	view_change_hook(app);
 	app->cur_ray = 0;
 	while (app->cur_ray < app->num_rays)
 	{

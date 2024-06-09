@@ -6,9 +6,10 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:49:06 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/09 02:14:22 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/09 02:58:32 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "cub3d.h"
 
@@ -121,5 +122,4 @@ void	view_change_hook(t_app *app)
 	if (mlx_is_key_down(app->mlx, MLX_KEY_RIGHT) && !mlx_is_key_down(app->mlx,
 			MLX_KEY_LEFT))
 		app->player.angle += PLAYER_ROTATE_SPEED;
-	mouse_shift(app);
 }

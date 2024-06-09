@@ -1,8 +1,7 @@
-NO ./textures/planks_x64_2.xpm
-SO ./textures/random-greenery-30.xpm
-WE ./textures/tile359.xpm
-EA ./textures/wall_64x64_0.xpm
-
+NO ./textures/planks_x64_2.xpm42
+SO ./textures/random-greenery-30.xpm42
+WE ./textures/tile359.xpm42
+EA ./textures/wall_64x64_0.xpm42
 F 220,100,0
 C 225,30,0
 

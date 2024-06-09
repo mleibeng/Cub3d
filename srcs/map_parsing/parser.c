@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/08 21:20:38 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/09 00:43:18 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,19 @@ void	parse_textures(int fd, t_texture *texture)
 {
 	char	*line;
 
-	while ((!texture->e_text || !texture->w_text || !texture->s_text
-			|| !texture->n_text) && (line = get_cut_next_line(fd)))
+	while ((!texture->e_path || !texture->w_path || !texture->s_path
+			|| !texture->n_path) && (line = get_cut_next_line(fd)))
 	{
 		if (ft_strlen(line) > 0)
 		{
 			if (!ft_strncmp(line, "NO ", 3))
-				texture->n_text = ft_strdup(line + 3);
+				texture->n_path = ft_strdup(line + 3);
 			else if (!ft_strncmp(line, "WE ", 3))
-				texture->w_text = ft_strdup(line + 3);
+				texture->w_path = ft_strdup(line + 3);
 			else if (!ft_strncmp(line, "SO ", 3))
-				texture->s_text = ft_strdup(line + 3);
+				texture->s_path = ft_strdup(line + 3);
 			else if (!ft_strncmp(line, "EA ", 3))
-				texture->e_text = ft_strdup(line + 3);
+				texture->e_path = ft_strdup(line + 3);
 		}
 		free(line);
 	}
@@ -176,14 +176,14 @@ void	free_map(char **map)
 
 void	free_textures(t_texture *textures)
 {
-	if (textures->n_text)
-		free(textures->n_text);
-	if (textures->e_text)
-		free(textures->n_text);
-	if (textures->w_text)
-		free(textures->n_text);
-	if (textures->s_text)
-		free(textures->n_text);
+	if (textures->n_path)
+		free(textures->n_path);
+	if (textures->e_path)
+		free(textures->e_path);
+	if (textures->w_path)
+		free(textures->w_path);
+	if (textures->s_path)
+		free(textures->s_path);
 	free(textures);
 }
 
@@ -443,11 +443,9 @@ void	fill_minimap(char **map, int **mini_map, int rows, int columns)
 
 int	closed_map(char **map, int rows, int columns, t_app *app)
 {
-	int	i;
 	int	direct_x[] = {0, 0, -1, 1};
 	int	direct_y[] = {-1, 1, 0, 0};
 
-	i = 0;
 	app->walked_map = create_map(rows, columns);
 	app->minimap = create_map(rows, columns);
 	app->check_queue = malloc(rows * columns * sizeof(t_vec));

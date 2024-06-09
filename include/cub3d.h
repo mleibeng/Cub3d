@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/09 02:32:03 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/09 02:58:08 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@
 # define MINIMAP_SIZE 100
 # define MINIMAP_PLAYER 5
 # define MAX_LINE_LENGTH 1024
-# define WINDOW_WIDTH 620
+# define WINDOW_WIDTH 660
 # define WINDOW_HEIGHT 480
 /* ----------------------- adjustable pre-settings -------------------------- */
 
@@ -74,13 +74,16 @@ typedef struct s_coord
 
 typedef struct s_tar
 {
-	float		target_x;
-	float		target_y;
-	float		distance;
-	int			hit_vertical;
-	int			wall_height;
-	int32_t		color;
-}				t_tar;
+	float	target_x;
+	float	target_y;
+	float	distance;
+	int		hit_vertical;
+	int		wall_height;
+	int		side;
+	int		x;
+	float	pos_x_cur_tyle;
+	int32_t	color;
+}	t_tar;
 
 //	coordinates of the player
 typedef struct s_player
@@ -97,10 +100,14 @@ typedef struct s_player
 
 typedef struct s_texture
 {
-	char		*n_text;
-	char		*e_text;
-	char		*s_text;
-	char		*w_text;
+	char		*n_path;
+	char		*e_path;
+	char		*s_path;
+	char		*w_path;
+	xpm_t		*n_text;
+	xpm_t		*e_text;
+	xpm_t		*s_text;
+	xpm_t		*w_text;
 	int			floor[3];
 	int			skybox[3];
 }				t_texture;
@@ -189,7 +196,9 @@ void			key_hook(mlx_key_data_t keydata, void *param);
 void			direction_change_hook(t_app *app);
 void			view_change_hook(t_app *app);
 //	mouse_input.c
-int				mouse_shift(t_app *app);
+int		mouse_shift(t_app *app);
+//		user_input.c
+void	user_input_hook(t_app *app);
 
 // ------------------------------  debugging ------------------------------------
 void			print_info(t_app *app);
