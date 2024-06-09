@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/09 16:21:04 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/10 00:29:33 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,16 @@ typedef struct s_coord
 
 typedef struct s_tar
 {
-	float	target_x;
-	float	target_y;
-	float	distance;
-	int		hit_vertical;
-	int		wall_height;
-	int		side;
-	float	pos_x_cur_tyle;
-	int32_t	color;
-}	t_tar;
+	float		target_x;
+	float		target_y;
+	float		distance;
+	int			hit_vertical;
+	int			wall_height;
+	int			side;
+	int			x;
+	float		pos_x_cur_tyle;
+	int32_t		color;
+}				t_tar;
 
 //	coordinates of the player
 typedef struct s_player
@@ -185,6 +186,8 @@ void			print_map(char **map);
 int32_t			ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
 void			draw_part_ray(t_app *app, int start, int end, int32_t color, char dir);
 void			draw_ray(t_app *app, t_tar *wall);
+//	minimap.c
+int				init_minimap(t_app *app);
 //	compass.c
 void			display_compass(t_app *app, float player_angle);
 void			display_minimap(t_app *app);
@@ -195,9 +198,9 @@ void			key_hook(mlx_key_data_t keydata, void *param);
 void			direction_change_hook(t_app *app);
 void			view_change_hook(t_app *app);
 //	mouse_input.c
-int		mouse_shift(t_app *app);
+int				mouse_shift(t_app *app);
 //		user_input.c
-void	user_input_hook(t_app *app);
+void			user_input_hook(t_app *app);
 
 // ------------------------------  debugging ------------------------------------
 void			print_info(t_app *app);

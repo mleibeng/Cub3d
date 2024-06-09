@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/04 14:00:43 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/10 00:23:27 by fkeitel          ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/06/10 00:28:47 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "cub3d.h"
 
@@ -117,6 +118,11 @@ void draw_ray(t_app *app, t_tar *wall)
 
 	wall_start = (app->window_height - wall->wall_height) / 2;
 	wall_end = (app->window_height + wall->wall_height) / 2;
+	if (wall_start < 0)
+		wall_start = 0;
+	if (wall_end > app->window_height)
+		wall_end = app->window_height;
+	wall->color += shade;
 	sky_color = ft_pixel(app->textures->skybox[0], app->textures->skybox[1], app->textures->skybox[2], 150);
 	floor_color = ft_pixel(app->textures->floor[0], app->textures->floor[1], app->textures->floor[2], 150);
 
