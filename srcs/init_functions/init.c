@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:42:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/09 09:26:41 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/09 10:29:55 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,8 @@ void load_textures(t_app *app)
 
 int	_init_app(t_app *app)
 {
-	app->map_height = 6;
-	app->map_width = 5;
+	app->map_height = app->cols;
+	app->map_width = app->rows;
 	app->player.x = (float)app->player.start_x + PLAYER_SIZE;
 	app->player.y = (float)app->player.start_y + PLAYER_SIZE;
 	app->player.std_x = app->player.x;
