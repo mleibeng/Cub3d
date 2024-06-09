@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:49:06 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/09 02:58:32 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/10 00:14:04 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	direction_change_hook(t_app *app)
 	float		move_y;
 	float		new_x;
 	float		new_y;
-	static int	key_pressed = 0;
+	// static int	key_pressed = 0;
 
 	move_x = PLAYER_MOVE_SPEED * cos(app->player.angle);
 	move_y = PLAYER_MOVE_SPEED * sin(app->player.angle);
@@ -95,22 +95,22 @@ void	direction_change_hook(t_app *app)
 		if (check_wall_collision(app, app->player.x, new_y) == 0)
 			app->player.y = norm_ang(new_y);
 	}
-	if (mlx_is_key_down(app->mlx, MLX_KEY_C) && key_pressed == 0)
-	{
-		if (app->compass->instances[0].z == 10)
-		{
-			app->compass->instances[0].z = 0;
-		}
-		else
-		{
-			app->compass->instances[0].z = 10;
-		}
-		mlx_image_to_window(app->mlx, app->compass, app->window_width
-			- COMPASS_SIZE - 10, 10);
-		key_pressed = 1;
-	}
-	else if (!mlx_is_key_down(app->mlx, MLX_KEY_C))
-		key_pressed = 0;
+	// if (mlx_is_key_down(app->mlx, MLX_KEY_C) && key_pressed == 0)
+	// {
+	// 	if (app->compass->instances[0].z == 10)
+	// 	{
+	// 		app->compass->instances[0].z = 0;
+	// 	}
+	// 	else
+	// 	{
+	// 		app->compass->instances[0].z = 10;
+	// 	}
+	// 	mlx_image_to_window(app->mlx, app->compass, app->window_width
+	// 		- COMPASS_SIZE - 10, 10);
+	// 	key_pressed = 1;
+	// }
+	// else if (!mlx_is_key_down(app->mlx, MLX_KEY_C))
+	// 	key_pressed = 0;
 }
 
 //	this function calculates the shift of the coordinates with the A and D keys

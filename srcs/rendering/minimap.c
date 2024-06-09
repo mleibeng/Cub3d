@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 23:01:46 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/09 22:43:26 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/10 00:17:05 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,6 @@ void	draw_minimap_wall(t_app *app, int map_x, int map_y)
 	}
 }
 
-
-
 void	draw_minimap_walls(t_app *app)
 {
 	int	map_y;
@@ -143,5 +141,5 @@ void	display_minimap(t_app *app)
 {
 	clear_mini_map(app->minimap_img, BLACK);
 	draw_minimap(app);
-	mlx_image_to_window(app->mlx, app->minimap_img, 0, 0);
+	// mlx_image_to_window(app->mlx, app->minimap_img, 0, 0);
 }

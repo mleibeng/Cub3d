@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:42:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/09 22:17:04 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/10 00:13:16 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,27 +33,7 @@ int	init_minimap(t_app *app)
 	if (!app->minimap_img)
 		return (mlx_terminate(app->mlx), 1);
 	app->minimap_img->count = 1;
-	app->minimap_img->instances = malloc(sizeof(mlx_instance_t)
-			* app->minimap_img->count);
-	if (!app->minimap_img->instances)
-	{
-		ft_printf("Failed to allocate memory for compass instances.\n");
-		return (mlx_terminate(app->mlx), 1);
-	}
 	app->player_on_mini->count = 1;
-	app->player_on_mini->instances = malloc(sizeof(mlx_instance_t)
-			* app->player_on_mini->count);
-	if (!app->player_on_mini->instances)
-	{
-		ft_printf("Failed to allocate memory for compass instances.\n");
-		return (mlx_terminate(app->mlx), 1);
-	}
-	app->minimap_img->instances[0].x = 0;
-	app->minimap_img->instances[0].y = 0;
-	app->player_on_mini->instances[0].x = MINIMAP_SIZE / 2;
-	app->player_on_mini->instances[0].y = MINIMAP_SIZE / 2;
-	app->player_on_mini->instances[0].z = 10;
-	app->player_on_mini->instances[0].enabled = true;
 	if (mlx_image_to_window(app->mlx, app->minimap_img, 0, 0) == -1)
 		return (1);
 	if (mlx_image_to_window(app->mlx, app->player_on_mini, MINIMAP_SIZE / 2,
@@ -68,25 +48,7 @@ int	init_compass(t_app *app)
 	app->compass = mlx_new_image(app->mlx, COMPASS_SIZE, COMPASS_SIZE);
 	if (!app->compass)
 		return (mlx_terminate(app->mlx), 1);
-	app->compass->count = 2;
-	app->compass->instances = malloc(sizeof(mlx_instance_t)
-			* app->compass->count);
-	if (!app->compass->instances)
-	{
-		ft_printf("Failed to allocate memory for compass instances.\n");
-		return (mlx_terminate(app->mlx), 1);
-	}
-	if (app->compass->instances != NULL && app->compass->count > 0)
-	{
-		app->compass->instances[0].z = 10;
-		app->compass->instances[0].enabled = true;
-	}
-	else
-	{
-		free(app->compass->instances);
-		ft_printf("Error: Compass instances are not properly initialized.\n");
-		return (1);
-	}
+	app->compass->count = 1;
 	if (mlx_image_to_window(app->mlx, app->compass, app->window_width
 			- COMPASS_SIZE - 10, 10) == -1)
 		return (1);
@@ -127,6 +89,8 @@ int	_init_app(t_app *app)
 	app->window_height = WINDOW_HEIGHT;
 	app->num_rays = app->window_width;
 	app->cur_ray = 0;
+	app->minimap_img = NULL;
+	app->compass = NULL;
 	app->mlx = mlx_init(app->window_width, app->window_height, "cub3d", true);
 	if (!app->mlx)
 		return (1);
@@ -136,25 +100,7 @@ int	_init_app(t_app *app)
 		mlx_terminate(app->mlx);
 		return (1);
 	}
-	app->img->count = 2;
-	app->img->instances = malloc(sizeof(mlx_instance_t) * app->img->count);
-	if (!app->img->instances)
-	{
-		ft_printf("Failed to allocate memory for img instances.\n");
-		mlx_terminate(app->mlx);
-		return (1);
-	}
-	if (app->img->instances != NULL && app->img->count > 0)
-	{
-		app->img->instances[1].enabled = true;
-		app->img->instances[0].z = 5;
-	}
-	else
-	{
-		free(app->img->instances);
-		ft_printf("Error: img instances are not properly initialized.\n");
-		return (1);
-	}
+	app->img->count = 1;
 	if (mlx_image_to_window(app->mlx, app->img, 0, 0) == -1 || init_compass(app)
 		|| init_minimap(app))
 		return (1);
