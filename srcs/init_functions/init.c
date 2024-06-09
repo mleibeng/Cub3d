@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:42:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/08 23:10:46 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/09 01:50:12 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,14 @@ int	init_minimap(t_app *app)
 			MINIMAP_PLAYER);
 	if (!app->minimap_img)
 		return (mlx_terminate(app->mlx), 1);
+	app->minimap_img->count = 1;
+	app->minimap_img->instances = malloc(sizeof(mlx_instance_t)
+			* app->minimap_img->count);
+	if (!app->minimap_img->instances)
+	{
+		ft_printf("Failed to allocate memory for compass instances.\n");
+		return (mlx_terminate(app->mlx), 1);
+	}
 	app->player_on_mini->count = 1;
 	app->player_on_mini->instances = malloc(sizeof(mlx_instance_t)
 			* app->player_on_mini->count);
@@ -40,16 +48,16 @@ int	init_minimap(t_app *app)
 		ft_printf("Failed to allocate memory for compass instances.\n");
 		return (mlx_terminate(app->mlx), 1);
 	}
-	app->player_on_mini->instances[0].x = app->player.x;
-	app->player_on_mini->instances[0].y = app->player.y;
+	app->minimap_img->instances[0].x = 0;
+	app->minimap_img->instances[0].y = 0;
+	app->player_on_mini->instances[0].x = MINIMAP_SIZE / 2;
+	app->player_on_mini->instances[0].y = MINIMAP_SIZE / 2;
 	app->player_on_mini->instances[0].z = 10;
 	app->player_on_mini->instances[0].enabled = true;
-	if (mlx_image_to_window(app->mlx, app->minimap_img, app->window_width
-			- MINIMAP_SIZE - 10, 10) == -1)
+	if (mlx_image_to_window(app->mlx, app->minimap_img, 0, 0) == -1)
 		return (1);
-	if (mlx_image_to_window(app->mlx, app->player_on_mini, app->window_width
-			- MINIMAP_SIZE - 10 + app->player_on_mini->instances[0].x, 10
-			+ app->player_on_mini->instances[0].y) == -1)
+	if (mlx_image_to_window(app->mlx, app->player_on_mini, MINIMAP_SIZE / 2,
+			MINIMAP_SIZE / 2) == -1)
 		return (1);
 	return (0);
 }
@@ -97,6 +105,8 @@ void	_init_texture(t_texture *texture)
 
 int	_init_app(t_app *app)
 {
+	app->map_height = 6;
+	app->map_width = 5;
 	app->player.x = (float)app->player.start_x + PLAYER_SIZE;
 	app->player.y = (float)app->player.start_y + PLAYER_SIZE;
 	app->player.std_x = app->player.x;

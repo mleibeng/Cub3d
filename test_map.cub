@@ -2,8 +2,10 @@ NO ./textures/planks_x64_2.xpm
 SO ./textures/random-greenery-30.xpm
 WE ./textures/tile359.xpm
 EA ./textures/wall_64x64_0.xpm
+
 F 220,100,0
 C 225,30,0
+
 11111
 1W001
 10001
