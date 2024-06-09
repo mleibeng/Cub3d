@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/06/10 00:28:47 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/10 00:31:51 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,11 +118,6 @@ void draw_ray(t_app *app, t_tar *wall)
 
 	wall_start = (app->window_height - wall->wall_height) / 2;
 	wall_end = (app->window_height + wall->wall_height) / 2;
-	if (wall_start < 0)
-		wall_start = 0;
-	if (wall_end > app->window_height)
-		wall_end = app->window_height;
-	wall->color += shade;
 	sky_color = ft_pixel(app->textures->skybox[0], app->textures->skybox[1], app->textures->skybox[2], 150);
 	floor_color = ft_pixel(app->textures->floor[0], app->textures->floor[1], app->textures->floor[2], 150);
 
