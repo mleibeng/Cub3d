@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:42:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/09 10:29:55 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/10 00:00:20 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	init_minimap(t_app *app)
 	app->player_on_mini->instances[0].x = MINIMAP_SIZE / 2;
 	app->player_on_mini->instances[0].y = MINIMAP_SIZE / 2;
 	app->player_on_mini->instances[0].z = 10;
-	app->player_on_mini->instances[0].enabled = true;
+	app->player_on_mini->instances[0].enabled = false;
 	if (mlx_image_to_window(app->mlx, app->minimap_img, 0, 0) == -1)
 		return (1);
 	if (mlx_image_to_window(app->mlx, app->player_on_mini, MINIMAP_SIZE / 2,
@@ -80,7 +80,7 @@ int	init_compass(t_app *app)
 	if (app->compass->instances != NULL && app->compass->count > 0)
 	{
 		app->compass->instances[0].z = 10;
-		app->compass->instances[0].enabled = true;
+		app->compass->instances[0].enabled = false;
 
 	}
 	else
@@ -149,7 +149,7 @@ int	_init_app(t_app *app)
 	}
 	if (app->img->instances != NULL && app->img->count > 0)
 	{
-		app->img->instances[1].enabled = true;
+		app->img->instances[1].enabled = false;
 		app->img->instances[0].z = 5;
 	}
 	else
@@ -158,9 +158,6 @@ int	_init_app(t_app *app)
 		ft_printf("Error: img instances are not properly initialized.\n");
 		return (1);
 	}
-	if (mlx_image_to_window(app->mlx, app->img, 0, 0) == -1
-		|| init_compass(app) == 1)
-		return (1);
 	load_textures(app);
 	return (0);
 }

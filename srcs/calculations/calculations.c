@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:03:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/09 10:33:06 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/10 00:19:49 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,8 @@ void	calc_walls(t_app *app)
 	while (app->cur_ray < app->num_rays)
 	{
 		correction = app->cur_ray - app->num_rays / 2;
-		ray_angle = app->player.angle + atan(correction / app->num_rays * tan(app->fov / 1.5));
+		ray_angle = app->player.angle + atan(correction
+				/ app->num_rays * tan(app->fov / 1.5));
 		ray_angle = norm_ang(ray_angle);
 		wall.distance = cast_ray(app, ray_angle, &wall);
 		wall.wall_height = (int)(app->window_height / (wall.distance + 0.01f));

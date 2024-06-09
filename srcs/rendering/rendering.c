@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:00:43 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/09 16:24:01 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/10 00:23:27 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,12 @@ void	draw_textured_ray(t_app *app, t_tar *wall, xpm_t *tyle, int y_start, int y_
 	int		shade;
 
 	shade = 256 / (1.0 + wall->distance * 0.1);
-	texture_x = (int)(tyle->texture.width * wall->pos_x_cur_tyle);
+	texture_x = round(tyle->texture.width * wall->pos_x_cur_tyle);
 	y = y_start;
 	while (y < y_end)
 	{
 		percentage = (float)(y - y_start) / (y_end - y_start);
-		texture_y = (int)(tyle->texture.height * percentage);
+		texture_y = round(tyle->texture.height * percentage);
 		color = get_texture_pixel(&tyle->texture, texture_x, texture_y, shade);
 		if (app->cur_ray >= 0 && app->cur_ray < app->window_width
 			&& y >= 0 && y < app->window_height
@@ -117,10 +117,6 @@ void draw_ray(t_app *app, t_tar *wall)
 
 	wall_start = (app->window_height - wall->wall_height) / 2;
 	wall_end = (app->window_height + wall->wall_height) / 2;
-	if (wall_start < 0)
-		wall_start = 0;
-	if (wall_end > app->window_height)
-		wall_end = app->window_height;
 	sky_color = ft_pixel(app->textures->skybox[0], app->textures->skybox[1], app->textures->skybox[2], 150);
 	floor_color = ft_pixel(app->textures->floor[0], app->textures->floor[1], app->textures->floor[2], 150);
 
