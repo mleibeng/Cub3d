@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_input.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:49:06 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/10 00:14:04 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/10 01:33:45 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ void	direction_change_hook(t_app *app)
 		new_x = app->player.x + move_x;
 		new_y = app->player.y + move_y;
 		if (check_wall_collision(app, new_x, app->player.y) == 0)
-			app->player.x = norm_ang(new_x);
+			app->player.x = new_x;
 		if (check_wall_collision(app, app->player.x, new_y) == 0)
-			app->player.y = norm_ang(new_y);
+			app->player.y = new_y;
 	}
 	if (mlx_is_key_down(app->mlx, MLX_KEY_DOWN) && !mlx_is_key_down(app->mlx,
 			MLX_KEY_UP))
@@ -91,9 +91,9 @@ void	direction_change_hook(t_app *app)
 		new_x = app->player.x - move_x;
 		new_y = app->player.y - move_y;
 		if (check_wall_collision(app, new_x, app->player.y) == 0)
-			app->player.x = norm_ang(new_x);
+			app->player.x = new_x;
 		if (check_wall_collision(app, app->player.x, new_y) == 0)
-			app->player.y = norm_ang(new_y);
+			app->player.y = new_y;
 	}
 	// if (mlx_is_key_down(app->mlx, MLX_KEY_C) && key_pressed == 0)
 	// {
