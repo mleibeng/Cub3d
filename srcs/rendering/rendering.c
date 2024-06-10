@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rendering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/06/10 00:31:51 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/10 02:27:59 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void draw_part_ray(t_app *app, int start, int end, int32_t color, char dir)
 			&& y >= 0 && y < app->window_height)
 		{
 			new_color = (color & 0xFFFFFF00) | (uint8_t)(alpha * percentage);
+			if (app->cur_ray <= MINIMAP_SIZE && y <= MINIMAP_SIZE)
+				new_color = (color & 0xFFFFFF00);
 			mlx_put_pixel(app->img, app->cur_ray, y, new_color);
 		}
 		y++;
@@ -103,6 +105,8 @@ void	draw_textured_ray(t_app *app, t_tar *wall, xpm_t *tyle, int y_start, int y_
 			&& app->cur_ray > 0 && app->cur_ray < app->window_width
 			&& y > 0 && y < app->window_height)
 		{
+			if (app->cur_ray <= MINIMAP_SIZE && y <= MINIMAP_SIZE)
+				color = (color & 0xFFFFFF00);
 			mlx_put_pixel(app->img, app->cur_ray, y, color);
 		}
 		y++;
