@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rendering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/06/10 02:27:59 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/12 21:04:50 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 }
 
 //	function to draw a partial ray
-void draw_part_ray(t_app *app, int start, int end, int32_t color, char dir)
+void draw_sky_ceiling(t_app *app, int start, int end, int32_t color, char dir)
 {
 	int		y;
 	uint8_t	alpha;
@@ -49,11 +49,12 @@ void draw_part_ray(t_app *app, int start, int end, int32_t color, char dir)
 			percentage = 1.0f - ((float)(y - start) / (float)(app->window_height - start));
 		else
 		{
-			percentage = (float)(((float)(y - end) / y));
+			percentage = (float)(((float)(y - end) / y) * 0.9);
 		}
 		if (app->cur_ray >= 0 && app->cur_ray < app->window_width
 			&& y >= 0 && y < app->window_height)
 		{
+			new_color = ft_pixel(((color >> 24) & 0xFF), 1 + ((color >> 16) & 0xFF) * percentage, 1 + ((color >> 8) & 0xFF) * percentage, 0);
 			new_color = (color & 0xFFFFFF00) | (uint8_t)(alpha * percentage);
 			if (app->cur_ray <= MINIMAP_SIZE && y <= MINIMAP_SIZE)
 				new_color = (color & 0xFFFFFF00);
@@ -63,7 +64,7 @@ void draw_part_ray(t_app *app, int start, int end, int32_t color, char dir)
 	}
 }
 
-uint32_t get_texture_pixel(mlx_texture_t *texture, int x, int y, int shade)
+uint32_t	get_texture_pixel(mlx_texture_t *texture, int x, int y, int shade)
 {
 	int		index;
 	uint8_t	red;
@@ -84,16 +85,18 @@ uint32_t get_texture_pixel(mlx_texture_t *texture, int x, int y, int shade)
 }
 
 
-void	draw_textured_ray(t_app *app, t_tar *wall, xpm_t *tyle, int y_start, int y_end)
+void	draw_wall(t_app *app, t_tar *wall, int y_start, int y_end)
 {
 	int		y;
 	int		texture_x, texture_y;
 	int32_t	color;
 	float	percentage;
 	int		shade;
-
-	shade = 256 / (1.0 + wall->distance * 0.1);
-	texture_x = round(tyle->texture.width * wall->pos_x_cur_tyle);
+	xpm_t	*tyle;
+	double	factor = 1.0 - (wall->distance * 0.02);
+	tyle = get_text(app, wall->side);
+	shade = 256 / (1.0 + wall->distance * 0.03);
+	texture_x = tyle->texture.width * wall->pos_x_cur_tyle;
 	y = y_start;
 	while (y < y_end)
 	{
@@ -105,9 +108,14 @@ void	draw_textured_ray(t_app *app, t_tar *wall, xpm_t *tyle, int y_start, int y_
 			&& app->cur_ray > 0 && app->cur_ray < app->window_width
 			&& y > 0 && y < app->window_height)
 		{
-			if (app->cur_ray <= MINIMAP_SIZE && y <= MINIMAP_SIZE)
-				color = (color & 0xFFFFFF00);
-			mlx_put_pixel(app->img, app->cur_ray, y, color);
+			if (app->cur_ray >= MINIMAP_SIZE || y >= MINIMAP_SIZE)
+			{
+				(void)factor;
+				color = ft_pixel(((color >> 24) & 0xFF), ((color >> 16) & 0xFF) * factor, ((color >> 8) & 0xFF) * factor, color & 0xFF);
+				color += shade;
+				mlx_put_pixel(app->img, app->cur_ray, y, color);
+			}
+
 		}
 		y++;
 	}
@@ -122,13 +130,11 @@ void draw_ray(t_app *app, t_tar *wall)
 
 	wall_start = (app->window_height - wall->wall_height) / 2;
 	wall_end = (app->window_height + wall->wall_height) / 2;
-	sky_color = ft_pixel(app->textures->skybox[0], app->textures->skybox[1], app->textures->skybox[2], 150);
-	floor_color = ft_pixel(app->textures->floor[0], app->textures->floor[1], app->textures->floor[2], 150);
-
- 	// Draw sky
-	draw_part_ray(app, 0, wall_start - 1, sky_color, 'C');
-	// Draw textured wall
-	draw_textured_ray(app, wall, get_text(app, wall->side), wall_start, wall_end);
-	// Draw floor
-	draw_part_ray(app, wall_end, app->window_height, floor_color, 'F');
+	sky_color = ft_pixel(app->textures->skybox[0],
+			app->textures->skybox[1], app->textures->skybox[2], 150);
+	floor_color = ft_pixel(app->textures->floor[0],
+			app->textures->floor[1], app->textures->floor[2], 150);
+	draw_sky_ceiling(app, 0, wall_start - 1, sky_color, 'C');
+	draw_wall(app, wall, wall_start, wall_end);
+	draw_sky_ceiling(app, wall_end - 4, app->window_height, floor_color, 'F');
 }

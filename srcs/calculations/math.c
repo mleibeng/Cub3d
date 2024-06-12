@@ -1,0 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   math.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/11 18:22:29 by fkeitel           #+#    #+#             */
+/*   Updated: 2024/06/11 18:22:58 by fkeitel          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "cub3d.h"
+
+//	function to normalize an angle, so it stays in the range of 2 x PI
+float	norm_ang(float angle)
+{
+	while (angle < 0)
+		angle += 2 * M_PI;
+	while (angle >= 2 * M_PI)
+		angle -= 2 * M_PI;
+	return (angle);
+}
+
+double	get_fractional_part(double num)
+{
+	double	integral_part;
+	double	fractional_part;
+
+	fractional_part = modf(num, &integral_part);
+	return (fractional_part);
+}
