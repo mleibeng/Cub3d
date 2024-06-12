@@ -6,11 +6,19 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 18:22:29 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/11 18:22:58 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/12 21:44:00 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+//	rounds the fractional part of an float number down to an int
+int	ft_ro(float num)
+{
+	if (get_fractional_part(num) < 0.005f)
+		return (round(num));
+	return ((int)num);
+}
 
 //	function to normalize an angle, so it stays in the range of 2 x PI
 float	norm_ang(float angle)

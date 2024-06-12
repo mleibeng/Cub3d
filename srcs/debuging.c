@@ -3,24 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   debuging.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:39:07 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/09 00:41:09 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/12 22:02:10 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "cub3d.h"
 
-void print_map(char **map)
+//	function to print the map
+void	print_map(char **map)
 {
+	int	i;
+	int	j;
+
 	if (!map)
-		return;
-	int i = 0;
+		return ;
+	i = 0;
 	while (map[i] != NULL)
 	{
-		int j = 0;
+		j = 0;
 		while (map[i][j])
 		{
 			printf("%c ", map[i][j]);
@@ -32,35 +35,38 @@ void print_map(char **map)
 	printf("\n");
 }
 
-
-void print_walkedmap(int **map, int rows, int cols)
+//	function to print the parsed map
+void	print_walkedmap(int **map, int rows, int cols)
 {
-	if (!map)
-		return;
+	int	i;
+	int	j;
 
-	for (int i = 0; i < rows; i++)
+	if (!map)
+		return ;
+	i = 0;
+	while (i < rows)
 	{
 		if (!map[i])
 			break ;
-
-		for (int j = 0; j < cols; j++)
+		j = 0;
+		while (j < cols)
 		{
-			printf("%d ", map[i][j]);
+			printf("%d ", map[i][j++]);
 		}
 		printf("\n");
+		i++;
 	}
 	printf("\n");
 }
 
-
+//	print all informations from the main struct
 void	print_info(t_app *app)
 {
 	if (app == NULL)
 	{
 		printf("Struct is empty!\n");
-		return;
+		return ;
 	}
-	// Print the map
 	printf("\n-----Struct data-----\n\n");
 	if (app->map)
 	{
@@ -75,9 +81,8 @@ void	print_info(t_app *app)
 	if (app->minimap)
 	{
 		printf("Mini_map\n");
-		print_walkedmap(app->minimap,app->rows, app->cols);
+		print_walkedmap(app->minimap, app->rows, app->cols);
 	}
-	//Print the mlx and image information
 	if (app->mlx)
 		printf("mlx: %p\n", app->mlx);
 	if (app->img)
@@ -89,8 +94,8 @@ void	print_info(t_app *app)
 	if (app->compass)
 		printf("compass: %p\n", app->compass);
 	printf("\n");
-	//Print the texture information
-	if (app->textures) {
+	if (app->textures)
+	{
 		printf("textures:\n%p\n", app->textures);
 		if (app->textures->n_path)
 			printf("NO: %s\n", app->textures->n_path);
@@ -106,7 +111,6 @@ void	print_info(t_app *app)
 			app->textures->skybox[1], app->textures->skybox[2]);
 	}
 	printf("\n");
-	//Print the player information
 	printf("player:\nstart x: %d\n", app->player.start_x);
 	printf("start y: %d\n", app->player.start_y);
 	printf("x: %.2f\n", app->player.x);
@@ -116,17 +120,14 @@ void	print_info(t_app *app)
 	printf("std_angle: %.2f\n", app->player.std_angle);
 	printf("angle: %.2f\n", app->player.angle);
 	printf("\n");
-	//Print the window and map information
 	printf("window and map:\nwindow width: %d\n", app->window_width);
 	printf("window height: %d\n", app->window_height);
 	printf("map height: %d\n", app->map_height);
 	printf("map width: %d\n", app->map_width);
 	printf("\n");
-	//Print the FOV and ray information
 	printf("FOV: %f\n", app->fov);
 	printf("num rays: %d\n", app->num_rays);
 	printf("cur ray: %d\n", app->cur_ray);
-	//Print the check queue and walked map information
 	printf("check queue: %p\n", app->check_queue);
 	printf("cols: %d\n", app->cols);
 	printf("rows: %d\n", app->rows);

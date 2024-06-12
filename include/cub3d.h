@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/11 18:24:50 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/12 21:44:14 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,10 @@ typedef struct s_coord
 
 typedef struct s_tar
 {
-	float		target_x;
-	float		target_y;
+	float		tar_x;
+	float		tar_y;
 	float		distance;
-	int			hit_vertical;
+	int			hit;
 	int			wall_height;
 	int			side;
 	int			x;
@@ -166,6 +166,7 @@ float		norm_ang(float angle);
 //	line_algorithm.c
 void		draw_line(t_app *app, t_coord point_a, t_coord point_b);
 //	math.c
+int			ft_ro(float num);
 float		norm_ang(float angle);
 double		get_fractional_part(double num);
 
@@ -186,9 +187,17 @@ void		print_map(char **map);
 
 // ------------------------------ rendering ------------------------------------
 
+//	color_functions.c
+int32_t		ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
+void		mix_and_put_color(t_app *app, int32_t color,
+				float factor, int shade, int y);
+uint32_t	get_texture_pixel(mlx_texture_t *texture, int x, int y, int shade);
+xpm_t		*get_text(t_app *app, int side);
+
 //	rendering.c
 int32_t		ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
-void		draw_part_ray(t_app *app, int start, int end, int32_t color, char dir);
+void		draw_part_ray(t_app *app, int start, int end,
+				int32_t color, char dir);
 void		draw_ray(t_app *app, t_tar *wall);
 //	minimap.c
 int			init_minimap(t_app *app);

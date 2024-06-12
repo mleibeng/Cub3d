@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 23:01:46 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/10 00:17:05 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/12 21:47:43 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,5 +141,4 @@ void	display_minimap(t_app *app)
 {
 	clear_mini_map(app->minimap_img, BLACK);
 	draw_minimap(app);
-	// mlx_image_to_window(app->mlx, app->minimap_img, 0, 0);
 }

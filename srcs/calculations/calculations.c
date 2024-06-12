@@ -6,26 +6,19 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:03:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/12 20:56:59 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/12 21:49:06 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "cub3d.h"
 
+//	adjust the tyle direction based on the angle facing to the wall
 float	find_tyle_pos(t_tar *wall)
 {
-	if (wall->hit_vertical == 0)
-		return (get_fractional_part(wall->target_x));
+	if (wall->hit == 0)
+		return (get_fractional_part(wall->tar_x));
 	else
-		return (get_fractional_part(wall->target_y));
-}
-
-int	check_range(float num)
-{
-	if (get_fractional_part(num) < 0.005f)
-		return (round(num));
-	return ((int)num);
+		return (get_fractional_part(wall->tar_y));
 }
 
 //	function for raycasting the return value will be taken with the cos
@@ -35,81 +28,56 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 {
 	float	depth;
 	float	max_units;
-	double	hit_x;
-	double	hit_y;
-	float	step_size = 0.01f;
 	float	start;
 	float	end;
 
 	depth = 0.0f;
 	max_units = 1.0f * (int)fmax(app->rows * 1.3, app->cols * 1.3);
-	wall->hit_vertical = 0;
+	wall->hit = 0;
 	while (depth < max_units)
 	{
-		wall->target_x = app->player.x + depth * cos(ray_angle);
-		wall->target_y = app->player.y + depth * sin(ray_angle);
-		if (wall->target_y >= 0 && wall->target_x >= 0
-			&& wall->target_y <= app->rows && wall->target_x <= app->cols
-			&& app->walked_map[(check_range)(wall->target_y)][(check_range)(wall->target_x)] == 1)
-		{
-			break;
-		}
-		depth += step_size;
+		wall->tar_x = app->player.x + depth * cos(ray_angle);
+		wall->tar_y = app->player.y + depth * sin(ray_angle);
+		if (wall->tar_y >= 0 && wall->tar_x >= 0
+			&& wall->tar_y <= app->rows && wall->tar_x <= app->cols
+			&& app->walked_map[(ft_ro)(wall->tar_y)][(ft_ro)(wall->tar_x)] == 1)
+			break ;
+		depth += 0.01f;
 	}
-
-	start = depth - step_size;
+	start = depth - 0.01f;
 	end = depth;
-	while (end - start > 0.0005f)
+	while (end - start > 0.00005f)
 	{
 		depth = (start + end) / 2;
-		wall->target_x = app->player.x + depth * cos(ray_angle);
-		wall->target_y = app->player.y + depth * sin(ray_angle);
-		if (wall->target_y >= 0 && wall->target_x >= 0
-			&& wall->target_y <= app->rows && wall->target_x <= app->cols
-			&& app->walked_map[check_range(wall->target_y)][check_range(wall->target_x)] == 1)
-		{
+		wall->tar_x = app->player.x + depth * cos(ray_angle);
+		wall->tar_y = app->player.y + depth * sin(ray_angle);
+		if (wall->tar_y >= 0 && wall->tar_x >= 0
+			&& wall->tar_y <= app->rows && wall->tar_x <= app->cols
+			&& app->walked_map[ft_ro(wall->tar_y)][ft_ro(wall->tar_x)] == 1)
 			end = depth;
-		}
 		else
 			start = depth;
 	}
-	hit_x = fabs(wall->target_x - round(wall->target_x));
-	hit_y = fabs(wall->target_y - round(wall->target_y));
-	wall->hit_vertical = (hit_y - 0.0005f) > (hit_x - 0.002);
-	wall->pos_x_cur_tyle = find_tyle_pos(wall);
 	return (depth * cos(app->player.angle - ray_angle));
 }
 
 //	function to calculate which direction faces tile from players perpective
-void calc_side(float ray_angle, t_tar *wall, t_app *app)
+void	calc_side(float ray_angle, t_tar *wall)
 {
-    float dx = wall->target_x - app->player.x;
-    float dy = wall->target_y - app->player.y;
-
-    if (wall->hit_vertical)
-    {
-        if (dx == 0)
-        {
-            // Ray is parallel to the vertical wall
-            wall->side = (sin(ray_angle) > 0) ? 1 : 2; // East or West
-        }
-        else if (dx < 0)
-            wall->side = 1; // East
-        else
-            wall->side = 2; // West
-    }
-    else
-    {
-        if (dy == 0)
-        {
-            // Ray is parallel to the horizontal wall
-            wall->side = (cos(ray_angle) < 0) ? 3 : 4; // South or North
-        }
-        else if (dy < 0)
-            wall->side = 3; // South
-        else
-            wall->side = 4; // North
-    }
+	if (wall->hit == 1)
+	{
+		if (cos(ray_angle) > 0)
+			wall->side = 1;
+		else
+			wall->side = 2;
+	}
+	else
+	{
+		if (sin(ray_angle) > 0)
+			wall->side = 3;
+		else
+			wall->side = 4;
+	}
 }
 
 //	function to draw the lines of the map
@@ -128,8 +96,11 @@ void	calc_walls(t_app *app)
 				/ app->num_rays * tan(app->fov / 1.5));
 		ray_angle = norm_ang(ray_angle);
 		wall.distance = cast_ray(app, ray_angle, &wall);
+		wall.hit = (fabs(wall.tar_y - round(wall.tar_y)) - 0.0005f)
+			> (fabs(wall.tar_x - round(wall.tar_x)) - 0.002);
+		wall.pos_x_cur_tyle = find_tyle_pos(&wall);
 		wall.wall_height = (int)(app->window_height / (wall.distance + 0.01f));
-		calc_side(ray_angle, &wall, app);
+		calc_side(ray_angle, &wall);
 		draw_ray(app, &wall);
 		app->cur_ray++;
 	}

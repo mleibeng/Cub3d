@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:42:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/10 00:30:58 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/12 21:48:45 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_coord	init_coord(int point_x, int point_y, int32_t color)
 	return (new_coord);
 }
 
+//	function to initiliaze the start values of the minimap
 int	init_minimap(t_app *app)
 {
 	app->minimap_img = mlx_new_image(app->mlx, MINIMAP_SIZE, MINIMAP_SIZE);
@@ -65,7 +66,7 @@ void	_init_texture(t_texture *texture)
 	ft_memset(texture->skybox, 0, sizeof(texture->skybox));
 }
 
-void load_textures(t_app *app)
+void	load_textures(t_app *app)
 {
 	app->textures->n_text = mlx_load_xpm42(app->textures->n_path);
 	app->textures->s_text = mlx_load_xpm42(app->textures->s_path);
@@ -96,14 +97,10 @@ int	_init_app(t_app *app)
 		return (1);
 	app->img = mlx_new_image(app->mlx, app->window_width, app->window_height);
 	if (!app->img)
-	{
-		mlx_terminate(app->mlx);
-		return (1);
-	}
+		return (mlx_terminate(app->mlx), 1);
 	app->img->count = 1;
 	if (mlx_image_to_window(app->mlx, app->img, 0, 0) == -1 || init_compass(app)
 		|| init_minimap(app))
 		return (1);
-	load_textures(app);
-	return (0);
+	return (load_textures(app), 0);
 }

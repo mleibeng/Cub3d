@@ -6,29 +6,29 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/10 00:33:13 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/12 21:50:48 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "cub3d.h"
 
 //	main loop function, if there is a change in movement
 
-void    main_loop(void *param)
+void	main_loop(void *param)
 {
-    t_app   *app;
-    app = (t_app *)param;
-    user_input_hook(app);
-    mlx_delete_image(app->mlx, app->img);
-    app->img = mlx_new_image(app->mlx, app->window_width, app->window_height);
-    if (!app->img)
-        return ;
-    calc_walls(app);
-    if (mlx_image_to_window(app->mlx, app->img, 0, 0) == -1)
-        exit(1);
-    display_minimap(app);
-    display_compass(app, app->player.angle);
+	t_app	*app;
+
+	app = (t_app *)param;
+	user_input_hook(app);
+	mlx_delete_image(app->mlx, app->img);
+	app->img = mlx_new_image(app->mlx, app->window_width, app->window_height);
+	if (!app->img)
+		return ;
+	calc_walls(app);
+	if (mlx_image_to_window(app->mlx, app->img, 0, 0) == -1)
+		exit(1);
+	display_minimap(app);
+	display_compass(app, app->player.angle);
 }
 
 int	main(int argc, char **argv)
@@ -37,7 +37,8 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 		return (1);
-	if (!(app.map = map_validate(&app, argv[1])))
+	app.map = map_validate(&app, argv[1]);
+	if (!app.map)
 		return (1);
 	if (_init_app(&app))
 		return (1);
