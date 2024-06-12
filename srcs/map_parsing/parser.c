@@ -6,7 +6,7 @@
 /*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/13 00:34:16 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/13 00:39:33 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,7 +270,7 @@ int	check_column_bound(t_app *app)
 	j = 0;
 	while (j < app->cols)
 	{
-		if (app->walked_map[0][j] == 2)
+		if (app->walked_map[0][j] == 2 || app->walked_map[0][j] == 3)
 		{
 			perror("error in check_bounds: invalid 2 found\n");
 			free_queue(app);
@@ -281,7 +281,7 @@ int	check_column_bound(t_app *app)
 	j = 0;
 	while (j < app->cols)
 	{
-		if (app->walked_map[app->rows - 1][j] == 2)
+		if (app->walked_map[app->rows - 1][j] == 2 || app->walked_map[app->rows - 1][j] == 3)
 		{
 			perror("error in check_bounds: invalid 2 found\n");
 			free_queue(app);
@@ -299,7 +299,7 @@ int	check_row_bound(t_app *app)
 	i = 0;
 	while (i < app->rows)
 	{
-		if (app->walked_map[i][0] == 2)
+		if (app->walked_map[i][0] == 2 || app->walked_map[i][0] == 3)
 		{
 			perror("error in check_bounds: invalid 2 found\n");
 			free_queue(app);
@@ -310,7 +310,7 @@ int	check_row_bound(t_app *app)
 	i = 0;
 	while (i < app->rows)
 	{
-		if (app->walked_map[i][app->cols - 1] == 2)
+		if (app->walked_map[i][app->cols - 1] == 2 || app->walked_map[i][app->cols - 1] == 3)
 		{
 			perror("error in check_bounds: invalid 2 found\n");
 			free_queue(app);
@@ -342,6 +342,8 @@ int	fill_bounds(int next_x, int next_y, t_app *app, char **map)
 		}
 		else if (map[next_y][next_x] == '1')
 			app->walked_map[next_y][next_x] = 1;
+		else if (map[next_y][next_x] == 'D')
+			app->walked_map[next_y][next_x] = 3;
 		else
 		{
 			perror("error in fill_bounds\n");
