@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/10 00:37:18 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/13 00:34:16 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,16 +259,8 @@ void	f_player_start(t_app *app, char **map, int *player_x, int *player_y)
 
 void	free_queue(t_app *app)
 {
-	int	i;
-
-	i = -1;
-	free(app->check_queue);
-	while (i < app->rows)
-	{
-		free(app->walked_map[i]);
-		i++;
-	}
-	free(app->walked_map);
+	if(app->check_queue)
+		free(app->check_queue);
 }
 
 int	check_column_bound(t_app *app)
@@ -371,6 +363,8 @@ void	fill_minimap_bounds(char **map, int **mini_map, int *i, int *j)
 		else if (map[*i][*j] == 'N' || map[*i][*j] == 'W' || map[*i][*j] == 'S'
 			|| map[*i][*j] == 'E')
 			mini_map[*i][*j] = 2;
+		else if (map[*i][*j] == 'D')
+			mini_map[*i][*j] = 3;
 	}
 	else
 		mini_map[*i][*j] = 0;
@@ -402,7 +396,7 @@ int	fill_map(char **map, t_app *app, int *direct_x, int *direct_y)
 	}
 	if (!check_bounds(app))
 		return (perror("maperror"), 0);
-	// free_queue(app);
+	free_queue(app);
 	return (1);
 }
 
