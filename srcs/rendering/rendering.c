@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 21:50:08 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/12 22:01:08 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/13 14:36:58 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,5 @@ void	draw_ray(t_app *app, t_tar *wall)
 			app->textures->floor[1], app->textures->floor[2], 150);
 	draw_sky_ceiling(app, 0, wall_start - 1, sky_color, 'C');
 	draw_wall(app, wall, wall_start, wall_end);
-	draw_sky_ceiling(app, wall_end - 4, app->window_height, floor_color, 'F');
+	draw_sky_ceiling(app, wall_end, app->window_height, floor_color, 'F');
 }

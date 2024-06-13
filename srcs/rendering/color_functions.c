@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 21:35:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/12 21:41:08 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/13 13:42:06 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ void	mix_and_put_color(t_app *app, int32_t color, float factor, int shade, int y
 	g = ((color >> 16) & 0xFF) * factor;
 	b = ((color >> 8) & 0xFF) * factor;
 	a = (color & 0xFF);
-	if (app->cur_ray >= MINIMAP_SIZE || y >= MINIMAP_SIZE)
+	if ((app->cur_ray >= MINIMAP_SIZE || y >= MINIMAP_SIZE)
+		&& app->cur_ray > 0 && y > 0 && app->cur_ray < app->window_width
+		&& y < app->window_height)
 	{
 		color = ft_pixel(r, g, b, a) + shade;
 		mlx_put_pixel(app->img, app->cur_ray, y, color);
@@ -49,6 +51,8 @@ xpm_t	*get_text(t_app *app, int side)
 		return (app->textures->s_text);
 	else if (side == 4)
 		return (app->textures->w_text);
+	else if (side == 5)
+		return (app->textures->d_text);
 	return (NULL);
 }
 

@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:42:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/12 21:48:45 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/13 13:24:28 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	_init_texture(t_texture *texture)
 	texture->n_path = NULL;
 	texture->s_path = NULL;
 	texture->w_path = NULL;
+	texture->d_path = NULL;
 	ft_memset(texture->floor, 0, sizeof(texture->floor));
 	ft_memset(texture->skybox, 0, sizeof(texture->skybox));
 }
@@ -72,6 +73,7 @@ void	load_textures(t_app *app)
 	app->textures->s_text = mlx_load_xpm42(app->textures->s_path);
 	app->textures->e_text = mlx_load_xpm42(app->textures->e_path);
 	app->textures->w_text = mlx_load_xpm42(app->textures->w_path);
+	app->textures->d_text = mlx_load_xpm42(app->textures->d_path);
 	if (!app->textures->n_text)
 		printf("hello\n");
 }

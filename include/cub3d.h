@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/12 21:44:14 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/13 13:24:03 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ typedef struct s_texture
 	xpm_t		*e_text;
 	xpm_t		*s_text;
 	xpm_t		*w_text;
+	char		*d_path;
+	xpm_t		*d_text;
 	int			floor[3];
 	int			skybox[3];
 }				t_texture;

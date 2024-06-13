@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:03:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/12 21:49:06 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/13 14:56:04 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,16 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 	depth = 0.0f;
 	max_units = 1.0f * (int)fmax(app->rows * 1.3, app->cols * 1.3);
 	wall->hit = 0;
+	wall->tar_x = 0;
+	wall->tar_y = 0;
 	while (depth < max_units)
 	{
 		wall->tar_x = app->player.x + depth * cos(ray_angle);
 		wall->tar_y = app->player.y + depth * sin(ray_angle);
 		if (wall->tar_y >= 0 && wall->tar_x >= 0
 			&& wall->tar_y <= app->rows && wall->tar_x <= app->cols
-			&& app->walked_map[(ft_ro)(wall->tar_y)][(ft_ro)(wall->tar_x)] == 1)
+			&& (app->walked_map[(ft_ro)(wall->tar_y)][(ft_ro)(wall->tar_x)] == 1
+				|| app->walked_map[(ft_ro)(wall->tar_y)][(ft_ro)(wall->tar_x)] == 3))
 			break ;
 		depth += 0.01f;
 	}
@@ -52,9 +55,15 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 		wall->tar_x = app->player.x + depth * cos(ray_angle);
 		wall->tar_y = app->player.y + depth * sin(ray_angle);
 		if (wall->tar_y >= 0 && wall->tar_x >= 0
-			&& wall->tar_y <= app->rows && wall->tar_x <= app->cols
-			&& app->walked_map[ft_ro(wall->tar_y)][ft_ro(wall->tar_x)] == 1)
-			end = depth;
+			&& wall->tar_y <= app->rows && wall->tar_x <= app->cols)
+		{
+			if (app->walked_map[(int)fabsf(wall->tar_y)][(int)fabsf(wall->tar_x)] == 1)
+				wall->hit = 0, end = depth;
+			else if (app->walked_map[(int)fabsf(wall->tar_y)][(int)fabsf(wall->tar_x)] == 3)
+				wall->hit = 2, end = depth;
+			else
+				start = depth;
+		}
 		else
 			start = depth;
 	}
@@ -70,6 +79,10 @@ void	calc_side(float ray_angle, t_tar *wall)
 			wall->side = 1;
 		else
 			wall->side = 2;
+	}
+	else if (wall->hit == 2)
+	{
+		wall->side = 5;
 	}
 	else
 	{
@@ -96,12 +109,14 @@ void	calc_walls(t_app *app)
 				/ app->num_rays * tan(app->fov / 1.5));
 		ray_angle = norm_ang(ray_angle);
 		wall.distance = cast_ray(app, ray_angle, &wall);
-		wall.hit = (fabs(wall.tar_y - round(wall.tar_y)) - 0.0005f)
-			> (fabs(wall.tar_x - round(wall.tar_x)) - 0.002);
+		if (wall.hit == 0)
+			wall.hit = (fabs(wall.tar_y - roundf(wall.tar_y)) - 0.0005f)
+				> (fabs(wall.tar_x - roundf(wall.tar_x)) - 0.002);
 		wall.pos_x_cur_tyle = find_tyle_pos(&wall);
 		wall.wall_height = (int)(app->window_height / (wall.distance + 0.01f));
 		calc_side(ray_angle, &wall);
 		draw_ray(app, &wall);
+		wall.hit = 0;
 		app->cur_ray++;
 	}
 }

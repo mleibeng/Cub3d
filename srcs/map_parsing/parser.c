@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/13 00:39:33 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/13 13:32:17 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	parse_textures(int fd, t_texture *texture)
 	char	*line;
 
 	while ((!texture->e_path || !texture->w_path || !texture->s_path
-			|| !texture->n_path) && (line = get_cut_next_line(fd)))
+			|| !texture->n_path || !texture->d_path) && (line = get_cut_next_line(fd)))
 	{
 		if (ft_strlen(line) > 0)
 		{
@@ -38,6 +38,8 @@ void	parse_textures(int fd, t_texture *texture)
 				texture->s_path = ft_strdup(line + 3);
 			else if (!ft_strncmp(line, "EA ", 3))
 				texture->e_path = ft_strdup(line + 3);
+			else if (!ft_strncmp(line, "DO ", 3))
+				texture->d_path = ft_strdup(line + 3);
 		}
 		free(line);
 	}
@@ -184,6 +186,8 @@ void	free_textures(t_texture *textures)
 		free(textures->w_path);
 	if (textures->s_path)
 		free(textures->s_path);
+	if (textures->d_path)
+		free(textures->d_path);
 	free(textures);
 }
 
