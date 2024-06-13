@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/13 21:32:44 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/14 00:06:34 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	free_all_resources(t_app *app)
 		app->minimap = NULL;
 	}
 	free_textures(app->textures);
+	free(app->weapon);
 }
 
 void	draw_weapon(t_app *app)
