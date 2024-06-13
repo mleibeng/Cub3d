@@ -3,16 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/12 21:50:48 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/13 19:52:37 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 //	main loop function, if there is a change in movement
+
+void	free_all_resources(t_app *app)
+{
+	if (app->map)
+	{
+		free_map((void **)app->map);
+		app->map = NULL;
+	}
+	// if (app->walked_map)
+	// {
+	// 	free_map((void**)app->walked_map);
+	// 	app->walked_map = NULL;
+	// }
+	// if (app->minimap)
+	// {
+	// 	free_map((void**)app->minimap);
+	// 	app->minimap = NULL;
+	// }
+	if (app->textures)
+	{
+		free(app->textures);
+	}
+}
 
 void	main_loop(void *param)
 {
@@ -52,6 +75,7 @@ int	main(int argc, char **argv)
 		mlx_delete_image(app.mlx, app.minimap_img);
 		mlx_delete_image(app.mlx, app.compass);
 		mlx_terminate(app.mlx);
+		free_all_resources(&app);
 	}
 	return (0);
 }

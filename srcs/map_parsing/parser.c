@@ -3,30 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/13 13:32:17 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/13 19:41:33 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	emergency_exit(void *malloc)
+void	free_textures(t_texture *textures)
 {
-	if (!malloc)
+	if (textures->n_path)
+		free(textures->n_path);
+	if (textures->e_path)
+		free(textures->e_path);
+	if (textures->w_path)
+		free(textures->w_path);
+	if (textures->s_path)
+		free(textures->s_path);
+	if (textures->d_path)
+		free(textures->d_path);
+	free(textures);
+}
+
+void	emergency_exit(t_app *app, t_texture *texture, char **map)
+{
+	if (texture)
+		free_textures(texture);
+	if (map)
+		free_map((void **)map);
+	if (app)
 	{
-		perror("Memory alloc fail");
-		exit(1);
+		if (app->walked_map)
+			free_map((void **)app->walked_map);
+		if (app->minimap)
+			free_map((void **)app->minimap);
+		if (app->check_queue)
+			free(app->check_queue);
 	}
+	perror("Memory allocation failure or other error");
+	exit(EXIT_FAILURE);
 }
 
 void	parse_textures(int fd, t_texture *texture)
 {
 	char	*line;
 
+	line = NULL;
 	while ((!texture->e_path || !texture->w_path || !texture->s_path
-			|| !texture->n_path || !texture->d_path) && (line = get_cut_next_line(fd)))
+			|| !texture->n_path || !texture->d_path)
+		&& (line = get_cut_next_line(fd)))
 	{
 		if (ft_strlen(line) > 0)
 		{
@@ -46,7 +73,7 @@ void	parse_textures(int fd, t_texture *texture)
 	if (!line)
 	{
 		perror("invalid filestop at texture readin");
-		emergency_exit(line);
+		emergency_exit(NULL, texture, NULL);
 	}
 }
 
@@ -93,6 +120,7 @@ void	parse_floor_ceiling(int fd, t_texture *texture)
 {
 	char	*line;
 
+	line = NULL;
 	while ((!texture->floor[0] || !texture->skybox[0])
 		&& (line = get_cut_next_line(fd)))
 	{
@@ -106,10 +134,7 @@ void	parse_floor_ceiling(int fd, t_texture *texture)
 		free(line);
 	}
 	if (!line)
-	{
-		perror("invalid filestop at floor/ceiling parse");
-		exit(1);
-	}
+		emergency_exit(NULL, texture, NULL);
 }
 
 void	parse_map(char *line, char ***map, int *rows, int *columns)
@@ -119,10 +144,18 @@ void	parse_map(char *line, char ***map, int *rows, int *columns)
 		if (*rows == 0)
 		{
 			*map = malloc(MAX_LINE_LENGTH * sizeof(char *));
-			emergency_exit(*map);
+			if (!*map)
+			{
+				free(line);
+				emergency_exit(NULL, NULL, *map);
+			}
 		}
 		(*map)[*rows] = malloc((ft_strlen(line) + 1) * sizeof(char));
-		emergency_exit((*map)[*rows]);
+		if (!(*map)[*rows])
+		{
+			free(line);
+			emergency_exit(NULL, NULL, *map);
+		}
 		ft_strlcpy((*map)[*rows], line, ft_strlen(line) + 1);
 		if ((int)ft_strlen(line) > *columns)
 			*columns = (int)ft_strlen(line);
@@ -134,31 +167,40 @@ void	parse_map(char *line, char ***map, int *rows, int *columns)
 t_texture	*read_map(char *file, char ***map, int *rows, int *columns)
 {
 	int			fd;
-	char		*line;
 	t_texture	*texture;
+	char		*line;
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		return (perror("Error opening file"), NULL);
+	{
+		perror("Error opening file");
+		return (NULL);
+	}
 	texture = malloc(sizeof(t_texture));
-	emergency_exit(texture);
+	if (!texture)
+	{
+		close(fd);
+		emergency_exit(NULL, NULL, NULL);
+	}
 	_init_texture(texture);
 	parse_textures(fd, texture);
 	parse_floor_ceiling(fd, texture);
+	line = NULL;
 	while ((line = get_cut_next_line(fd)))
 		parse_map(line, map, rows, columns);
-	(*map)[*rows] = NULL;
+	if (*rows > 0)
+		(*map)[*rows] = NULL;
 	close(fd);
 	return (texture);
 }
 
 int	is_valid(char c)
 {
-	return (c == '0' || c == '1' || c == 'N' || c == 'S' || c == 'W'
-		|| c == 'E' || c == 'D');
+	return (c == '0' || c == '1' || c == 'N' || c == 'S' || c == 'W' || c == 'E'
+		|| c == 'D');
 }
 
-void	free_map(char **map)
+void	free_map(void **map)
 {
 	int	i;
 
@@ -176,38 +218,23 @@ void	free_map(char **map)
 	map = NULL;
 }
 
-void	free_textures(t_texture *textures)
-{
-	if (textures->n_path)
-		free(textures->n_path);
-	if (textures->e_path)
-		free(textures->e_path);
-	if (textures->w_path)
-		free(textures->w_path);
-	if (textures->s_path)
-		free(textures->s_path);
-	if (textures->d_path)
-		free(textures->d_path);
-	free(textures);
-}
-
-int	character_validation(char **map, int *rows, t_texture *textures)
+int	character_validation(char **map, int rows, t_texture *textures)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while (i < *rows)
+	while (i < rows)
 	{
 		j = 0;
 		while (j < (int)ft_strlen(map[i]) - 1)
 		{
 			if (ft_isspace(map[i][j]))
-				j++;
+				continue ;
 			if (!is_valid(map[i][j]))
 			{
-				perror("invalid char inside of map");
-				free_map(map);
+				perror("Invalid character inside map");
+				free_map((void **)map);
 				free_textures(textures);
 				return (1);
 			}
@@ -263,7 +290,7 @@ void	f_player_start(t_app *app, char **map, int *player_x, int *player_y)
 
 void	free_queue(t_app *app)
 {
-	if(app->check_queue)
+	if (app->check_queue)
 		free(app->check_queue);
 }
 
@@ -285,7 +312,8 @@ int	check_column_bound(t_app *app)
 	j = 0;
 	while (j < app->cols)
 	{
-		if (app->walked_map[app->rows - 1][j] == 2 || app->walked_map[app->rows - 1][j] == 3)
+		if (app->walked_map[app->rows - 1][j] == 2 || app->walked_map[app->rows
+			- 1][j] == 3)
 		{
 			perror("error in check_bounds: invalid 2 found\n");
 			free_queue(app);
@@ -314,7 +342,8 @@ int	check_row_bound(t_app *app)
 	i = 0;
 	while (i < app->rows)
 	{
-		if (app->walked_map[i][app->cols - 1] == 2 || app->walked_map[i][app->cols - 1] == 3)
+		if (app->walked_map[i][app->cols - 1] == 2
+			|| app->walked_map[i][app->cols - 1] == 3)
 		{
 			perror("error in check_bounds: invalid 2 found\n");
 			free_queue(app);
@@ -408,16 +437,29 @@ int	fill_map(char **map, t_app *app, int *direct_x, int *direct_y)
 
 int	**create_map(int rows, int columns)
 {
-	int		i;
-	int		**map;
+	int	i;
+	int	**map;
 
 	i = 0;
 	map = malloc(rows * sizeof(int *));
-	emergency_exit(map);
+	if (!map)
+	{
+		perror("Memory allocation failed for map");
+		exit(1);
+	}
 	while (i < rows)
 	{
 		map[i] = ft_calloc(columns, sizeof(int));
-		emergency_exit(map[i]);
+		if (!map[i])
+		{
+			perror("Memory allocation failed for map row");
+			while (i-- > 0)
+			{
+				free(map[i]);
+			}
+			free(map);
+			exit(1);
+		}
 		i++;
 	}
 	return (map);
@@ -449,27 +491,39 @@ int	closed_map(char **map, int rows, int columns, t_app *app)
 	app->walked_map = create_map(rows, columns);
 	app->minimap = create_map(rows, columns);
 	app->check_queue = malloc(rows * columns * sizeof(t_vec));
-	emergency_exit(app->check_queue);
+	if (!app->check_queue)
+	{
+		perror("Memory allocation failed for check_queue");
+		free_map((void **)app->walked_map);
+		free_map((void **)app->minimap);
+		exit(1);
+	}
 	fill_minimap(map, app->minimap, rows, columns);
-	return (fill_map(map, app, direct_x, direct_y));
+	if (!fill_map(map, app, direct_x, direct_y))
+	{
+		free_map((void **)app->walked_map);
+		free_map((void **)app->minimap);
+		return (0);
+	}
+	return (1);
 }
 
-void	_validate_field(char **map, int *rows, int *columns, t_app *app)
+void	_validate_field(char **map, int rows, int columns, t_app *app)
 {
 	f_player_start(app, map, &app->player.start_x, &app->player.start_y);
 	if (app->player.start_y == -1)
 	{
-		perror("no player found");
-		free_map(map);
+		perror("No player found");
+		free_map((void **)map);
 		free_textures(app->textures);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
-	if (!closed_map(map, *rows, *columns, app))
+	if (!closed_map(map, rows, columns, app))
 	{
-		perror("map has leaky walls...");
-		free_map(map);
+		perror("Map has leaky walls");
+		free_map((void **)map);
 		free_textures(app->textures);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -479,22 +533,22 @@ char	**map_validate(t_app *app, char *file)
 	int		columns;
 	char	**map;
 
-	map = NULL;
 	rows = 0;
 	columns = 0;
+	map = NULL;
 	app->textures = read_map(file, &map, &rows, &columns);
 	if (!app->textures)
 	{
 		perror("Error in textures");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
-	if (character_validation(map, &rows, app->textures))
+	if (character_validation(map, rows, app->textures))
 	{
-		perror("Error in char_validation");
-		exit(1);
+		perror("Error in character validation");
+		exit(EXIT_FAILURE);
 	}
 	app->cols = columns;
 	app->rows = rows;
-	_validate_field(map, &rows, &columns, app);
+	_validate_field(map, rows, columns, app);
 	return (map);
 }

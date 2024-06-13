@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+         #
+#    By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/04 14:26:27 by fkeitel           #+#    #+#              #
-#    Updated: 2024/06/06 12:01:30 by fkeitel          ###   ########.fr        #
+#    Updated: 2024/06/13 19:46:50 by mleibeng         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME := cub3d
 BONUS_NAME := cub3d_bonus
-CFLAGS := -Wall -Wextra -Werror -Wunreachable-code -Ofast
+CFLAGS := -Wall -Wextra -Werror -Wunreachable-code -Ofast -g
 LIBMLX := ./MLX42
 LIBMLX_URL := https://github.com/codam-coding-college/MLX42.git
 LIBFT_DIR := libft

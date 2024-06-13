@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/13 13:24:03 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/13 19:23:56 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@
 # define PLAYER_MOVE_SPEED 0.03
 # define PLAYER_ROTATE_SPEED 0.06
 # define PLAYER_SIZE 0.1
+
+/*--------------------------------- Macros ---------------------------------- */
 
 /* -------------------------------- structs --------------------------------- */
 
@@ -110,8 +112,8 @@ typedef struct s_texture
 	xpm_t		*w_text;
 	char		*d_path;
 	xpm_t		*d_text;
-	int			floor[3];
-	int			skybox[3];
+	int			floor[4];
+	int			skybox[4];
 }				t_texture;
 
 typedef struct s_minimap
@@ -162,61 +164,63 @@ typedef struct s_app
 // ----------------------------- calculations ----------------------------------
 
 //	calculations.c
-float		cast_ray(t_app *app, float ray_angle, t_tar *wall);
-void		calc_walls(t_app *app);
-float		norm_ang(float angle);
+float			cast_ray(t_app *app, float ray_angle, t_tar *wall);
+void			calc_walls(t_app *app);
+float			norm_ang(float angle);
 //	line_algorithm.c
-void		draw_line(t_app *app, t_coord point_a, t_coord point_b);
+void			draw_line(t_app *app, t_coord point_a, t_coord point_b);
 //	math.c
-int			ft_ro(float num);
-float		norm_ang(float angle);
-double		get_fractional_part(double num);
+int				ft_ro(float num);
+float			norm_ang(float angle);
+double			get_fractional_part(double num);
 
 // -------------------------------- init.c -------------------------------------
 
 //	init.c
-t_coord		init_coord(int point_x, int point_y, int32_t color);
-int			init_compass(t_app *app);
-void		_init_texture(t_texture *texture);
-int			_init_app(t_app *app);
+t_coord			init_coord(int point_x, int point_y, int32_t color);
+int				init_compass(t_app *app);
+void			_init_texture(t_texture *texture);
+int				_init_app(t_app *app);
 
 // ----------------------------- map_parsing -----------------------------------
 
 //	map_parsing.c
-char		**map_validate(t_app *app, char *file);
-void		print_walkedmap(int **map, int rows, int cols);
-void		print_map(char **map);
+char			**map_validate(t_app *app, char *file);
+void			print_walkedmap(int **map, int rows, int cols);
+void			print_map(char **map);
+void			free_map(void **map);
 
 // ------------------------------ rendering ------------------------------------
 
 //	color_functions.c
-int32_t		ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
-void		mix_and_put_color(t_app *app, int32_t color,
-				float factor, int shade, int y);
-uint32_t	get_texture_pixel(mlx_texture_t *texture, int x, int y, int shade);
-xpm_t		*get_text(t_app *app, int side);
+int32_t			ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
+void			mix_and_put_color(t_app *app, int32_t color, float factor,
+					int shade, int y);
+uint32_t		get_texture_pixel(mlx_texture_t *texture, int x, int y,
+					int shade);
+xpm_t			*get_text(t_app *app, int side);
 
 //	rendering.c
-int32_t		ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
-void		draw_part_ray(t_app *app, int start, int end,
-				int32_t color, char dir);
-void		draw_ray(t_app *app, t_tar *wall);
+int32_t			ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
+void			draw_part_ray(t_app *app, int start, int end, int32_t color,
+					char dir);
+void			draw_ray(t_app *app, t_tar *wall);
 //	minimap.c
-int			init_minimap(t_app *app);
+int				init_minimap(t_app *app);
 //	compass.c
-void		display_compass(t_app *app, float player_angle);
-void		display_minimap(t_app *app);
+void			display_compass(t_app *app, float player_angle);
+void			display_minimap(t_app *app);
 // ------------------------------ user input -----------------------------------
 
 //	key_input.c
-void		key_hook(mlx_key_data_t keydata, void *param);
-void		direction_change_hook(t_app *app);
-void		view_change_hook(t_app *app);
+void			key_hook(mlx_key_data_t keydata, void *param);
+void			direction_change_hook(t_app *app);
+void			view_change_hook(t_app *app);
 //	mouse_input.c
-int			mouse_shift(t_app *app);
+int				mouse_shift(t_app *app);
 //		user_input.c
-void		user_input_hook(t_app *app);
+void			user_input_hook(t_app *app);
 
 // ------------------------------  debugging -----------------------------------
-void		print_info(t_app *app);
+void			print_info(t_app *app);
 #endif
