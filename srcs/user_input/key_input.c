@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_input.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:49:06 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/12 21:46:23 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/13 18:21:29 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 {
 	t_app		*app;
 	t_player	player;
+	float		new_x;
+	float		new_y;
+	int			door_x;
+	int			door_y;
 
 	app = (t_app *)param;
 	if (!app)
@@ -37,6 +41,16 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 		player.x = player.std_x;
 		player.y = player.std_y;
 		player.angle = player.std_angle;
+	}
+	if (keydata.key == MLX_KEY_X && keydata.action == MLX_PRESS)
+	{
+		// This part doesnt work...
+		new_x = app->player.x - PLAYER_MOVE_SPEED * cos(app->player.angle);
+		new_y = app->player.y - PLAYER_MOVE_SPEED * sin(app->player.angle);
+		door_x = (int)new_x;
+		door_y = (int)new_y;
+		if (app->walked_map[door_y][door_x] == 3)
+			app->walked_map[door_y][door_x] = 4;
 	}
 }
 
@@ -59,14 +73,18 @@ int	check_wall_collision(t_app *app, float new_x, float new_y)
 		|| app->walked_map[max_y][min_x] == 1
 		|| app->walked_map[max_y][max_x] == 1)
 		return (1);
+	if (app->walked_map[min_y][min_x] == 3 || app->walked_map[min_y][max_x] == 3
+		|| app->walked_map[max_y][min_x] == 3
+		|| app->walked_map[max_y][max_x] == 3)
+		return (2);
 	return (0);
 }
 
 //	this function calculates the shift of the coordinates with W and S keys
 void	direction_change_hook(t_app *app)
 {
-	float		new_x;
-	float		new_y;
+	float	new_x;
+	float	new_y;
 
 	if (mlx_is_key_down(app->mlx, MLX_KEY_UP) && !mlx_is_key_down(app->mlx,
 			MLX_KEY_DOWN))
