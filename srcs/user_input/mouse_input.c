@@ -6,29 +6,29 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 08:40:59 by flo               #+#    #+#             */
-/*   Updated: 2024/06/13 22:15:56 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/14 01:47:58 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 //	checks if the mouse button clicked and the pointer in the image
-int	check_mouse_clicked(t_app *app, int x, int y, enum mouse_key key)
+int check_mouse_clicked(t_app *app, int x, int y, enum mouse_key key)
 {
+	usleep(100);
 	if (mlx_is_mouse_down(app->mlx, key))
 	{
-		if (x > 0 && x < app->window_width && y > 0 && y < app->window_height)
-		{
-			return (1);
-		}
 		if (x > 0 && x < app->window_width && y > 0 && y < app->window_height)
 		{
 			app->weapon->state = ACTIVE;
 			return (1);
 		}
 	}
+	usleep(100);
+	app->weapon->state = HOLSTERED;
 	return (0);
 }
+
 
 //	calculates the shift of the rotation, with the left button clicked
 int	mouse_shift(t_app *app)
