@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/13 20:43:04 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/13 21:32:44 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,28 @@ void	free_all_resources(t_app *app)
 	}
 	if (app->walked_map)
 	{
-		free_map((void**)app->walked_map);
+		free_map((void **)app->walked_map);
 		app->walked_map = NULL;
 	}
 	if (app->minimap)
 	{
-		free_map((void**)app->minimap);
+		free_map((void **)app->minimap);
 		app->minimap = NULL;
 	}
 	free_textures(app->textures);
+}
+
+void	draw_weapon(t_app *app)
+{
+	if (app->weapon->state == ACTIVE)
+	{
+		app->weapon->y -= 10;
+		if (app->weapon->y < app->window_height / 2)
+		{
+			app->weapon->state = HOLSTERED;
+			app->weapon->y = app->window_height - app->weapon->sprite->height;
+		}
+	}
 }
 
 void	main_loop(void *param)
@@ -49,6 +62,7 @@ void	main_loop(void *param)
 		exit(1);
 	display_minimap(app);
 	display_compass(app, app->player.angle);
+	draw_weapon(app);
 }
 
 int	main(int argc, char **argv)

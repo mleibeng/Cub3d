@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 08:40:59 by flo               #+#    #+#             */
-/*   Updated: 2024/06/13 20:42:39 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/13 22:15:56 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ int	check_mouse_clicked(t_app *app, int x, int y, enum mouse_key key)
 	{
 		if (x > 0 && x < app->window_width && y > 0 && y < app->window_height)
 		{
+			return (1);
+		}
+		if (x > 0 && x < app->window_width && y > 0 && y < app->window_height)
+		{
+			app->weapon->state = ACTIVE;
 			return (1);
 		}
 	}

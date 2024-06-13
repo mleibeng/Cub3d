@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/13 20:40:43 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/13 21:40:47 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,21 @@ typedef struct s_player
 	float		angle;
 }				t_player;
 
+typedef enum s_state
+{
+	HOLSTERED,
+	ACTIVE
+}				t_state;
+
+typedef struct s_weapon
+{
+	mlx_image_t *img;
+	mlx_texture_t	*sprite;
+	int			x;
+	int			y;
+	t_state		state;
+}				t_weapon;
+
 typedef struct s_texture
 {
 	char		*n_path;
@@ -134,6 +149,7 @@ typedef struct s_app
 	mlx_image_t	*compass;
 	mlx_image_t	*minimap_img;
 	mlx_image_t	*player_on_mini;
+	t_weapon	*weapon;
 	t_texture	*textures;
 	int			needle_x;
 	int			needle_y;
@@ -190,6 +206,7 @@ void			print_walkedmap(int **map, int rows, int cols);
 void			print_map(char **map);
 void			free_map(void **map);
 void			free_textures(t_texture *textures);
+void			free_all_resources(t_app *app);
 
 // ------------------------------ rendering ------------------------------------
 
