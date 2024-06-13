@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/13 19:52:37 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/13 20:43:04 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,17 @@ void	free_all_resources(t_app *app)
 		free_map((void **)app->map);
 		app->map = NULL;
 	}
-	// if (app->walked_map)
-	// {
-	// 	free_map((void**)app->walked_map);
-	// 	app->walked_map = NULL;
-	// }
-	// if (app->minimap)
-	// {
-	// 	free_map((void**)app->minimap);
-	// 	app->minimap = NULL;
-	// }
-	if (app->textures)
+	if (app->walked_map)
 	{
-		free(app->textures);
+		free_map((void**)app->walked_map);
+		app->walked_map = NULL;
 	}
+	if (app->minimap)
+	{
+		free_map((void**)app->minimap);
+		app->minimap = NULL;
+	}
+	free_textures(app->textures);
 }
 
 void	main_loop(void *param)

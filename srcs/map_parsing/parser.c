@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/13 19:41:33 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/13 20:39:17 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,16 +205,19 @@ void	free_map(void **map)
 	int	i;
 
 	i = 0;
-	while (map[i])
+	if (map)
 	{
-		if (map[i])
+		while (map[i])
 		{
-			free(map[i]);
-			map[i] = NULL;
+			if (map[i])
+			{
+				free(map[i]);
+				map[i] = NULL;
+			}
+			i++;
 		}
-		i++;
+		free(map);
 	}
-	free(map);
 	map = NULL;
 }
 
@@ -441,12 +444,9 @@ int	**create_map(int rows, int columns)
 	int	**map;
 
 	i = 0;
-	map = malloc(rows * sizeof(int *));
+	map = malloc((rows + 1) * sizeof(int *));
 	if (!map)
-	{
-		perror("Memory allocation failed for map");
-		exit(1);
-	}
+		return NULL;
 	while (i < rows)
 	{
 		map[i] = ft_calloc(columns, sizeof(int));
@@ -454,14 +454,13 @@ int	**create_map(int rows, int columns)
 		{
 			perror("Memory allocation failed for map row");
 			while (i-- > 0)
-			{
 				free(map[i]);
-			}
 			free(map);
 			exit(1);
 		}
 		i++;
 	}
+	map[rows] = NULL;
 	return (map);
 }
 

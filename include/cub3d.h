@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/13 19:23:56 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/13 20:40:43 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,7 @@ char			**map_validate(t_app *app, char *file);
 void			print_walkedmap(int **map, int rows, int cols);
 void			print_map(char **map);
 void			free_map(void **map);
+void			free_textures(t_texture *textures);
 
 // ------------------------------ rendering ------------------------------------
 

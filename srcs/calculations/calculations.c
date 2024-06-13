@@ -6,13 +6,13 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:03:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/13 18:24:57 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/13 20:41:00 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-//	adjust the tyle direction based on the angle facing to the wall
+// adjust the tyle direction based on the angle facing to the wall
 float	find_tyle_pos(t_tar *wall)
 {
 	if (wall->hit == 0)
