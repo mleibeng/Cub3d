@@ -3,29 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   mouse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 08:40:59 by flo               #+#    #+#             */
-/*   Updated: 2024/06/14 01:47:58 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/14 19:26:36 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 //	checks if the mouse button clicked and the pointer in the image
-int check_mouse_clicked(t_app *app, int x, int y, enum mouse_key key)
+int	check_mouse_clicked(t_app *app, int x, int y, enum mouse_key key)
 {
-	usleep(100);
 	if (mlx_is_mouse_down(app->mlx, key))
 	{
+		if (key == MLX_MOUSE_BUTTON_RIGHT && app->weapon->state == ACTIVE)
+		{
+			mlx_set_mouse_pos(app->mlx, app->window_width / 2, app->window_height / 2);
+			app->weapon->state = HOLSTERED;
+			return (1);
+		}
 		if (x > 0 && x < app->window_width && y > 0 && y < app->window_height)
 		{
-			app->weapon->state = ACTIVE;
+			if (key == MLX_MOUSE_BUTTON_LEFT)
+				app->weapon->state = ACTIVE;
 			return (1);
 		}
 	}
-	usleep(100);
-	app->weapon->state = HOLSTERED;
 	return (0);
 }
 
@@ -34,23 +38,28 @@ int check_mouse_clicked(t_app *app, int x, int y, enum mouse_key key)
 int	mouse_shift(t_app *app)
 {
 	static int	previous_x = -1;
+	static int	mouse_set = 0;
 	int			x;
 	int			y;
-	int			change_x;
 
 	mlx_get_mouse_pos(app->mlx, &x, &y);
-	if (check_mouse_clicked(app, x, y, MLX_MOUSE_BUTTON_LEFT) == 1)
+	if (check_mouse_clicked(app, x, y, MLX_MOUSE_BUTTON_LEFT) == 1
+		&& mouse_set == 0)
+	{
+		mlx_set_mouse_pos(app->mlx, app->window_width / 2,
+			app->window_height / 2);
+		mouse_set = 1;
+	}
+	if (check_mouse_clicked(app, x, y, MLX_MOUSE_BUTTON_RIGHT) == 1
+		&& mouse_set == 1)
+		mouse_set = 0;
+	if (mouse_set == 1)
 	{
 		if (previous_x != -1 && previous_x != x)
-		{
-			change_x = x - previous_x;
-			app->player.angle += change_x * 0.005;
-		}
+			app->player.angle += (x - previous_x) * 0.005;
 		previous_x = x;
 	}
 	else
-	{
 		previous_x = -1;
-	}
 	return (0);
 }

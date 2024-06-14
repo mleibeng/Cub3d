@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/14 13:23:23 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/14 18:36:13 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -390,7 +390,6 @@ int	fill_bounds(int next_x, int next_y, t_app *app, char **map)
 			return (0);
 		}
 	}
-	print_walkedmap(app->walked_map, app->rows, app->cols);
 	return (1);
 }
 
@@ -451,7 +450,7 @@ int	**create_map(int rows, int columns)
 	i = 0;
 	map = malloc((rows + 1) * sizeof(int *));
 	if (!map)
-		return NULL;
+		return (NULL);
 	while (i < rows)
 	{
 		map[i] = ft_calloc(columns, sizeof(int));

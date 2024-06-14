@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/14 17:35:54 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/14 19:32:14 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,8 @@ void	draw_weapon(t_app *app)
 	app->weapon->img = mlx_texture_to_image(app->mlx, current_texture);
 	app->weapon->x = app->window_width / 2 - current_texture->width / 2;
 	app->weapon->y = app->window_height - current_texture->height;
-	if (mlx_image_to_window(app->mlx, app->weapon->img, app->weapon->x,
-			app->weapon->y) == -1)
-		exit(1);
 	if (app->weapon->state == ACTIVE)
 	{
-		app->weapon->state = HOLSTERED;
 		app->weapon->y = app->window_height - current_texture->height;
 	}
 }
@@ -89,7 +85,7 @@ void	main_loop(void *param)
 		exit(1);
 	display_minimap(app);
 	display_compass(app, app->player.angle);
-	//draw_weapon(app);
+	draw_weapon(app);
 	close_last_door(app);
 }
 

@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:49:06 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/14 17:35:30 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/14 18:51:56 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@ void	door_open_close(t_app *app)
 		new_y -= 1.0f;
 	if (app->walked_map[(int)new_y][(int)new_x] == 3)
 	{
+		if (app->last_open_door_y != -1 && app->last_open_door_x != -1
+			&& app->walked_map[app->last_open_door_y][app->last_open_door_x] == 4)
+			app->walked_map[app->last_open_door_y][app->last_open_door_x] = 3;
+		app->closing_counter = 0;
 		app->walked_map[(int)new_y][(int)new_x] = 4;
 		app->closing_counter = 100;
 		app->last_open_door_x = (int)new_x;
@@ -62,9 +66,9 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 	}
 	if (keydata.key == MLX_KEY_R && keydata.action == MLX_PRESS)
 	{
-		player.x = player.std_x;
-		player.y = player.std_y;
-		player.angle = player.std_angle;
+		app->player.x = player.std_x;
+		app->player.y = player.std_y;
+		app->player.angle = player.std_angle;
 	}
 	if ((keydata.key == MLX_KEY_X && keydata.action == MLX_PRESS))
 		door_open_close(app);

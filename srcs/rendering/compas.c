@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   compas.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 22:37:06 by flo               #+#    #+#             */
-/*   Updated: 2024/06/13 20:42:12 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/14 18:32:23 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	clear_compass(mlx_image_t *img, int32_t background_color)
 		{
 			dx = x - CENTER;
 			dy = y - CENTER;
-			if (dx * dx + dy * dy <= CENTER * CENTER)
+			if ((dx * dx + dy * dy <= CENTER * CENTER)
+				&& x > 0 && y > 0)
 				mlx_put_pixel(img, x, y, background_color);
 			x++;
 		}
