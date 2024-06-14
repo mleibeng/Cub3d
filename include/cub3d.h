@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/14 17:08:54 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/14 18:20:14 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,19 @@ typedef struct s_coord
 	int32_t		color;
 }				t_coord;
 
+/**
+ * Struct for the current ray wall data
+ * @param tar_x x coordinate where the ray will hit.
+ * @param tar_y y coordinate where the ray will hit.
+ * @param distance distance to the target from player.
+ * @param hit how ray will hit the target,
+ * 	vertikal/ horizontal or at a door.
+ * @param wall_height height of the wall at the current ray.
+ * @param side which side 1 - 4 for direwctions, 5 for a door.
+ * @param x cur position in x
+ * @param pos_x_cur_tyle which position at the current tyle the ray hits in x direction
+ * @param color color of the current ray
+ */
 typedef struct s_tar
 {
 	float		tar_x;
@@ -97,7 +110,17 @@ typedef struct s_tar
 	int32_t		color;
 }				t_tar;
 
-//	coordinates of the player
+/**
+ * Main application structure containing all necessary data for the game.
+ * @param start_x start position x coordinate.
+ * @param start_y start position x coordinate.
+ * @param x current pos x coordinate.
+ * @param y current pos y coordinate.
+ * @param std_x start pos x coordinate.
+ * @param std_y start pos y coordinate.
+ * @param std_angle start angle in radial
+ * @param angle current angle in radial
+ */
 typedef struct s_player
 {
 	int			start_x;
@@ -126,6 +149,14 @@ typedef struct s_weapon
 	t_state		state;
 }				t_weapon;
 
+/**
+ * Texture struct, where all informations of the textures are.
+ * @param n_path path to the tyles xpm42 files (d = door, n = north,
+ * s = south, ...).
+ * @param n_text texture struct (d = door, n = north, s = south, ...).
+ * @param floor rgba colorcode of the floor/ ceiling
+ * @param skybox rgba colorcode of the sky
+ */
 typedef struct s_texture
 {
 	char		*n_path;
@@ -153,6 +184,39 @@ typedef struct s_minimap
 	int			map_y;
 }				t_minimap;
 
+/**
+ * Main application structure containing all necessary data for the game.
+ * @param mlx Main MLX handle, manages window and graphical context.
+ * @param img Main image buffer for rendering.
+ * @param compass Image for the compass overlay.
+ * @param minimap_img Image for the minimap display.
+ * @param player_on_mini Image for the player icon on the minimap.
+ * @param weapon Current weapon data.
+ * @param textures Collection of game textures.
+ * @param needle_x X-coordinate for the compass needle.
+ * @param needle_y Y-coordinate for the compass needle.
+ * @param player Player data and state.
+ * @param window_width Width of the game window.
+ * @param window_height Height of the game window.
+ * @param map_height Height of the game map in tiles.
+ * @param map_width Width of the game map in tiles.
+ * @param fov Field of view for the player's perspective.
+ * @param num_rays Number of rays cast for rendering the scene.
+ * @param cur_ray Current ray being processed.
+ * @param pos Current position vector of the player.
+ * @param check_queue Queue for pathfinding or other checks.
+ * @param walked_map 2D array tracking tiles the player has walked on.
+ * @param minimap 2D array representing the minimap data.
+ * @param mini_info Information and settings for the minimap.
+ * @param cols Number of columns in the map.
+ * @param rows Number of rows in the map.
+ * @param end End position or flag in the map or game logic.
+ * @param start Start position or flag in the map or game logic.
+ * @param map 2D array representing the map layout.
+ * @param last_open_door_x X-coordinate of the last opened door.
+ * @param last_open_door_y Y-coordinate of the last opened door.
+ * @param closing_counter Counter for door closing animation or timing.
+ */
 typedef struct s_app
 {
 	mlx_t		*mlx;
@@ -231,7 +295,6 @@ void			mix_and_put_color(t_app *app, int32_t color, float factor,
 uint32_t		get_texture_pixel(mlx_texture_t *texture, int x, int y,
 					int shade);
 xpm_t			*get_text(t_app *app, int side);
-
 //	rendering.c
 int32_t			ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
 void			draw_part_ray(t_app *app, int start, int end, int32_t color,
@@ -254,7 +317,6 @@ int				mouse_shift(t_app *app);
 int				check_wall_collision(t_app *app, float new_x, float new_y);
 void			move_sideways(t_app *app, float *new_x, float *new_y);
 void			move_for_back(t_app *app, float *new_x, float *new_y);
-
 //		user_input.c
 void			user_input_hook(t_app *app);
 

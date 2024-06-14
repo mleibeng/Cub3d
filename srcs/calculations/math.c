@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 18:22:29 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/12 21:44:00 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/14 18:24:03 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_ro(float num)
 	return ((int)num);
 }
 
-//	function to normalize an angle, so it stays in the range of 2 x PI
+//	function to normalize an angle, so it stays in the range of 2 x PI (radians)
 float	norm_ang(float angle)
 {
 	while (angle < 0)
@@ -30,6 +30,7 @@ float	norm_ang(float angle)
 	return (angle);
 }
 
+//	function to get the fractional part of a number in double or float
 double	get_fractional_part(double num)
 {
 	double	integral_part;

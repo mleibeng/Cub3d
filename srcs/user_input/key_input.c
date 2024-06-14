@@ -6,40 +6,39 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:49:06 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/14 17:22:37 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/14 17:35:30 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 //	function to check and change the door status (open or closed)
-void door_open_close(t_app *app)
+void	door_open_close(t_app *app)
 {
-	float new_x;
-	float new_y;
+	float	new_x;
+	float	new_y;
 
 	new_x = app->player.x;
 	new_y = app->player.y;
-
-	if (app->closing_counter == 0)
+	if ((app->player.angle > ((M_PI * 2) - M_PI_4)
+			&& app->player.angle < ((M_PI * 2)))
+		|| (app->player.angle > 0 && app->player.angle < M_PI_4))
+		new_x += 1.0f;
+	else if (app->player.angle > (M_PI_2 - M_PI_4)
+		&& app->player.angle < (M_PI_2 + M_PI_4))
+		new_y += 1.0f;
+	else if (app->player.angle > (M_PI - M_PI_4)
+		&& app->player.angle < (M_PI + M_PI_4))
+		new_x -= 1.0f;
+	else if (app->player.angle > ((M_PI * 3) / 2 - M_PI_4)
+		&& app->player.angle < ((M_PI * 3) / 2 + M_PI_4))
+		new_y -= 1.0f;
+	if (app->walked_map[(int)new_y][(int)new_x] == 3)
 	{
-		if ((app->player.angle > ((M_PI * 2) - M_PI_4) && app->player.angle < ((M_PI * 2)))
-			|| (app->player.angle > 0 && app->player.angle < M_PI_4))
-			new_x += 1.0f;
-		else if (app->player.angle > (M_PI_2 - M_PI_4) && app->player.angle < (M_PI_2 + M_PI_4))
-			new_y += 1.0f;
-		else if (app->player.angle > (M_PI - M_PI_4) && app->player.angle < (M_PI + M_PI_4))
-			new_x -= 1.0f;
-		else if (app->player.angle > ((M_PI * 3) / 2 - M_PI_4) && app->player.angle < ((M_PI * 3) / 2 + M_PI_4))
-			new_y -= 1.0f;
-
-		if (app->walked_map[(int)new_y][(int)new_x] == 3)
-		{
-			app->walked_map[(int)new_y][(int)new_x] = 4;
-			app->closing_counter = 100;
-			app->last_open_door_x = (int)new_x;
-			app->last_open_door_y = (int)new_y;
-		}
+		app->walked_map[(int)new_y][(int)new_x] = 4;
+		app->closing_counter = 100;
+		app->last_open_door_x = (int)new_x;
+		app->last_open_door_y = (int)new_y;
 	}
 }
 
