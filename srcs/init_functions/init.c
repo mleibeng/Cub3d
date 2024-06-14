@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:42:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/14 02:08:59 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/14 11:06:05 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,10 @@ t_weapon	*_init_weapon(t_app *app)
 	weapon = malloc(sizeof(t_weapon));
 	if (!weapon)
 		free_all_resources(app);
-	weapon->sprite = mlx_load_png("/Users/mleibeng/Documents/Cub3d_fkeitel_mleibeng/textures/PCComputer-Wolfenstein3D-Weapons-ezgif.com-crop(1).png");
+	weapon->sprite = mlx_load_png("./textures/PCComputer-Wolfenstein3D-Weapons-ezgif.com-crop.png");
 	if (!weapon->sprite)
 		free_all_resources(app);
-	weapon->sprite_act = mlx_load_png("/Users/mleibeng/Documents/Cub3d_fkeitel_mleibeng/textures/weapon_with_transparency.png");
+	weapon->sprite_act = mlx_load_png("./textures/weapon_with_transparency.png");
 	if (!weapon->sprite_act)
 		free_all_resources(app);
 	weapon->img = mlx_texture_to_image(app->mlx, weapon->sprite);
