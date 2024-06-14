@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/14 01:29:30 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/14 11:56:45 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,16 @@
 # define MAX_LINE_LENGTH 1024
 # define WINDOW_WIDTH 960
 # define WINDOW_HEIGHT 960
+# define VERTICAL 0
+# define NONVERTICAL 1
+# define DOOR_CLOSED 2
+# define DOOR_OPEN 3
+# define NORTH 1
+# define EAST 2
+# define SOUTH 3
+# define WEST 4
+# define DOOR 5
+
 /* ----------------------- adjustable pre-settings -------------------------- */
 
 # define PLAYER_MOVE_SPEED 0.03

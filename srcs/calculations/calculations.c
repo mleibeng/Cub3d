@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:03:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/14 10:58:05 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/14 13:09:33 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // adjust the tyle direction based on the angle facing to the wall
 float	find_tyle_pos(t_tar *wall)
 {
-	if (wall->hit == 0)
+	if (wall->hit == VERTICAL)
 		return (get_fractional_part(wall->tar_x));
 	else
 		return (get_fractional_part(wall->tar_y));
@@ -33,7 +33,7 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 
 	depth = 0.0f;
 	max_units = 1.0f * (int)fmax(app->rows * 1.3, app->cols * 1.3);
-	wall->hit = 0;
+	wall->hit = VERTICAL;
 	wall->tar_x = 0;
 	wall->tar_y = 0;
 	while (depth < max_units)
@@ -49,7 +49,7 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 	}
 	start = depth - 0.01f;
 	end = depth;
-	while (end - start > 0.00005f)
+	while (end - start > 0.00003f)
 	{
 		depth = (start + end) / 2;
 		wall->tar_x = app->player.x + depth * cos(ray_angle);
@@ -58,11 +58,9 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 			&& wall->tar_y <= app->rows && wall->tar_x <= app->cols)
 		{
 			if (app->walked_map[(int)fabsf(wall->tar_y)][(int)fabsf(wall->tar_x)] == 1)
-				wall->hit = 0, end = depth;
+				wall->hit = VERTICAL, end = depth;
 			else if (app->walked_map[(int)fabsf(wall->tar_y)][(int)fabsf(wall->tar_x)] == 3)
-				wall->hit = 2, end = depth;
-			else if (app->walked_map[(int)fabsf(wall->tar_y)][(int)fabsf(wall->tar_x)] == 4)
-				wall->hit = 3, end = depth;
+				wall->hit = DOOR_CLOSED, end = depth;
 			else
 				start = depth;
 		}
@@ -73,26 +71,25 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 }
 
 //	function to calculate which direction faces tile from players perpective
-//	hit = 1 is vetical wall, hit = 2 normal, hit = 3 closed door, hit = 4 open door
 void	calc_side(float ray_angle, t_tar *wall)
 {
-	if (wall->hit == 1 || wall->hit == 4)
+	if (wall->hit == NONVERTICAL)
 	{
 		if (cos(ray_angle) > 0)
-			wall->side = 1;
+			wall->side = NORTH;
 		else
-			wall->side = 2;
+			wall->side = EAST;
 	}
-	else if (wall->hit == 2)
+	else if (wall->hit == DOOR_CLOSED)
 	{
-		wall->side = 5;
+		wall->side = DOOR;
 	}
 	else
 	{
 		if (sin(ray_angle) > 0)
-			wall->side = 3;
+			wall->side = SOUTH;
 		else
-			wall->side = 4;
+			wall->side = WEST;
 	}
 }
 
@@ -112,14 +109,16 @@ void	calc_walls(t_app *app)
 				/ app->num_rays * tan(app->fov / 1.5));
 		ray_angle = norm_ang(ray_angle);
 		wall.distance = cast_ray(app, ray_angle, &wall);
-		if (wall.hit == 0)
-			wall.hit = (fabs(wall.tar_y - roundf(wall.tar_y)) - 0.0005f)
-				> (fabs(wall.tar_x - roundf(wall.tar_x)) - 0.002);
+		if (wall.hit == VERTICAL)
+		{
+			if ((fabs(wall.tar_y - roundf(wall.tar_y)) - 0.0005f)
+				> (fabs(wall.tar_x - roundf(wall.tar_x)) - 0.002))
+				wall.hit = NONVERTICAL;
+		}
 		wall.pos_x_cur_tyle = find_tyle_pos(&wall);
 		wall.wall_height = (int)(app->window_height / (wall.distance + 0.01f));
 		calc_side(ray_angle, &wall);
 		draw_ray(app, &wall);
-		wall.hit = 0;
 		app->cur_ray++;
 	}
 }

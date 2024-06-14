@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/13 20:39:17 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/14 13:23:23 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -379,7 +379,10 @@ int	fill_bounds(int next_x, int next_y, t_app *app, char **map)
 		else if (map[next_y][next_x] == '1')
 			app->walked_map[next_y][next_x] = 1;
 		else if (map[next_y][next_x] == 'D')
+		{
 			app->walked_map[next_y][next_x] = 3;
+			app->check_queue[app->end++] = (t_vec){next_x, next_y};
+		}
 		else
 		{
 			perror("error in fill_bounds\n");
@@ -387,6 +390,7 @@ int	fill_bounds(int next_x, int next_y, t_app *app, char **map)
 			return (0);
 		}
 	}
+	print_walkedmap(app->walked_map, app->rows, app->cols);
 	return (1);
 }
 
@@ -432,6 +436,7 @@ int	fill_map(char **map, t_app *app, int *direct_x, int *direct_y)
 			j++;
 		}
 	}
+	print_map(app->map);
 	if (!check_bounds(app))
 		return (perror("maperror"), 0);
 	free_queue(app);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 21:35:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/13 20:42:04 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/14 11:47:38 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,15 @@ void	mix_and_put_color(t_app *app, int32_t color, float factor, int shade, int y
 //	function to get the texture based on the wall side, in which player looks
 xpm_t	*get_text(t_app *app, int side)
 {
-	if (side == 1)
+	if (side == NORTH)
 		return (app->textures->n_text);
-	else if (side == 2)
+	else if (side == EAST)
 		return (app->textures->e_text);
-	else if (side == 3)
+	else if (side == SOUTH)
 		return (app->textures->s_text);
-	else if (side == 4)
+	else if (side == WEST)
 		return (app->textures->w_text);
-	else if (side == 5)
+	else if (side == DOOR)
 		return (app->textures->d_text);
 	return (NULL);
 }

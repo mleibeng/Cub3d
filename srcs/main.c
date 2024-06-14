@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/14 11:02:17 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/14 13:17:50 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	main_loop(void *param)
 		exit(1);
 	display_minimap(app);
 	display_compass(app, app->player.angle);
-	draw_weapon(app);
+	//draw_weapon(app);
 }
 
 int	main(int argc, char **argv)
@@ -85,7 +85,7 @@ int	main(int argc, char **argv)
 		return (1);
 	if (_init_app(&app))
 		return (1);
-	print_info(&app);
+	//print_info(&app);
 	if (app.map)
 	{
 		mlx_key_hook(app.mlx, key_hook, &app);

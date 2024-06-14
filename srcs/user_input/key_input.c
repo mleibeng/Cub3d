@@ -3,37 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   key_input.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:49:06 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/13 20:42:32 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/14 14:33:57 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+//	function to check and change the door status (open or closed)
+void	door_open_close(t_app *app)
+{
+	float	new_x;
+	float	new_y;
+
+	new_x = app->player.x;
+	new_y = app->player.y;
+
+	if ((app->player.angle > ((M_PI * 2) - M_PI_4)
+			&& app->player.angle < ((M_PI * 2)))
+		|| (app->player.angle > 0 && app->player.angle < M_PI_4))
+		new_x += 1.0f;
+	else if (app->player.angle > (M_PI_2 - M_PI_4)
+		&& app->player.angle < (M_PI_2 + M_PI_4))
+		new_y += 1.0f;
+	else if (app->player.angle > (M_PI - M_PI_4)
+		&& app->player.angle < (M_PI + M_PI_4))
+		new_x -= 1.0f;
+	else if (app->player.angle > ((M_PI * 3) / 2 - M_PI_4)
+		&& app->player.angle < ((M_PI * 3) / 2 + M_PI_4))
+		new_y -= 1.0f;
+	if (app->walked_map[(int)new_y][(int)new_x] == 3)
+		app->walked_map[(int)new_y][(int)new_x] = 4;
+	else if (app->walked_map[(int)new_y][(int)new_x] == 4)
+		app->walked_map[(int)new_y][(int)new_x] = 3;
+}
 
 //	key functions
 void	key_hook(mlx_key_data_t keydata, void *param)
 {
 	t_app		*app;
 	t_player	player;
-	float		new_x;
-	float		new_y;
-	int			door_x;
-	int			door_y;
 
 	app = (t_app *)param;
 	if (!app)
 		return ;
 	player = app->player;
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-	{
 		mlx_close_window(app->mlx);
-	}
 	if (keydata.key == MLX_KEY_P && keydata.action == MLX_PRESS)
 	{
 		printf("Position X: %f Y : %f deg: %f map_pos: %d\n", player.x,
-			player.y, cos(player.angle),
+			player.y, player.angle,
 			app->walked_map[(int)app->player.y][(int)app->player.x]);
 	}
 	if (keydata.key == MLX_KEY_R && keydata.action == MLX_PRESS)
@@ -42,16 +64,8 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 		player.y = player.std_y;
 		player.angle = player.std_angle;
 	}
-	if (keydata.key == MLX_KEY_X && keydata.action == MLX_PRESS)
-	{
-		// This part doesnt work...
-		new_x = app->player.x - PLAYER_MOVE_SPEED * cos(app->player.angle);
-		new_y = app->player.y - PLAYER_MOVE_SPEED * sin(app->player.angle);
-		door_x = (int)new_x;
-		door_y = (int)new_y;
-		if (app->walked_map[door_y][door_x] == 3)
-			app->walked_map[door_y][door_x] = 4;
-	}
+	if ((keydata.key == MLX_KEY_X && keydata.action == MLX_PRESS))
+		door_open_close(app);
 }
 
 int	check_wall_collision(t_app *app, float new_x, float new_y)
@@ -113,8 +127,8 @@ void	view_change_hook(t_app *app)
 {
 	if (mlx_is_key_down(app->mlx, MLX_KEY_LEFT) && !mlx_is_key_down(app->mlx,
 			MLX_KEY_RIGHT))
-		app->player.angle -= PLAYER_ROTATE_SPEED;
+		app->player.angle = norm_ang(app->player.angle - PLAYER_ROTATE_SPEED);
 	if (mlx_is_key_down(app->mlx, MLX_KEY_RIGHT) && !mlx_is_key_down(app->mlx,
 			MLX_KEY_LEFT))
-		app->player.angle += PLAYER_ROTATE_SPEED;
+		app->player.angle = norm_ang(app->player.angle + PLAYER_ROTATE_SPEED);
 }
