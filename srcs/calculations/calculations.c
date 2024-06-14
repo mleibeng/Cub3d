@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:03:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/13 14:56:04 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/14 10:56:59 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 				wall->hit = 0, end = depth;
 			else if (app->walked_map[(int)fabsf(wall->tar_y)][(int)fabsf(wall->tar_x)] == 3)
 				wall->hit = 2, end = depth;
+			else if (app->walked_map[(int)fabsf(wall->tar_y)][(int)fabsf(wall->tar_x)] == 4)
+				wall->hit = 3, end = depth;
 			else
 				start = depth;
 		}
@@ -71,9 +73,10 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 }
 
 //	function to calculate which direction faces tile from players perpective
+//	hit = 1 is vetical wall, hit = 2 normal, hit = 3 closed door, hit = 4 open door
 void	calc_side(float ray_angle, t_tar *wall)
 {
-	if (wall->hit == 1)
+	if (wall->hit == 1 || wall->hit == 4)
 	{
 		if (cos(ray_angle) > 0)
 			wall->side = 1;
