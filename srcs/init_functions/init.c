@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:42:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/13 13:24:28 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/14 02:08:59 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-//	initialite a coordinate point
+// initialite a coordinate point
 t_coord	init_coord(int point_x, int point_y, int32_t color)
 {
 	t_coord	new_coord;
@@ -78,6 +78,24 @@ void	load_textures(t_app *app)
 		printf("hello\n");
 }
 
+t_weapon	*_init_weapon(t_app *app)
+{
+	t_weapon	*weapon;
+
+	weapon = malloc(sizeof(t_weapon));
+	if (!weapon)
+		free_all_resources(app);
+	weapon->sprite = mlx_load_png("/Users/mleibeng/Documents/Cub3d_fkeitel_mleibeng/textures/PCComputer-Wolfenstein3D-Weapons-ezgif.com-crop(1).png");
+	if (!weapon->sprite)
+		free_all_resources(app);
+	weapon->sprite_act = mlx_load_png("/Users/mleibeng/Documents/Cub3d_fkeitel_mleibeng/textures/weapon_with_transparency.png");
+	if (!weapon->sprite_act)
+		free_all_resources(app);
+	weapon->img = mlx_texture_to_image(app->mlx, weapon->sprite);
+	weapon->state = HOLSTERED;
+	return (weapon);
+}
+
 int	_init_app(t_app *app)
 {
 	app->map_height = app->rows;
@@ -97,6 +115,7 @@ int	_init_app(t_app *app)
 	app->mlx = mlx_init(app->window_width, app->window_height, "cub3d", true);
 	if (!app->mlx)
 		return (1);
+	app->weapon = _init_weapon(app);
 	app->img = mlx_new_image(app->mlx, app->window_width, app->window_height);
 	if (!app->img)
 		return (mlx_terminate(app->mlx), 1);
