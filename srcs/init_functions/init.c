@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:42:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/14 11:06:05 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/14 17:11:31 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,9 @@ int	_init_app(t_app *app)
 	app->cur_ray = 0;
 	app->minimap_img = NULL;
 	app->compass = NULL;
+	app->closing_counter = 0;
+	app->last_open_door_x = -1;
+	app->last_open_door_y = -1;
 	app->mlx = mlx_init(app->window_width, app->window_height, "cub3d", true);
 	if (!app->mlx)
 		return (1);

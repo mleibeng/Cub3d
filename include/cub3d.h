@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/14 15:07:55 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/14 17:08:54 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,9 @@ typedef struct s_app
 	int			end;
 	int			start;
 	char		**map;
+	int			last_open_door_x;
+	int			last_open_door_y;
+	int			closing_counter;
 }				t_app;
 
 /*
@@ -247,6 +250,11 @@ void			direction_change_hook(t_app *app);
 void			view_change_hook(t_app *app);
 //	mouse_input.c
 int				mouse_shift(t_app *app);
+//	player_move.c
+int				check_wall_collision(t_app *app, float new_x, float new_y);
+void			move_sideways(t_app *app, float *new_x, float *new_y);
+void			move_for_back(t_app *app, float *new_x, float *new_y);
+
 //		user_input.c
 void			user_input_hook(t_app *app);
 

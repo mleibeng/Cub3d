@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:03:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/14 15:16:24 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/14 15:45:45 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 			else if (app->walked_map[(int)(wall->tar_y)][(int)(wall->tar_x)] == 3)
 				wall->hit = DOOR_VERTIKAL, end = depth;
 			else
+			{
 				start = depth;
+			}
 		}
 		else
 			start = depth;
