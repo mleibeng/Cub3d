@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:42:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/14 01:45:15 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/14 02:08:59 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,6 @@ t_weapon	*_init_weapon(t_app *app)
 	if (!weapon->sprite_act)
 		free_all_resources(app);
 	weapon->img = mlx_texture_to_image(app->mlx, weapon->sprite);
-	weapon->x = app->window_width / 2 - weapon->sprite->width / 2;
-	weapon->y = app->window_height - weapon->sprite->height;
-	if (mlx_image_to_window(app->mlx, weapon->img, weapon->x, weapon->y) == -1)
-		return (NULL);
 	weapon->state = HOLSTERED;
 	return (weapon);
 }
