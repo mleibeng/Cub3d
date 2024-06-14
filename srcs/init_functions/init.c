@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:42:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/14 17:11:31 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/14 20:08:22 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,12 @@ t_weapon	*_init_weapon(t_app *app)
 	weapon = malloc(sizeof(t_weapon));
 	if (!weapon)
 		free_all_resources(app);
-	weapon->sprite = mlx_load_png("./textures/PCComputer-Wolfenstein3D-Weapons-ezgif.com-crop.png");
+	weapon->sprite = mlx_load_png("./textures/Jagknife.png");
 	if (!weapon->sprite)
 		free_all_resources(app);
-	weapon->sprite_act = mlx_load_png("./textures/weapon_with_transparency.png");
+	weapon->sprite_act = mlx_load_png("./textures/Jagknife.png");
 	if (!weapon->sprite_act)
 		free_all_resources(app);
-	weapon->img = mlx_texture_to_image(app->mlx, weapon->sprite);
 	weapon->state = HOLSTERED;
 	return (weapon);
 }

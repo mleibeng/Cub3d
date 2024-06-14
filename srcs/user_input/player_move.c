@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 16:01:27 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/14 16:01:57 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/14 22:56:57 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,23 @@ void	move_sideways(t_app *app, float *new_x, float *new_y)
 
 void	move_for_back(t_app *app, float *new_x, float *new_y)
 {
+	static float	speed_mode = PLAYER_MOVE_SPEED;
+	float			speed;
+
+	speed = speed_mode;
+	if (speed_mode <= 0.99f && mlx_is_key_down(app->mlx, MLX_KEY_EQUAL))
+	{
+		speed_mode += 0.01f;
+	}
+	if (speed_mode >= 0.05f && mlx_is_key_down(app->mlx, MLX_KEY_MINUS))
+	{
+		speed_mode -= 0.05f;
+	}
 	if (mlx_is_key_down(app->mlx, MLX_KEY_W)
 		&& !mlx_is_key_down(app->mlx, MLX_KEY_S))
 	{
-		*new_x = app->player.x + PLAYER_MOVE_SPEED * cos(app->player.angle);
-		*new_y = app->player.y + PLAYER_MOVE_SPEED * sin(app->player.angle);
+		*new_x = app->player.x + speed * cos(app->player.angle);
+		*new_y = app->player.y + speed * sin(app->player.angle);
 		if (check_wall_collision(app, *new_x, app->player.y) == 0)
 			app->player.x = *new_x;
 		if (check_wall_collision(app, app->player.x, *new_y) == 0)
@@ -77,8 +89,8 @@ void	move_for_back(t_app *app, float *new_x, float *new_y)
 	else if (mlx_is_key_down(app->mlx, MLX_KEY_S)
 		&& !mlx_is_key_down(app->mlx, MLX_KEY_W))
 	{
-		*new_x = app->player.x - PLAYER_MOVE_SPEED * cos(app->player.angle);
-		*new_y = app->player.y - PLAYER_MOVE_SPEED * sin(app->player.angle);
+		*new_x = app->player.x - speed * cos(app->player.angle);
+		*new_y = app->player.y - speed * sin(app->player.angle);
 		if (check_wall_collision(app, *new_x, app->player.y) == 0)
 			app->player.x = *new_x;
 		if (check_wall_collision(app, app->player.x, *new_y) == 0)

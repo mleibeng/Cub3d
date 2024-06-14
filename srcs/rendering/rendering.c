@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rendering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 21:50:08 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/13 20:42:24 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/14 22:34:02 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	draw_wall(t_app *app, t_tar *wall, int y_start, int y_end)
 			&& app->cur_ray > 0 && app->cur_ray < app->window_width
 			&& y > 0 && y < app->window_height)
 		{
+			if (wall->distance >= 25)
+				shade = 5;
 			mix_and_put_color(app,
 				get_texture_pixel(&tyle->texture, texture_x, texture_y, shade),
 				1.0 - (wall->distance * 0.02), shade, y);

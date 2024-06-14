@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/14 18:20:14 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/14 22:32:00 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@
 
 /* ----------------------- adjustable pre-settings -------------------------- */
 
-# define PLAYER_MOVE_SPEED 0.03
+# define PLAYER_MOVE_SPEED 0.06
 # define PLAYER_ROTATE_SPEED 0.06
 # define PLAYER_SIZE 0.1
 

@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:03:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/14 15:45:45 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/14 22:35:11 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 	float	end;
 
 	depth = 0.0f;
-	max_units = 1.0f * (int)fmax(app->rows * 1.3, app->cols * 1.3);
+	max_units = 1.0f * (int)fmax(app->rows, app->cols);
+	if (max_units > 100.0f)
+		max_units = 100.0f;
 	wall->hit = VERTICAL;
 	wall->tar_x = 0;
 	wall->tar_y = 0;
@@ -49,6 +51,11 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 	}
 	start = depth - 0.01f;
 	end = depth;
+	if (depth >= max_units)
+	{
+		wall->hit = NONVERTICAL;
+		return (max_units * cos(app->player.angle - ray_angle));
+	}
 	while (end - start > 0.00003f)
 	{
 		depth = (start + end) / 2;

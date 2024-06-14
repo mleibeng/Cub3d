@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:49:06 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/14 18:51:56 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/14 22:40:46 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 	}
 	if ((keydata.key == MLX_KEY_X && keydata.action == MLX_PRESS))
 		door_open_close(app);
+
 }
 
 void	direction_change_hook(t_app *app)
