@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:03:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/14 13:09:33 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/14 15:16:24 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // adjust the tyle direction based on the angle facing to the wall
 float	find_tyle_pos(t_tar *wall)
 {
-	if (wall->hit == VERTICAL)
+	if (wall->hit == VERTICAL || wall->hit == DOOR_VERTIKAL)
 		return (get_fractional_part(wall->tar_x));
 	else
 		return (get_fractional_part(wall->tar_y));
@@ -57,10 +57,10 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 		if (wall->tar_y >= 0 && wall->tar_x >= 0
 			&& wall->tar_y <= app->rows && wall->tar_x <= app->cols)
 		{
-			if (app->walked_map[(int)fabsf(wall->tar_y)][(int)fabsf(wall->tar_x)] == 1)
+			if (app->walked_map[(int)(wall->tar_y)][(int)(wall->tar_x)] == 1)
 				wall->hit = VERTICAL, end = depth;
-			else if (app->walked_map[(int)fabsf(wall->tar_y)][(int)fabsf(wall->tar_x)] == 3)
-				wall->hit = DOOR_CLOSED, end = depth;
+			else if (app->walked_map[(int)(wall->tar_y)][(int)(wall->tar_x)] == 3)
+				wall->hit = DOOR_VERTIKAL, end = depth;
 			else
 				start = depth;
 		}
@@ -80,7 +80,7 @@ void	calc_side(float ray_angle, t_tar *wall)
 		else
 			wall->side = EAST;
 	}
-	else if (wall->hit == DOOR_CLOSED)
+	else if (wall->hit == DOOR_HOR || wall->hit == DOOR_VERTIKAL)
 	{
 		wall->side = DOOR;
 	}
@@ -109,11 +109,16 @@ void	calc_walls(t_app *app)
 				/ app->num_rays * tan(app->fov / 1.5));
 		ray_angle = norm_ang(ray_angle);
 		wall.distance = cast_ray(app, ray_angle, &wall);
-		if (wall.hit == VERTICAL)
+		if (wall.hit == VERTICAL || wall.hit == DOOR_VERTIKAL)
 		{
 			if ((fabs(wall.tar_y - roundf(wall.tar_y)) - 0.0005f)
 				> (fabs(wall.tar_x - roundf(wall.tar_x)) - 0.002))
-				wall.hit = NONVERTICAL;
+			{
+				if (wall.hit == VERTICAL)
+					wall.hit = NONVERTICAL;
+				else if (wall.hit == DOOR_VERTIKAL)
+					wall.hit = DOOR_HOR;
+			}
 		}
 		wall.pos_x_cur_tyle = find_tyle_pos(&wall);
 		wall.wall_height = (int)(app->window_height / (wall.distance + 0.01f));

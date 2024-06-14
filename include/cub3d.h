@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/14 11:56:45 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/14 15:07:55 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@
 # define WINDOW_HEIGHT 960
 # define VERTICAL 0
 # define NONVERTICAL 1
-# define DOOR_CLOSED 2
-# define DOOR_OPEN 3
+# define DOOR_VERTIKAL 2
+# define DOOR_HOR 3
 # define NORTH 1
 # define EAST 2
 # define SOUTH 3

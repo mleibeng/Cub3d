@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 21:35:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/14 11:47:38 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/14 14:57:11 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ uint32_t	get_texture_pixel(mlx_texture_t *texture, int x, int y, int shade)
 	{
 		return (0);
 	}
-	index = (y * texture->width + x) * texture->bytes_per_pixel;
+	index = round((y * texture->width + x) * texture->bytes_per_pixel);
 	red = texture->pixels[index];
 	green = texture->pixels[index + 1];
 	blue = texture->pixels[index + 2];
