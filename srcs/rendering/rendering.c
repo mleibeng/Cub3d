@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 21:50:08 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/14 22:34:02 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/14 23:20:14 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,12 @@ void	draw_wall(t_app *app, t_tar *wall, int y_start, int y_end)
 			&& y > 0 && y < app->window_height)
 		{
 			if (wall->distance >= 25)
+			{
 				shade = 5;
+				texture_x = -1;
+			}
+			if (wall->distance > 50)
+				shade = 0;
 			mix_and_put_color(app,
 				get_texture_pixel(&tyle->texture, texture_x, texture_y, shade),
 				1.0 - (wall->distance * 0.02), shade, y);

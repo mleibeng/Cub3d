@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/14 22:12:20 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/14 23:08:27 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	main_loop(void *param)
 	calc_walls(app);
 	if (mlx_image_to_window(app->mlx, app->img, 0, 0) == -1)
 		exit(1);
-	//display_minimap(app);
+	display_minimap(app);
 	display_compass(app, app->player.angle);
 	//draw_weapon(app);
 	close_last_door(app);
@@ -105,7 +105,7 @@ int	main(int argc, char **argv)
 		return (1);
 	if (_init_app(&app))
 		return (1);
-	//print_info(&app);
+	print_info(&app);
 	if (app.map)
 	{
 		mlx_key_hook(app.mlx, key_hook, &app);
