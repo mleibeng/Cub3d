@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 23:01:46 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/13 20:42:18 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/15 07:24:05 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,30 @@ void	draw_minimap_wall(t_app *app, int map_x, int map_y)
 	}
 }
 
+void	draw_minimap_door(t_app *app, int map_x, int map_y)
+{
+	int	minimap_y;
+	int	minimap_x;
+
+	minimap_y = 0;
+	while (minimap_y < app->mini_info.wall_size)
+	{
+		minimap_x = 0;
+		while (minimap_x < app->mini_info.wall_size)
+		{
+			calculate_xy_coordinates(app, map_x, map_y, minimap_x, minimap_y);
+			rotate_point(&app->mini_info.xy.x, &app->mini_info.xy.y,
+				-app->player.angle, app->mini_info.half_size,
+				app->mini_info.half_size);
+			if (is_within_minimap_bounds(app))
+				mlx_put_pixel(app->minimap_img, app->mini_info.xy.x,
+					app->mini_info.xy.y, CYAN);
+			minimap_x++;
+		}
+		minimap_y++;
+	}
+}
+
 void	draw_minimap_walls(t_app *app)
 {
 	int	map_y;
@@ -117,6 +141,8 @@ void	draw_minimap_walls(t_app *app)
 		{
 			if (app->map[map_y][map_x] == '1')
 				draw_minimap_wall(app, map_x, map_y);
+			if (app->map[map_y][map_x] == 'D')
+				draw_minimap_door(app, map_x, map_y);
 			map_x++;
 		}
 		map_y++;
