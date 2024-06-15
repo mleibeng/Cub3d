@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/14 18:36:13 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/15 06:46:11 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -435,7 +435,6 @@ int	fill_map(char **map, t_app *app, int *direct_x, int *direct_y)
 			j++;
 		}
 	}
-	print_map(app->map);
 	if (!check_bounds(app))
 		return (perror("maperror"), 0);
 	free_queue(app);
