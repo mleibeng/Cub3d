@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+         #
+#    By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/04 14:26:27 by fkeitel           #+#    #+#              #
-#    Updated: 2024/06/13 20:43:42 by mleibeng         ###   ########.fr        #
+#    Updated: 2024/06/15 14:47:23 by fkeitel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,5 +72,6 @@ re: fclean all
 
 mlxfclean: fclean
 	@rm -rf $(LIBMLX)
+	chmod +rwx manual.txt
 
 .PHONY: all clean fclean re libmlx bonus

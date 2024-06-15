@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/15 14:01:47 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/15 16:29:10 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,15 @@ void	free_all_resources(t_app *app)
 		app->minimap = NULL;
 	}
 	free_textures(app->textures);
+	mlx_delete_texture(app->weapon->sprite);
+	mlx_delete_texture(app->weapon->sprite_act);
 	free(app->weapon);
 	free_manual(&app->manual);
 }
 
-void draw_weapon(t_app *app)
+void	draw_weapon(t_app *app)
 {
-	mlx_texture_t *current_texture;
+	mlx_texture_t	*current_texture;
 
 	if (app->weapon->state == ACTIVE)
 		current_texture = app->weapon->sprite_act;
@@ -120,3 +122,4 @@ int	main(int argc, char **argv)
 	}
 	return (0);
 }
+ 

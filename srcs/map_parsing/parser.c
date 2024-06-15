@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/15 11:18:29 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/15 15:51:50 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,16 @@ void	free_textures(t_texture *textures)
 		free(textures->s_path);
 	if (textures->d_path)
 		free(textures->d_path);
+	if (textures->n_text)
+		mlx_delete_xpm42(textures->n_text);
+	if (textures->s_text)
+		mlx_delete_xpm42(textures->s_text);
+	if (textures->e_text)
+		mlx_delete_xpm42(textures->e_text);
+	if (textures->w_text)
+		mlx_delete_xpm42(textures->w_text);
+	if (textures->d_text)
+		mlx_delete_xpm42(textures->d_text);
 	free(textures);
 }
 
