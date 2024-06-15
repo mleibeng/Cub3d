@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:33:43 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/15 19:47:16 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/15 20:02:06 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,16 @@ void	free_textures(t_texture *textures)
 		free(textures->s_path);
 	if (textures->d_path)
 		free(textures->d_path);
+	if (textures->n_text)
+		mlx_delete_xpm42(textures->n_text);
+	if (textures->s_text)
+		mlx_delete_xpm42(textures->s_text);
+	if (textures->e_text)
+		mlx_delete_xpm42(textures->e_text);
+	if (textures->w_text)
+		mlx_delete_xpm42(textures->w_text);
+	if (textures->d_text)
+		mlx_delete_xpm42(textures->d_text);
 	free(textures);
 }
 
