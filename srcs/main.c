@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/15 14:01:47 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/15 16:55:42 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ void	free_all_resources(t_app *app)
 	free_manual(&app->manual);
 }
 
-void draw_weapon(t_app *app)
+void	draw_weapon(t_app *app)
 {
-	mlx_texture_t *current_texture;
+	mlx_texture_t	*current_texture;
 
 	if (app->weapon->state == ACTIVE)
 		current_texture = app->weapon->sprite_act;
@@ -49,30 +49,25 @@ void draw_weapon(t_app *app)
 	if (app->weapon->img == NULL)
 	{
 		app->weapon->img = mlx_texture_to_image(app->mlx, current_texture);
-		mlx_image_to_window(app->mlx, app->weapon->img, app->weapon->x, app->weapon->y);
+		mlx_image_to_window(app->mlx, app->weapon->img, app->weapon->x,
+			app->weapon->y);
 	}
-	//else
-	//{
-	//	// Update the existing image with the new texture
-
-	//}
 }
 
 //	function to close a door after certain time
 void	close_last_door(t_app *app)
 {
-	if (app->closing_counter > 0
-		&& (int)app->player.x != app->last_open_door_x
-		&& (int)app->player.y != app->last_open_door_y)
+	if (app->closing_counter > 0 && (int)app->player.x != app->l_op_door_x
+		&& (int)app->player.y != app->l_op_door_y)
 		app->closing_counter--;
-	if (app->last_open_door_x != -1 && app->last_open_door_y != -1
+	if (app->l_op_door_x != -1 && app->l_op_door_y != -1
 		&& app->closing_counter == 0
-		&& (int)app->player.x != app->last_open_door_x
-		&& (int)app->player.y != app->last_open_door_y)
+		&& (int)app->player.x != app->l_op_door_x
+		&& (int)app->player.y != app->l_op_door_y)
 	{
-		app->walked_map[app->last_open_door_y][app->last_open_door_x] = 3;
-		app->last_open_door_x = -1;
-		app->last_open_door_y = -1;
+		app->walked_map[app->l_op_door_y][app->l_op_door_x] = 3;
+		app->l_op_door_x = -1;
+		app->l_op_door_y = -1;
 	}
 }
 
@@ -91,7 +86,7 @@ void	main_loop(void *param)
 		exit(1);
 	display_minimap(app);
 	display_compass(app, app->player.angle);
-	//draw_weapon(app);
+	draw_weapon(app);
 	close_last_door(app);
 }
 
@@ -106,7 +101,7 @@ int	main(int argc, char **argv)
 		return (1);
 	if (_init_app(&app))
 		return (1);
-	//print_info(&app);
+	print_info(&app);
 	if (app.map)
 	{
 		mlx_key_hook(app.mlx, key_hook, &app);

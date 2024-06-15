@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   key_input.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:49:06 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/15 12:30:49 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/15 17:10:16 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-#define OFF 1
-#define ON 2
 
 //	function enables the manual
 int	information(t_app *app)
@@ -39,40 +36,6 @@ int	information(t_app *app)
 	else if (!mlx_is_key_down(app->mlx, MLX_KEY_I))
 		key_pressed = OFF;
 	return (0);
-}
-
-//	function to check and change the door status (open or closed)
-void	door_open_close(t_app *app)
-{
-	float	new_x;
-	float	new_y;
-
-	new_x = app->player.x;
-	new_y = app->player.y;
-	if ((app->player.angle > ((M_PI * 2) - M_PI_4)
-			&& app->player.angle < ((M_PI * 2)))
-		|| (app->player.angle > 0 && app->player.angle < M_PI_4))
-		new_x += 1.0f;
-	else if (app->player.angle > (M_PI_2 - M_PI_4)
-		&& app->player.angle < (M_PI_2 + M_PI_4))
-		new_y += 1.0f;
-	else if (app->player.angle > (M_PI - M_PI_4)
-		&& app->player.angle < (M_PI + M_PI_4))
-		new_x -= 1.0f;
-	else if (app->player.angle > ((M_PI * 3) / 2 - M_PI_4)
-		&& app->player.angle < ((M_PI * 3) / 2 + M_PI_4))
-		new_y -= 1.0f;
-	if (app->walked_map[(int)new_y][(int)new_x] == 3)
-	{
-		if (app->last_open_door_y != -1 && app->last_open_door_x != -1
-			&& app->walked_map[app->last_open_door_y][app->last_open_door_x] == 4)
-			app->walked_map[app->last_open_door_y][app->last_open_door_x] = 3;
-		app->closing_counter = 0;
-		app->walked_map[(int)new_y][(int)new_x] = 4;
-		app->closing_counter = 100;
-		app->last_open_door_x = (int)new_x;
-		app->last_open_door_y = (int)new_y;
-	}
 }
 
 //	key functions
@@ -101,7 +64,6 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 	}
 	if ((keydata.key == MLX_KEY_X && keydata.action == MLX_PRESS))
 		door_open_close(app);
-
 }
 
 void	direction_change_hook(t_app *app)
@@ -115,7 +77,6 @@ void	direction_change_hook(t_app *app)
 	move_sideways(app, &new_x, &new_y);
 	information(app);
 }
-
 
 //	this function calculates the shift of the coordinates with the A and D keys
 void	view_change_hook(t_app *app)

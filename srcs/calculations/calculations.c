@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calculations.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:03:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/15 12:08:35 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/15 16:47:29 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 	{
 		wall->tar_x = app->player.x + depth * cos(ray_angle);
 		wall->tar_y = app->player.y + depth * sin(ray_angle);
-		if (wall->tar_y >= 0 && wall->tar_x >= 0
-			&& wall->tar_y <= app->rows && wall->tar_x <= app->cols
+		if (wall->tar_y >= 0 && wall->tar_x >= 0 && wall->tar_y <= app->rows
+			&& wall->tar_x <= app->cols
 			&& (app->walked_map[(ft_ro)(wall->tar_y)][(ft_ro)(wall->tar_x)] == 1
 				|| app->walked_map[(ft_ro)(wall->tar_y)][(ft_ro)(wall->tar_x)] == 3))
 			break ;
@@ -61,8 +61,8 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 		depth = (start + end) / 2;
 		wall->tar_x = app->player.x + depth * cos(ray_angle);
 		wall->tar_y = app->player.y + depth * sin(ray_angle);
-		if (wall->tar_y >= 0 && wall->tar_x >= 0
-			&& wall->tar_y <= app->rows && wall->tar_x <= app->cols)
+		if (wall->tar_y >= 0 && wall->tar_x >= 0 && wall->tar_y <= app->rows
+			&& wall->tar_x <= app->cols)
 		{
 			if (app->walked_map[(int)(wall->tar_y)][(int)(wall->tar_x)] == 1)
 				wall->hit = VERTICAL, end = depth;
@@ -115,14 +115,14 @@ void	calc_walls(t_app *app)
 	while (app->cur_ray <= app->num_rays)
 	{
 		correction = app->cur_ray - app->num_rays / 2;
-		ray_angle = app->player.angle + atan(correction
-				/ app->num_rays * tan(app->fov / 1.5));
+		ray_angle = app->player.angle + atan(correction / app->num_rays
+				* tan(app->fov / 1.5));
 		ray_angle = norm_ang(ray_angle);
 		wall.distance = cast_ray(app, ray_angle, &wall);
 		if (wall.hit == VERTICAL || wall.hit == DOOR_VERTIKAL)
 		{
-			if ((fabs(wall.tar_y - roundf(wall.tar_y)))
-				> (fabs(wall.tar_x - roundf(wall.tar_x))))
+			if ((fabs(wall.tar_y - roundf(wall.tar_y))) > (fabs(wall.tar_x
+						- roundf(wall.tar_x))))
 			{
 				if (wall.hit == VERTICAL)
 					wall.hit = NONVERTICAL;

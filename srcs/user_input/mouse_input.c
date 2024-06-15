@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mouse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 08:40:59 by flo               #+#    #+#             */
-/*   Updated: 2024/06/14 19:26:36 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/15 16:48:14 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	check_mouse_clicked(t_app *app, int x, int y, enum mouse_key key)
 	{
 		if (key == MLX_MOUSE_BUTTON_RIGHT && app->weapon->state == ACTIVE)
 		{
-			mlx_set_mouse_pos(app->mlx, app->window_width / 2, app->window_height / 2);
+			mlx_set_mouse_pos(app->mlx, app->window_width / 2,
+				app->window_height / 2);
 			app->weapon->state = HOLSTERED;
 			return (1);
 		}
@@ -33,7 +34,6 @@ int	check_mouse_clicked(t_app *app, int x, int y, enum mouse_key key)
 	return (0);
 }
 
-
 //	calculates the shift of the rotation, with the left button clicked
 int	mouse_shift(t_app *app)
 {
@@ -46,8 +46,8 @@ int	mouse_shift(t_app *app)
 	if (check_mouse_clicked(app, x, y, MLX_MOUSE_BUTTON_LEFT) == 1
 		&& mouse_set == 0)
 	{
-		mlx_set_mouse_pos(app->mlx, app->window_width / 2,
-			app->window_height / 2);
+		mlx_set_mouse_pos(app->mlx, app->window_width / 2, app->window_height
+			/ 2);
 		mouse_set = 1;
 	}
 	if (check_mouse_clicked(app, x, y, MLX_MOUSE_BUTTON_RIGHT) == 1

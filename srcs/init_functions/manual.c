@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manual.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 14:00:03 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/15 14:41:52 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/15 19:46:40 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	read_manual(t_man **lst, char **string, int fd)
 
 	new = malloc(sizeof(t_man));
 	if (!new)
-		exit (1);
+		exit(1);
 	new->next = NULL;
 	new->string = strdup(*string);
 	if (*lst == NULL)
@@ -55,7 +55,7 @@ void	free_manual(t_man **stack)
 //	function to remove the manual from the window and replace it
 void	remove_manual_from_app(t_app *app)
 {
-	t_man		*initial_manual;
+	t_man	*initial_manual;
 
 	initial_manual = app->manual;
 	while (app->manual)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 21:35:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/15 10:05:30 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/15 18:43:54 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,26 @@ int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 
 //	function to put the pixel on the screen and calculating the redshift and
 //	brightness based on the wall ray distance
-void	mix_and_put_color(t_app *app, int32_t color, float factor, int shade, int y)
+void	mix_and_put_color(t_app *app, t_put_col info)
 {
 	int32_t	r;
 	int32_t	g;
 	int32_t	b;
 	int32_t	a;
 
-	r = (color >> 24) & 0xFF;
-	g = ((color >> 16) & 0xFF) * factor;
-	b = ((color >> 8) & 0xFF) * factor;
-	a = (color & 0xFF);
-	if ((app->cur_ray >= MINIMAP_SIZE || y >= MINIMAP_SIZE)
-		&& app->cur_ray > 0 && y > 0 && app->cur_ray < app->window_width
-		&& y < app->window_height)
+	r = (info.color >> 24) & 0xFF;
+	g = ((info.color >> 16) & 0xFF) * info.factor;
+	b = ((info.color >> 8) & 0xFF) * info.factor;
+	a = (info.color & 0xFF);
+	if ((app->cur_ray >= MINIMAP_SIZE || info.y >= MINIMAP_SIZE)
+		&& app->cur_ray > 0 && info.y > 0 && app->cur_ray < app->window_width
+		&& info.y < app->window_height)
 	{
-		if (shade == 1)
-			color = ft_pixel(230, 5, 5, shade);
+		if (info.shade == 1)
+			info.color = ft_pixel(230, 5, 5, info.shade);
 		else
-			color = ft_pixel(r, g, b, a) + shade;
-		mlx_put_pixel(app->img, app->cur_ray, y, color);
+			info.color = ft_pixel(r, g, b, a) + info.shade;
+		mlx_put_pixel(app->img, app->cur_ray, info.y, info.color);
 	}
 }
 
@@ -63,10 +63,7 @@ xpm_t	*get_text(t_app *app, int side)
 uint32_t	get_texture_pixel(mlx_texture_t *texture, int x, int y, int shade)
 {
 	int		index;
-	uint8_t	red;
-	uint8_t	green;
-	uint8_t	blue;
-	uint8_t	alpha;
+	t_color	colors;
 
 	if (x == -1)
 		return (ft_pixel(5, 5, 5, 5));
@@ -75,9 +72,10 @@ uint32_t	get_texture_pixel(mlx_texture_t *texture, int x, int y, int shade)
 		return (0);
 	}
 	index = round((y * texture->width + x) * texture->bytes_per_pixel);
-	red = texture->pixels[index];
-	green = texture->pixels[index + 1];
-	blue = texture->pixels[index + 2];
-	alpha = 0;
-	return ((ft_pixel(red, green, blue, alpha) + shade));
+	colors.red = texture->pixels[index];
+	colors.green = texture->pixels[index + 1];
+	colors.blue = texture->pixels[index + 2];
+	colors.alpha = 0;
+	return ((ft_pixel(colors.red, colors.green, colors.blue, colors.alpha)
+			+ shade));
 }

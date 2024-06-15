@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:42:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/15 14:21:04 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/15 19:46:37 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,80 +23,21 @@ t_coord	init_coord(int point_x, int point_y, int32_t color)
 	return (new_coord);
 }
 
+void	init_directions(t_vec *directions)
+{
+	directions[0].x = 0;
+	directions[0].y = -1;
+	directions[1].x = 0;
+	directions[1].y = 1;
+	directions[2].x = -1;
+	directions[2].y = 0;
+	directions[3].x = 1;
+	directions[3].y = 0;
+}
+
 //	function to initiliaze the start values of the minimap
-int	init_minimap(t_app *app)
-{
-	app->minimap_img = mlx_new_image(app->mlx, MINIMAP_SIZE, MINIMAP_SIZE);
-	if (!app->minimap_img)
-		return (mlx_terminate(app->mlx), 1);
-	app->player_on_mini = mlx_new_image(app->mlx, MINIMAP_PLAYER,
-			MINIMAP_PLAYER);
-	if (!app->minimap_img)
-		return (mlx_terminate(app->mlx), 1);
-	app->minimap_img->count = 1;
-	app->player_on_mini->count = 1;
-	if (mlx_image_to_window(app->mlx, app->minimap_img, 0, 0) == -1)
-		return (1);
-	if (mlx_image_to_window(app->mlx, app->player_on_mini, MINIMAP_SIZE / 2,
-			MINIMAP_SIZE / 2) == -1)
-		return (1);
-	return (0);
-}
 
-//	function to inititialize the compass and assiging the default values
-int	init_compass(t_app *app)
-{
-	app->compass = mlx_new_image(app->mlx, COMPASS_SIZE, COMPASS_SIZE);
-	if (!app->compass)
-		return (mlx_terminate(app->mlx), 1);
-	app->compass->count = 1;
-	if (mlx_image_to_window(app->mlx, app->compass, app->window_width
-			- COMPASS_SIZE - 10, 10) == -1)
-		return (1);
-	return (0);
-}
-
-void	_init_texture(t_texture *texture)
-{
-	texture->e_path = NULL;
-	texture->n_path = NULL;
-	texture->s_path = NULL;
-	texture->w_path = NULL;
-	texture->d_path = NULL;
-	ft_memset(texture->floor, 0, sizeof(texture->floor));
-	ft_memset(texture->skybox, 0, sizeof(texture->skybox));
-}
-
-void	load_textures(t_app *app)
-{
-	app->textures->n_text = mlx_load_xpm42(app->textures->n_path);
-	app->textures->s_text = mlx_load_xpm42(app->textures->s_path);
-	app->textures->e_text = mlx_load_xpm42(app->textures->e_path);
-	app->textures->w_text = mlx_load_xpm42(app->textures->w_path);
-	if(app->textures->d_path)
-		app->textures->d_text = mlx_load_xpm42(app->textures->d_path);
-	if (!app->textures->n_text)
-		printf("hello\n");
-}
-
-t_weapon	*_init_weapon(t_app *app)
-{
-	t_weapon	*weapon;
-
-	weapon = malloc(sizeof(t_weapon));
-	if (!weapon)
-		free_all_resources(app);
-	weapon->sprite = mlx_load_png("./textures/Jagknife.png");
-	if (!weapon->sprite)
-		free_all_resources(app);
-	weapon->sprite_act = mlx_load_png("./textures/Jagknife.png");
-	if (!weapon->sprite_act)
-		free_all_resources(app);
-	weapon->state = HOLSTERED;
-	return (weapon);
-}
-
-int	_init_app(t_app *app)
+void	_init_vars(t_app *app)
 {
 	app->map_height = app->rows;
 	app->map_width = app->cols;
@@ -113,9 +54,14 @@ int	_init_app(t_app *app)
 	app->minimap_img = NULL;
 	app->compass = NULL;
 	app->closing_counter = 0;
-	app->last_open_door_x = -1;
-	app->last_open_door_y = -1;
+	app->l_op_door_x = -1;
+	app->l_op_door_y = -1;
 	app->manual = NULL;
+}
+
+int	_init_app(t_app *app)
+{
+	_init_vars(app);
 	app->mlx = mlx_init(app->window_width, app->window_height, "cub3d", false);
 	if (!app->mlx)
 		return (1);
@@ -128,7 +74,8 @@ int	_init_app(t_app *app)
 		|| init_minimap(app))
 		return (1);
 	app->man = mlx_new_image(app->mlx, app->window_width, app->window_height);
-	app->man = mlx_put_string(app->mlx, "Press <I> for manual", app->window_width / 2 - 100, 8);
+	app->man = mlx_put_string(app->mlx, "Press <I> for manual",
+			app->window_width / 2 - 100, 8);
 	if (!app->man || create_manual(app) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (load_textures(app), 0);
