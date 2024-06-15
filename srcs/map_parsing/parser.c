@@ -6,7 +6,7 @@
 /*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/15 07:50:48 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/15 07:56:07 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -487,28 +487,28 @@ void	fill_minimap(char **map, int **mini_map, int rows, int columns)
 
 void replace_adjacent_door(t_app *app, char **map, int y, int x, int dy, int dx)
 {
-    int ny = y + dy;
-    int nx = x + dx;
-    
-    if (ny >= 0 && ny < app->rows && nx >= 0 && nx < app->cols && 
-        nx < (int)ft_strlen(map[ny]) && app->walked_map[ny][nx] == 3)
-    {
-        app->walked_map[y][x] = 1;
-        app->walked_map[ny][nx] = 1;
-        map[y][x] = '1';
-        map[ny][nx] = '1';
-    }
+	int ny = y + dy;
+	int nx = x + dx;
+
+	if (ny >= 0 && ny < app->rows && nx >= 0 && nx < app->cols && 
+		nx < (int)ft_strlen(map[ny]) && app->walked_map[ny][nx] == 3)
+	{
+		app->walked_map[y][x] = 1;
+		app->walked_map[ny][nx] = 1;
+		map[y][x] = '1';
+		map[ny][nx] = '1';
+	}
 }
 
 void check_adjacent_doors(t_app *app, char **map, int y, int x)
 {
-    if (app->walked_map[y][x] == 3)
-    {
-        replace_adjacent_door(app, map, y, x, 0, 1);
-        replace_adjacent_door(app, map, y, x, 0, -1);
-        replace_adjacent_door(app, map, y, x, 1, 0);
-        replace_adjacent_door(app, map, y, x, -1, 0);
-    }
+	if (app->walked_map[y][x] == 3)
+	{
+		replace_adjacent_door(app, map, y, x, 0, 1);
+		replace_adjacent_door(app, map, y, x, 0, -1);
+		replace_adjacent_door(app, map, y, x, 1, 0);
+		replace_adjacent_door(app, map, y, x, -1, 0);
+	}
 }
 
 void replace_adj_doors(t_app *app, char **map)
@@ -517,16 +517,16 @@ void replace_adj_doors(t_app *app, char **map)
 	int x;
 
 	y = 0;
-    while (y < app->rows)
-    {
+	while (y < app->rows)
+	{
 		x = 0;
-        while (x < app->cols)
-        {
-            check_adjacent_doors(app, map, y, x);
+		while (x < app->cols)
+		{
+			check_adjacent_doors(app, map, y, x);
 			x++;
 		}
 		y++;
-    }
+	}
 }
 
 
