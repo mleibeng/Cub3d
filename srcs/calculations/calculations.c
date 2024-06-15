@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:03:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/15 16:47:29 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/15 20:01:13 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ float	find_tyle_pos(t_tar *wall)
 		return (get_fractional_part(wall->tar_x));
 	else
 		return (get_fractional_part(wall->tar_y));
+}
+
+int	is_integer(float x)
+{
+	return (fabsf(x - roundf(x)) < 1e-15);
 }
 
 //	function for raycasting the return value will be taken with the cos
@@ -121,8 +126,8 @@ void	calc_walls(t_app *app)
 		wall.distance = cast_ray(app, ray_angle, &wall);
 		if (wall.hit == VERTICAL || wall.hit == DOOR_VERTIKAL)
 		{
-			if ((fabs(wall.tar_y - roundf(wall.tar_y))) > (fabs(wall.tar_x
-						- roundf(wall.tar_x))))
+			if ((fabsf(wall.tar_y - roundf(wall.tar_y)))
+				> (fabsf(wall.tar_x - roundf(wall.tar_x))))
 			{
 				if (wall.hit == VERTICAL)
 					wall.hit = NONVERTICAL;

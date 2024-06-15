@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/15 16:55:42 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/15 20:01:23 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	free_all_resources(t_app *app)
 		app->minimap = NULL;
 	}
 	free_textures(app->textures);
+	mlx_delete_texture(app->weapon->sprite);
+	mlx_delete_texture(app->weapon->sprite_act);
 	free(app->weapon);
 	free_manual(&app->manual);
 }

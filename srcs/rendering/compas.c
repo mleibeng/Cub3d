@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 22:37:06 by flo               #+#    #+#             */
-/*   Updated: 2024/06/15 16:47:58 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/15 20:02:20 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ void	draw_compass_ring(mlx_image_t *compass, int32_t color)
 			x = CENTER + (CENTER - 1 - thickness) * cos(angle * M_PI / 180);
 			y = CENTER + (CENTER - 1 - thickness) * sin(angle * M_PI / 180);
 			if (x > 0 && y > 0 && x <= WINDOW_WIDTH && y <= WINDOW_HEIGHT)
+			{
 				mlx_put_pixel(compass, x, y, color);
+			}
 			angle += 5;
 		}
 		thickness++;
@@ -68,7 +70,9 @@ void	display_compass(t_app *app, float player_angle)
 	int32_t	background_color;
 
 	color = CLEAR;
+	color += 0xCC;
 	background_color = BLACK;
+	app->compass->pixels[3] = 255;
 	clear_compass(app->compass, background_color);
 	draw_compass_ring(app->compass, color);
 	draw_line(app, init_coord(CENTER, CENTER, color), init_coord(CENTER,
@@ -82,6 +86,6 @@ void	display_compass(t_app *app, float player_angle)
 	needle_length = CENTER - 5;
 	app->needle_x = CENTER + needle_length * cos(player_angle);
 	app->needle_y = CENTER + needle_length * sin(player_angle);
-	draw_line(app, init_coord(CENTER, CENTER, 0xFF0000CC),
-		init_coord(app->needle_x, app->needle_y, 0xFF0000CC));
+	draw_line(app, init_coord(CENTER, CENTER, 0xFF0000FF),
+		init_coord(app->needle_x, app->needle_y, 0xFF0000FF));
 }
