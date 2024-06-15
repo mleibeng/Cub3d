@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:03:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/15 11:20:40 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/15 11:55:54 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void	calc_walls(t_app *app)
 
 	wall.color = 0;
 	app->cur_ray = 0;
-	while (app->cur_ray < app->num_rays)
+	while (app->cur_ray <= app->num_rays)
 	{
 		correction = app->cur_ray - app->num_rays / 2;
 		ray_angle = app->player.angle + atan(correction
@@ -122,8 +122,8 @@ void	calc_walls(t_app *app)
 		wall.distance = cast_ray(app, ray_angle, &wall);
 		if (wall.hit == VERTICAL || wall.hit == DOOR_VERTIKAL)
 		{
-			if ((fabs(wall.tar_y - roundf(wall.tar_y)) - 0.0005f)
-				> (fabs(wall.tar_x - roundf(wall.tar_x)) - 0.002))
+			if ((fabs(wall.tar_y - roundf(wall.tar_y)))
+				> (fabs(wall.tar_x - roundf(wall.tar_x))))
 			{
 				if (wall.hit == VERTICAL)
 					wall.hit = NONVERTICAL;
