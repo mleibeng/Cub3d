@@ -6,44 +6,13 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/15 13:46:54 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/15 14:01:47 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 //	main loop function, if there is a change in movement
-
-void	lstadd_back(t_man **lst, t_man *new)
-{
-	t_man	*current;
-
-	if (*lst == NULL)
-	{
-		*lst = new;
-		return ;
-	}
-	current = *lst;
-	while (current->next != NULL)
-		current = current->next;
-	current->next = new;
-}
-
-//	function to free the manual
-void	free_manual(t_man **stack)
-{
-	t_man	*tmp;
-
-	while (*stack)
-	{
-		tmp = *stack;
-		*stack = (*stack)->next;
-		free(tmp->string);
-		tmp->string = NULL;
-		free(tmp);
-		tmp = NULL;
-	}
-}
 
 void	free_all_resources(t_app *app)
 {
@@ -124,70 +93,6 @@ void	main_loop(void *param)
 	display_compass(app, app->player.angle);
 	//draw_weapon(app);
 	close_last_door(app);
-}
-
-//	function to remove the manual from the window and replace it
-void	remove_manual_from_app(t_app *app)
-{
-	t_man		*initial_manual;
-
-	initial_manual = app->manual;
-	while (app->manual)
-	{
-		mlx_delete_image(app->mlx, app->manual->str);
-		app->manual = app->manual->next;
-	}
-	app->manual = initial_manual;
-	app->man = mlx_put_string(app->mlx, "Press <I> for Manual", MINIMAP_SIZE + 8, 8);
-}
-
-// function to print the manual given as a txt.file to the window
-void	print_manual(t_app *app)
-{
-	int		y;
-	int		distance;
-	t_man	*temp;
-
-	temp = app->manual;
-	y = 8;
-	distance = 16;
-	mlx_delete_image(app->mlx, app->man);
-	while (temp)
-	{
-		temp->str = mlx_put_string(app->mlx, temp->string, MINIMAP_SIZE + 8, y);
-		temp = temp->next;
-		y += distance;
-	}
-}
-
-//	reading the lines from the manual and assigning them in a list of images
-int	create_manual(t_app *app)
-{
-	char	*manual_line;
-	int		fd;
-	t_man	*new_node;
-
-	fd = open("manual.txt", O_RDONLY);
-	manual_line = get_next_line(fd);
-	if (!manual_line)
-	{
-		close(fd);
-		perror("manual damaged");
-		return (0);
-	}
-	app->manual = NULL;
-	while (manual_line)
-	{
-		new_node = malloc(sizeof(t_man));
-		if (!new_node)
-			return (EXIT_FAILURE);
-		new_node->string = manual_line;
-		new_node->next = NULL;
-		lstadd_back(&app->manual, new_node);
-		manual_line = get_next_line(fd);
-	}
-	close(fd);
-	return (EXIT_SUCCESS);
 }
 
 int	main(int argc, char **argv)

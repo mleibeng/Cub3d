@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:42:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/15 13:46:40 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/15 14:21:04 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,8 @@ int	_init_app(t_app *app)
 	app->closing_counter = 0;
 	app->last_open_door_x = -1;
 	app->last_open_door_y = -1;
-	app->mlx = mlx_init(app->window_width, app->window_height, "cub3d", true);
+	app->manual = NULL;
+	app->mlx = mlx_init(app->window_width, app->window_height, "cub3d", false);
 	if (!app->mlx)
 		return (1);
 	app->weapon = _init_weapon(app);
@@ -127,7 +128,7 @@ int	_init_app(t_app *app)
 		|| init_minimap(app))
 		return (1);
 	app->man = mlx_new_image(app->mlx, app->window_width, app->window_height);
-	app->man = mlx_put_string(app->mlx, "Press <I> for manual", MINIMAP_SIZE + 8, 8);
+	app->man = mlx_put_string(app->mlx, "Press <I> for manual", app->window_width / 2 - 100, 8);
 	if (!app->man || create_manual(app) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (load_textures(app), 0);

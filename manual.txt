@@ -1,11 +1,12 @@
 Manual, press <I> to quit
----------------------------------------------------------------------------|
-Moving:             Rotation:                    Addiotional functions:    |
-Move forward :  W   Rotate left:   Left arrow    Print position:         P |
-Move move back: S   Rotate right:  Roght arrow   Open doors:             X |
-Move left:      A                                Reset player position : R |
-Move right:     D                                                          |
----------------------------------------------------------------------------|
+|---------------------------------------------------------------------------|
+|Moving:             Rotation:                    Addiotional functions:    |
+|                                                                           |
+|Move forward :  W   Rotate left:   Left arrow    Print position:         P |
+|Move move back: S   Rotate right:  Roght arrow   Open doors:             X |
+|Move left:      A                                Reset player position : R |
+|Move right:     D                                                          |
+|---------------------------------------------------------------------------|
 Mouse functions:
 left button: activate mouse Rotate
 right button: deactiviate mouse rotate

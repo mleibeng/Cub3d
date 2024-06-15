@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/15 13:31:04 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/15 14:42:11 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <sys/stat.h>	//	for chmod()
+
 
 /*--------------------- OS-specific constant definitions--------------------- */
 
@@ -339,3 +341,4 @@ void			print_info(t_app *app);
 void	remove_manual_from_app(t_app *app);
 void	print_manual(t_app *app);
 int	create_manual(t_app *app);
+void	free_manual(t_man **stack);
