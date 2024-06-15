@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 21:35:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/14 22:27:00 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/15 00:38:14 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ void	mix_and_put_color(t_app *app, int32_t color, float factor, int shade, int y
 		&& app->cur_ray > 0 && y > 0 && app->cur_ray < app->window_width
 		&& y < app->window_height)
 	{
-		color = ft_pixel(r, g, b, a) + shade;
+		if (shade == 1)
+			color = ft_pixel(230, 5, 5, shade);
+		else
+			color = ft_pixel(r, g, b, a) + shade;
 		mlx_put_pixel(app->img, app->cur_ray, y, color);
 	}
 }
