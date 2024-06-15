@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/14 22:32:00 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/15 13:31:04 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,14 @@ typedef struct s_minimap
 	int			map_y;
 }				t_minimap;
 
+//	struct for images for the manual, independent from the map
+typedef struct s_manual
+{
+	mlx_image_t		*str;
+	char			*string;
+	struct s_manual	*next;
+}	t_man;
+
 /**
  * Main application structure containing all necessary data for the game.
  * @param mlx Main MLX handle, manages window and graphical context.
@@ -249,6 +257,8 @@ typedef struct s_app
 	int			last_open_door_x;
 	int			last_open_door_y;
 	int			closing_counter;
+	mlx_image_t	*man;
+	t_man		*manual;
 }				t_app;
 
 /*
@@ -323,3 +333,9 @@ void			user_input_hook(t_app *app);
 // ------------------------------  debugging -----------------------------------
 void			print_info(t_app *app);
 #endif
+
+
+//	manual.c
+void	remove_manual_from_app(t_app *app);
+void	print_manual(t_app *app);
+int	create_manual(t_app *app);

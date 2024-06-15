@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:42:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/15 08:51:03 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/15 13:46:40 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,5 +126,9 @@ int	_init_app(t_app *app)
 	if (mlx_image_to_window(app->mlx, app->img, 0, 0) == -1 || init_compass(app)
 		|| init_minimap(app))
 		return (1);
+	app->man = mlx_new_image(app->mlx, app->window_width, app->window_height);
+	app->man = mlx_put_string(app->mlx, "Press <I> for manual", MINIMAP_SIZE + 8, 8);
+	if (!app->man || create_manual(app) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	return (load_textures(app), 0);
 }

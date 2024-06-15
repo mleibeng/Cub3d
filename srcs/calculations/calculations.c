@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:03:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/15 11:55:54 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/15 12:08:35 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ void	calc_walls(t_app *app)
 	float	correction;
 	t_tar	wall;
 
-	wall.color = 0;
 	app->cur_ray = 0;
 	while (app->cur_ray <= app->num_rays)
 	{
@@ -132,7 +131,7 @@ void	calc_walls(t_app *app)
 			}
 		}
 		wall.pos_x_cur_tyle = find_tyle_pos(&wall);
-		wall.wall_height = (int)(app->window_height / (wall.distance + 0.01f));
+		wall.wall_height = (int)(app->window_height / (wall.distance));
 		calc_side(ray_angle, &wall);
 		draw_ray(app, &wall);
 		app->cur_ray++;

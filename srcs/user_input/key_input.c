@@ -6,11 +6,40 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:49:06 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/14 22:40:46 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/15 12:30:49 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+#define OFF 1
+#define ON 2
+
+//	function enables the manual
+int	information(t_app *app)
+{
+	static int	key_pressed = OFF;
+	static int	manual_status = ON;
+
+	if (mlx_is_key_down(app->mlx, MLX_KEY_I) && key_pressed == OFF)
+	{
+		if (manual_status == OFF)
+		{
+			remove_manual_from_app(app);
+			manual_status = ON;
+		}
+		else if (manual_status == ON)
+		{
+			manual_status = OFF;
+			print_manual(app);
+		}
+		key_pressed = ON;
+		return (1);
+	}
+	else if (!mlx_is_key_down(app->mlx, MLX_KEY_I))
+		key_pressed = OFF;
+	return (0);
+}
 
 //	function to check and change the door status (open or closed)
 void	door_open_close(t_app *app)
@@ -84,6 +113,7 @@ void	direction_change_hook(t_app *app)
 	new_y = 0.0f;
 	move_for_back(app, &new_x, &new_y);
 	move_sideways(app, &new_x, &new_y);
+	information(app);
 }
 
 
