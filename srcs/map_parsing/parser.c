@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/15 10:06:50 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/15 11:18:29 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -428,8 +428,8 @@ void	fill_minimap_bounds(char **map, int **mini_map, t_vec *ij)
 			mini_map[ij->x][ij->y] = 1;
 		else if (map[ij->x][ij->y] == '0')
 			mini_map[ij->x][ij->y] = 0;
-		else if (map[ij->x][ij->y] == 'N' || map[ij->x][ij->y] == 'W' || map[ij->x][ij->y] == 'S'
-			|| map[ij->x][ij->y] == 'E')
+		else if (map[ij->x][ij->y] == 'N' || map[ij->x][ij->y] == 'W'
+			|| map[ij->x][ij->y] == 'S' || map[ij->x][ij->y] == 'E')
 			mini_map[ij->x][ij->y] = 2;
 		else if (map[ij->x][ij->y] == 'D')
 			mini_map[ij->x][ij->y] = 3;
@@ -511,13 +511,13 @@ void	fill_minimap(char **map, int **mini_map, t_app *app)
 	}
 }
 
-void replace_adj_door(t_app *app, char **map, int y, int x, int dy, int dx)
+void	replace_adj_door(t_app *app, char **map, int y, int x, int dy, int dx)
 {
-	int ny = y + dy;
-	int nx = x + dx;
+	int	ny = y + dy;
+	int	nx = x + dx;
 
-	if (ny >= 0 && ny < app->rows && nx >= 0 && nx < app->cols &&
-		nx < (int)ft_strlen(map[ny]) && app->walked_map[ny][nx] == 3)
+	if (ny >= 0 && ny < app->rows && nx >= 0 && nx < app->cols
+		&& nx < (int)ft_strlen(map[ny]) && app->walked_map[ny][nx] == 3)
 	{
 		app->walked_map[y][x] = 1;
 		app->walked_map[ny][nx] = 1;
@@ -526,7 +526,7 @@ void replace_adj_door(t_app *app, char **map, int y, int x, int dy, int dx)
 	}
 }
 
-void check_adj_doors(t_app *app, char **map, int y, int x)
+void	check_adj_doors(t_app *app, char **map, int y, int x)
 {
 	if (app->walked_map[y][x] == 3 && app->textures->d_path)
 	{
@@ -537,10 +537,10 @@ void check_adj_doors(t_app *app, char **map, int y, int x)
 	}
 }
 
-void replace_adj_doors(t_app *app, char **map)
+void	replace_adj_doors(t_app *app, char **map)
 {
-	int y;
-	int x;
+	int	y;
+	int	x;
 
 	y = 0;
 	while (y < app->rows)

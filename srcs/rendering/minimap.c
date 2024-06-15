@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 23:01:46 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/15 07:24:05 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/15 11:38:20 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	draw_minimap_wall(t_app *app, int map_x, int map_y)
 	}
 }
 
-void	draw_minimap_door(t_app *app, int map_x, int map_y)
+void	draw_minimap_door(t_app *app, int map_x, int map_y, int32_t color)
 {
 	int	minimap_y;
 	int	minimap_x;
@@ -121,7 +121,7 @@ void	draw_minimap_door(t_app *app, int map_x, int map_y)
 				app->mini_info.half_size);
 			if (is_within_minimap_bounds(app))
 				mlx_put_pixel(app->minimap_img, app->mini_info.xy.x,
-					app->mini_info.xy.y, CYAN);
+					app->mini_info.xy.y, color);
 			minimap_x++;
 		}
 		minimap_y++;
@@ -142,7 +142,12 @@ void	draw_minimap_walls(t_app *app)
 			if (app->map[map_y][map_x] == '1')
 				draw_minimap_wall(app, map_x, map_y);
 			if (app->map[map_y][map_x] == 'D')
-				draw_minimap_door(app, map_x, map_y);
+			{
+				if (app->walked_map[map_y][map_x] == 3)
+					draw_minimap_door(app, map_x, map_y, CYAN);
+				else if (app->walked_map[map_y][map_x] == 4)
+					draw_minimap_door(app, map_x, map_y, GREEN);
+			}
 			map_x++;
 		}
 		map_y++;

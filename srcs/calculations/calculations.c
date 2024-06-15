@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:03:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/14 22:35:11 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/15 11:20:40 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 //	function to calculate which direction faces tile from players perpective
 void	calc_side(float ray_angle, t_tar *wall)
 {
+	if (wall->distance >= 50.0f)
+		return ;
 	if (wall->hit == NONVERTICAL)
 	{
 		if (cos(ray_angle) > 0)
