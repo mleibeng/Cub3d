@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/15 19:57:52 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/15 20:06:04 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@
 /* -------------------- non-adjustable pre-settings ------------------------- */
 
 # define COMPASS_SIZE 81
-# define CENTER 40.5
+# define CENTER 40
 # define MINIMAP_SIZE 100
 # define MINIMAP_PLAYER 5
 # define MAX_LINE_LENGTH 1024
