@@ -6,7 +6,7 @@
 /*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/15 07:56:07 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/15 08:49:33 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	parse_textures(int fd, t_texture *texture)
 
 	line = NULL;
 	while ((!texture->e_path || !texture->w_path || !texture->s_path
-			|| !texture->n_path || !texture->d_path)
+			|| !texture->n_path)
 		&& (line = get_cut_next_line(fd)))
 	{
 		if (ft_strlen(line) > 0)
@@ -65,8 +65,7 @@ void	parse_textures(int fd, t_texture *texture)
 				texture->s_path = ft_strdup(line + 3);
 			else if (!ft_strncmp(line, "EA ", 3))
 				texture->e_path = ft_strdup(line + 3);
-			else if (!ft_strncmp(line, "DO ", 3))
-				texture->d_path = ft_strdup(line + 3);
+
 		}
 		free(line);
 	}
@@ -75,6 +74,31 @@ void	parse_textures(int fd, t_texture *texture)
 		perror("invalid filestop at texture readin");
 		emergency_exit(NULL, texture, NULL);
 	}
+}
+
+void parse_door_text(char *file, t_texture *texture)
+{
+	int fd;
+	char *line;
+	
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+	{
+		perror("Error reopening file");
+		emergency_exit(NULL, texture, NULL);
+	}
+	line = NULL;
+	while ((line = get_cut_next_line(fd)))
+	{
+		if (ft_strlen(line) > 0 && !ft_strncmp(line, "DO ", 3 ))
+		{
+			texture->d_path = ft_strdup(line + 3);
+			free(line);
+			break;
+		}
+		free(line);
+	}
+	close(fd);
 }
 
 void	color_validation(char *end, char *line, int val)
@@ -191,6 +215,7 @@ t_texture	*read_map(char *file, char ***map, int *rows, int *columns)
 	if (*rows > 0)
 		(*map)[*rows] = NULL;
 	close(fd);
+	parse_door_text(file, texture);
 	return (texture);
 }
 
@@ -241,6 +266,8 @@ int	character_validation(char **map, int rows, t_texture *textures)
 				free_textures(textures);
 				return (1);
 			}
+			if(!textures->d_path && map[i][j] == 'D')
+				map[i][j] = '1';
 			j++;
 		}
 		i++;
@@ -336,7 +363,7 @@ int	check_row_bound(t_app *app)
 	{
 		if (app->walked_map[i][0] == 2 || app->walked_map[i][0] == 3)
 		{
-			perror("error in check_bounds: invalid 2 found\n");
+			perror("error in check_bounds: invalid 2/3 found\n");
 			free_queue(app);
 			return (0);
 		}
@@ -348,7 +375,7 @@ int	check_row_bound(t_app *app)
 		if (app->walked_map[i][app->cols - 1] == 2
 			|| app->walked_map[i][app->cols - 1] == 3)
 		{
-			perror("error in check_bounds: invalid 2 found\n");
+			perror("error in check_bounds: invalid 2/3 found\n");
 			free_queue(app);
 			return (0);
 		}
@@ -393,22 +420,22 @@ int	fill_bounds(int next_x, int next_y, t_app *app, char **map)
 	return (1);
 }
 
-void	fill_minimap_bounds(char **map, int **mini_map, int *i, int *j)
+void	fill_minimap_bounds(char **map, int **mini_map, t_vec *ij)
 {
-	if (*j < (int)ft_strlen(map[*i]))
+	if (ij->y < (int)ft_strlen(map[ij->x]))
 	{
-		if (map[*i][*j] == '1')
-			mini_map[*i][*j] = 1;
-		else if (map[*i][*j] == '0')
-			mini_map[*i][*j] = 0;
-		else if (map[*i][*j] == 'N' || map[*i][*j] == 'W' || map[*i][*j] == 'S'
-			|| map[*i][*j] == 'E')
-			mini_map[*i][*j] = 2;
-		else if (map[*i][*j] == 'D')
-			mini_map[*i][*j] = 3;
+		if (map[ij->x][ij->y] == '1')
+			mini_map[ij->x][ij->y] = 1;
+		else if (map[ij->x][ij->y] == '0')
+			mini_map[ij->x][ij->y] = 0;
+		else if (map[ij->x][ij->y] == 'N' || map[ij->x][ij->y] == 'W' || map[ij->x][ij->y] == 'S'
+			|| map[ij->x][ij->y] == 'E')
+			mini_map[ij->x][ij->y] = 2;
+		else if (map[ij->x][ij->y] == 'D')
+			mini_map[ij->x][ij->y] = 3;
 	}
 	else
-		mini_map[*i][*j] = 0;
+		mini_map[ij->x][ij->y] = 0;
 }
 
 int	fill_map(char **map, t_app *app, int *direct_x, int *direct_y)
@@ -467,25 +494,24 @@ int	**create_map(int rows, int columns)
 	return (map);
 }
 
-void	fill_minimap(char **map, int **mini_map, int rows, int columns)
+void	fill_minimap(char **map, int **mini_map, t_app *app)
 {
-	int	i;
-	int	j;
+	t_vec	ij;
 
-	i = 0;
-	while (i < rows)
+	ij.x = 0;
+	while (ij.x < app->rows)
 	{
-		j = 0;
-		while (j < columns)
+		ij.y = 0;
+		while (ij.y < app->cols)
 		{
-			fill_minimap_bounds(map, mini_map, &i, &j);
-			j++;
+			fill_minimap_bounds(map, mini_map, &ij);
+			ij.y++;
 		}
-		i++;
+		ij.x++;
 	}
 }
 
-void replace_adjacent_door(t_app *app, char **map, int y, int x, int dy, int dx)
+void replace_adj_door(t_app *app, char **map, int y, int x, int dy, int dx)
 {
 	int ny = y + dy;
 	int nx = x + dx;
@@ -500,14 +526,14 @@ void replace_adjacent_door(t_app *app, char **map, int y, int x, int dy, int dx)
 	}
 }
 
-void check_adjacent_doors(t_app *app, char **map, int y, int x)
+void check_adj_doors(t_app *app, char **map, int y, int x)
 {
-	if (app->walked_map[y][x] == 3)
+	if (app->walked_map[y][x] == 3 && app->textures->d_path)
 	{
-		replace_adjacent_door(app, map, y, x, 0, 1);
-		replace_adjacent_door(app, map, y, x, 0, -1);
-		replace_adjacent_door(app, map, y, x, 1, 0);
-		replace_adjacent_door(app, map, y, x, -1, 0);
+		replace_adj_door(app, map, y, x, 0, 1);
+		replace_adj_door(app, map, y, x, 0, -1);
+		replace_adj_door(app, map, y, x, 1, 0);
+		replace_adj_door(app, map, y, x, -1, 0);
 	}
 }
 
@@ -522,7 +548,7 @@ void replace_adj_doors(t_app *app, char **map)
 		x = 0;
 		while (x < app->cols)
 		{
-			check_adjacent_doors(app, map, y, x);
+			check_adj_doors(app, map, y, x);
 			x++;
 		}
 		y++;
@@ -530,14 +556,14 @@ void replace_adj_doors(t_app *app, char **map)
 }
 
 
-int	closed_map(char **map, int rows, int columns, t_app *app)
+int	closed_map(char **map, t_vec *rowcol, t_app *app)
 {
 	int	direct_x[] = {0, 0, -1, 1};
 	int	direct_y[] = {-1, 1, 0, 0};
 
-	app->walked_map = create_map(rows, columns);
-	app->minimap = create_map(rows, columns);
-	app->check_queue = malloc(rows * columns * sizeof(t_vec));
+	app->walked_map = create_map(rowcol->x, rowcol->y);
+	app->minimap = create_map(rowcol->x, rowcol->y);
+	app->check_queue = malloc(rowcol->x * rowcol->y * sizeof(t_vec));
 	if (!app->check_queue)
 	{
 		perror("Memory allocation failed for check_queue");
@@ -545,7 +571,7 @@ int	closed_map(char **map, int rows, int columns, t_app *app)
 		free_map((void **)app->minimap);
 		exit(1);
 	}
-	fill_minimap(map, app->minimap, rows, columns);
+	fill_minimap(map, app->minimap, app);
 	if (!fill_map(map, app, direct_x, direct_y))
 	{
 		free_map((void **)app->walked_map);
@@ -556,7 +582,7 @@ int	closed_map(char **map, int rows, int columns, t_app *app)
 	return (1);
 }
 
-void	_validate_field(char **map, int rows, int columns, t_app *app)
+void	_validate_field(char **map, t_vec *rowcol,  t_app *app)
 {
 	f_player_start(app, map, &app->player.start_x, &app->player.start_y);
 	if (app->player.start_y == -1)
@@ -566,7 +592,7 @@ void	_validate_field(char **map, int rows, int columns, t_app *app)
 		free_textures(app->textures);
 		exit(EXIT_FAILURE);
 	}
-	if (!closed_map(map, rows, columns, app))
+	if (!closed_map(map, rowcol, app))
 	{
 		perror("Map has leaky walls");
 		free_map((void **)map);
@@ -577,26 +603,25 @@ void	_validate_field(char **map, int rows, int columns, t_app *app)
 
 char	**map_validate(t_app *app, char *file)
 {
-	int		rows;
-	int		columns;
+	t_vec	rowcol;
 	char	**map;
 
-	rows = 0;
-	columns = 0;
+	rowcol.x = 0;
+	rowcol.y = 0;
 	map = NULL;
-	app->textures = read_map(file, &map, &rows, &columns);
+	app->textures = read_map(file, &map, &rowcol.x, &rowcol.y);
 	if (!app->textures)
 	{
 		perror("Error in textures");
 		exit(EXIT_FAILURE);
 	}
-	if (character_validation(map, rows, app->textures))
+	if (character_validation(map, rowcol.x, app->textures))
 	{
 		perror("Error in character validation");
 		exit(EXIT_FAILURE);
 	}
-	app->cols = columns;
-	app->rows = rows;
-	_validate_field(map, rows, columns, app);
+	app->cols = rowcol.y;
+	app->rows = rowcol.x;
+	_validate_field(map, &rowcol, app);
 	return (map);
 }
