@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:42:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/14 20:08:22 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/15 08:51:03 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ void	load_textures(t_app *app)
 	app->textures->s_text = mlx_load_xpm42(app->textures->s_path);
 	app->textures->e_text = mlx_load_xpm42(app->textures->e_path);
 	app->textures->w_text = mlx_load_xpm42(app->textures->w_path);
-	app->textures->d_text = mlx_load_xpm42(app->textures->d_path);
+	if(app->textures->d_path)
+		app->textures->d_text = mlx_load_xpm42(app->textures->d_path);
 	if (!app->textures->n_text)
 		printf("hello\n");
 }

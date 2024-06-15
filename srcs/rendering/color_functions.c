@@ -6,7 +6,7 @@
 /*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 21:35:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/15 00:38:14 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/15 10:05:30 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ uint32_t	get_texture_pixel(mlx_texture_t *texture, int x, int y, int shade)
 	uint8_t	blue;
 	uint8_t	alpha;
 
+	if (x == -1)
+		return (ft_pixel(5, 5, 5, 5));
 	if (x < 0 || x >= (int)texture->width || y < 0 || y >= (int)texture->height)
 	{
 		return (0);
