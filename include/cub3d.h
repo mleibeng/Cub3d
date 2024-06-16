@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/15 19:57:52 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/16 13:13:20 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,29 +45,36 @@
 /* -------------------- non-adjustable pre-settings ------------------------- */
 
 # define COMPASS_SIZE 81
-# define CENTER 40.5
+# define CENTER 40
 # define MINIMAP_SIZE 100
 # define MINIMAP_PLAYER 5
 # define MAX_LINE_LENGTH 1024
+//	default window settings
 # define WINDOW_WIDTH 960
 # define WINDOW_HEIGHT 960
+// definitions for better visibility
 # define OFF 1
 # define ON 2
+//	direction of tyle in which tyle will hit on the target
 # define VERTICAL 0
 # define NONVERTICAL 1
 # define DOOR_VERTIKAL 2
 # define DOOR_HOR 3
+//	tyle definition
 # define NORTH 1
 # define EAST 2
 # define SOUTH 3
 # define WEST 4
 # define DOOR 5
+//	size of the player
+# define PLAYER_SIZE 0.1
 
 /* ----------------------- adjustable pre-settings -------------------------- */
 
+//	speed in which the player will move with W A S D
 # define PLAYER_MOVE_SPEED 0.06
+//	speed in which the player will rotate with left or right arrow key
 # define PLAYER_ROTATE_SPEED 0.06
-# define PLAYER_SIZE 0.1
 
 /*--------------------------------- Macros ---------------------------------- */
 
@@ -79,8 +86,13 @@ typedef struct s_vec
 	int				y;
 }					t_vec;
 
-//	struct for one coordinate point on the map for drawing a line
-
+/**
+ * struct for a colorcode
+ * @param red red part of the colorcode 0- 255/ 0 - FF
+ * @param green green part of the colorcode 0- 255/ 0 - FF
+ * @param blue blue part of the colorcode 0- 255/ 0 - FF
+ * @param alpha transparency part of the colorcode 0- 255/ 0 - FF
+ */
 typedef struct s_color
 {
 	uint8_t			red;
@@ -97,6 +109,12 @@ typedef struct s_put_col
 	int				y;
 }					t_put_col;
 
+/**
+ * struct for one coordinate point on the map for drawing a line
+ * @param xw x pixel position on the window
+ * @param yw y  pixel position on the window
+ * @param color colorcode 0 - 0xFFFFFFFF
+ */
 typedef struct s_coord
 {
 	int				xw;
@@ -114,8 +132,7 @@ typedef struct s_coord
  * @param wall_height height of the wall at the current ray.
  * @param side which side 1 - 4 for direwctions, 5 for a door.
  * @param x cur position in x
-
-* @param pos_x_cur_tyle which position at the current tyle the ray hits
+ * @param pos_x_cur_tyle which position at the current tyle the ray hits
  * @param color color of the current ray
  */
 typedef struct s_tar
@@ -154,6 +171,11 @@ typedef struct s_player
 	float			angle;
 }					t_player;
 
+/**
+ * struct for the state of the weapon
+ * @param HOLSTERED Weapon not activated
+ * @param ACTIVE War mode activated
+ */
 typedef enum s_state
 {
 	HOLSTERED,
@@ -205,7 +227,12 @@ typedef struct s_minimap
 	int				map_y;
 }					t_minimap;
 
-//	struct for images for the manual, independent from the map
+/**
+ * struct for images for the manual from a txt file.
+ * @param strmimage for on eline of the txt file
+ * @param string one line of the txt file
+ * @param next next pointer of the linked list
+ */
 typedef struct s_manual
 {
 	mlx_image_t		*str;
@@ -306,14 +333,19 @@ t_coord				init_coord(int point_x, int point_y, int32_t color);
 int					init_compass(t_app *app);
 void				_init_texture(t_texture *texture);
 int					_init_app(t_app *app);
-
-// init_imgs.c
+//	init_imgs.c
 t_weapon			*_init_weapon(t_app *app);
 void				load_textures(t_app *app);
+//	manual.c
+void				remove_manual_from_app(t_app *app);
+void				print_manual(t_app *app);
+int					create_manual(t_app *app);
+void				free_manual(t_man **stack);
+
 
 // ----------------------------- map_parsing -----------------------------------
 
-// free_functions
+//	free_functions
 void				free_queue(t_app *app);
 void				emergency_exit(t_app *app, t_texture *texture, char **map);
 
@@ -372,7 +404,7 @@ void				dup_door_path(char *line, int *keep_reading,
 void				parse_textures(int fd, t_texture *texture);
 void				compare_textures(t_texture *texture, char *line);
 t_texture			*init_texture(void);
-// minimap_cals.c
+//	minimap_cals.c
 int					is_within_minimap_bounds(t_app *app);
 void				calculate_xy_coordinates(t_app *app, t_vec map,
 						t_vec minimap);
@@ -398,16 +430,10 @@ int					mouse_shift(t_app *app);
 int					check_wall_collision(t_app *app, float new_x, float new_y);
 void				move_sideways(t_app *app, float *new_x, float *new_y);
 void				move_for_back(t_app *app, float *new_x, float *new_y);
-//		user_input.c
+//	user_input.c
 void				user_input_hook(t_app *app);
 
 // ------------------------------  debugging -----------------------------------
 void				print_info(t_app *app);
-
-//	manual.c
-void				remove_manual_from_app(t_app *app);
-void				print_manual(t_app *app);
-int					create_manual(t_app *app);
-void				free_manual(t_man **stack);
 
 #endif

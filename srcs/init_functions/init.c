@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:42:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/15 19:46:37 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/16 13:15:13 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	_init_vars(t_app *app)
 	app->manual = NULL;
 }
 
+//	function to initialize all the application struct
 int	_init_app(t_app *app)
 {
 	_init_vars(app);

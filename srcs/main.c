@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/15 20:01:23 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/15 20:26:25 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	main(int argc, char **argv)
 		return (1);
 	if (_init_app(&app))
 		return (1);
-	print_info(&app);
+	//print_info(&app);
 	if (app.map)
 	{
 		mlx_key_hook(app.mlx, key_hook, &app);
