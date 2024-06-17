@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:34:39 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/15 19:47:04 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/17 23:07:05 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	check_column_bound(t_app *app)
 	{
 		if (app->walked_map[0][j] == 2 || app->walked_map[0][j] == 3)
 		{
-			perror("error in check_bounds: invalid 2 found\n");
+			printf("Error\n");
+			printf("error in check_bounds: invalid 2 found\n");
 			free_queue(app);
 			return (0);
 		}
@@ -32,7 +33,8 @@ int	check_column_bound(t_app *app)
 		if (app->walked_map[app->rows - 1][j] == 2 || app->walked_map[app->rows
 			- 1][j] == 3)
 		{
-			perror("error in check_bounds: invalid 2 found\n");
+			printf("Error\n");
+			printf("error in check_bounds: invalid 2 found\n");
 			free_queue(app);
 			return (0);
 		}
@@ -49,7 +51,8 @@ int	check_row_bound(t_app *app)
 	{
 		if (app->walked_map[i][0] == 2 || app->walked_map[i][0] == 3)
 		{
-			perror("error in check_bounds: invalid 2/3 found\n");
+			printf("Error\n");
+			printf("error in check_bounds: invalid 2/3 found\n");
 			free_queue(app);
 			return (0);
 		}
@@ -60,7 +63,8 @@ int	check_row_bound(t_app *app)
 		if (app->walked_map[i][app->cols - 1] == 2
 			|| app->walked_map[i][app->cols - 1] == 3)
 		{
-			perror("error in check_bounds: invalid 2/3 found\n");
+			printf("Error\n");
+			printf("error in check_bounds: invalid 2/3 found\n");
 			free_queue(app);
 			return (0);
 		}
@@ -96,9 +100,9 @@ int	fill_bounds(int next_x, int next_y, t_app *app, char **map)
 		}
 		else
 		{
-			perror("error in fill_bounds\n");
-			free_queue(app);
-			return (0);
+			printf("Error\n");
+			printf("error in fill_bounds, leaky walls\n");
+			emergency_exit(app, app->textures, map);
 		}
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:33:43 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/17 17:19:22 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/17 23:07:13 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,5 @@ void	free_queue(t_app *app)
 {
 	if (app->check_queue)
 		free(app->check_queue);
+	app->check_queue = NULL;
 }

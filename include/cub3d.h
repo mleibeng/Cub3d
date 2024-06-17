@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/17 20:46:01 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/17 23:03:55 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -350,7 +350,6 @@ void				print_manual(t_app *app);
 int					create_manual(t_app *app);
 void				free_manual(t_man **stack);
 
-
 // ----------------------------- map_parsing -----------------------------------
 
 //	free_functions
@@ -388,19 +387,23 @@ int					fill_bounds(int next_x, int next_y, t_app *app, char **map);
 int					check_bounds(t_app *app);
 int					check_row_bound(t_app *app);
 int					check_column_bound(t_app *app);
-void				parse_floor_ceiling(char *line, t_texture *texture);
-void				save_rgb(char *line, int *color);
-void				color_validation(char *end, char *line, int val);
+void				parse_floor_ceiling(char *line, t_texture *texture,
+						char **map);
+int					save_rgb(char *line, int *color);
+void				color_validation(char *end, int val);
 void				replace_adj_doors(t_app *app, char **map);
+void				validate_doors(t_app *app, char **map);
 void				fill_minimap(char **map, int **mini_map, t_app *app);
-int					**create_map(int rows, int columns);
+int					**create_map(int rows, int columns, t_app *app);
 int					fill_map(char **map, t_app *app, t_vec *direct);
 void				parse_file(int fd, t_texture *texture, char ***map,
 						t_vec *rows_cols);
-void				parse_map(char *line, char ***map, t_vec *rows_cols);
-int					is_valid(char c);
+void				parse_map(char *line, char ***map, t_vec *rows_cols,
+						t_texture *texture);
+int					is_valid(char c, int *player_count);
 int					character_validation(char **map, int rows,
 						t_texture *textures);
+void				val_and_rep_doors(t_app *app, char **map);
 void				_validate_field(char **map, t_vec *rowcol, t_app *app);
 char				**map_validate(t_app *app, char *file);
 int					open_file(char *file);
@@ -409,8 +412,9 @@ int					closed_map(char **map, t_vec *rowcol, t_app *app);
 void				parse_door_text(char *file, t_texture *texture, char **map);
 void				dup_door_path(char *line, int *keep_reading,
 						t_texture *texture, char **map);
-void				parse_textures(char *line, t_texture *texture);
-void				compare_textures(t_texture *texture, char *line);
+void				parse_textures(char *line, t_texture *texture, char **map);
+void				compare_textures(t_texture *texture, char *line,
+						char **map);
 t_texture			*init_texture(void);
 //	minimap_cals.c
 int					is_within_minimap_bounds(t_app *app);

@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:33:57 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/17 19:33:24 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/17 23:07:27 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@ t_texture	*init_texture(void)
 
 	texture = malloc(sizeof(t_texture));
 	if (!texture)
+	{
+		printf("Error\n");
+		printf("Texture Malloc failed\n");
 		emergency_exit(NULL, NULL, NULL);
+	}
 	_init_texture(texture);
 	return (texture);
 }
@@ -30,7 +34,8 @@ void	check_path(char *path, t_texture *text, char **map)
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
 	{
-		perror("Error opening texture file");
+		printf("Error\n");
+		printf("Error opening texture file\n");
 		close(fd);
 		emergency_exit(NULL, text, map);
 	}
@@ -45,38 +50,39 @@ void	fill_texture_paths(char **texture_path, char *line)
 	*texture_path = ft_strdup(line);
 }
 
-void	compare_textures(t_texture *texture, char *line)
+void	compare_textures(t_texture *texture, char *line, char **map)
 {
 	if (!ft_strncmp(line, "NO ", 3))
 	{
 		fill_texture_paths(&(texture->n_path), line + 3);
-		check_path(texture->n_path, texture, NULL);
+		check_path(texture->n_path, texture, map);
 	}
 	else if (!ft_strncmp(line, "EA ", 3))
 	{
 		fill_texture_paths(&(texture->e_path), line + 3);
-		check_path(texture->e_path, texture, NULL);
+		check_path(texture->e_path, texture, map);
 	}
 	else if (!ft_strncmp(line, "SO ", 3))
 	{
 		fill_texture_paths(&(texture->s_path), line + 3);
-		check_path(texture->s_path, texture, NULL);
+		check_path(texture->s_path, texture, map);
 	}
 	else if (!ft_strncmp(line, "WE ", 3))
 	{
 		fill_texture_paths(&(texture->w_path), line + 3);
-		check_path(texture->w_path, texture, NULL);
+		check_path(texture->w_path, texture, map);
 	}
 }
 
-void	parse_textures(char *line, t_texture *texture)
+void	parse_textures(char *line, t_texture *texture, char **map)
 {
 	if ((!texture->e_path || !texture->w_path || !texture->s_path
-		|| !texture->n_path) && *line)
-		compare_textures(texture, line);
+			|| !texture->n_path) && *line)
+		compare_textures(texture, line, map);
 	if (!line)
 	{
-		perror("invalid filestop at texture readin");
+		printf("Error\n");
+		printf("invalid filestop at texture readin");
 		emergency_exit(NULL, texture, NULL);
 	}
 }
@@ -107,7 +113,8 @@ void	parse_door_text(char *file, t_texture *texture, char **map)
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{
-		perror("Error reopening file");
+		printf("Error\n");
+		printf("Error reopening file");
 		emergency_exit(NULL, texture, map);
 	}
 	while (keep_reading)

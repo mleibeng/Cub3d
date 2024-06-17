@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/17 05:10:46 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/17 23:07:25 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	open_file(char *file)
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{
-		perror("Error opening file");
+		printf("Error\n");
+		printf("Error opening file");
 		return (-1);
 	}
 	return (fd);
@@ -45,23 +46,23 @@ int	closed_map(char **map, t_vec *rowcol, t_app *app)
 	t_vec	directions[4];
 
 	init_directions(directions);
-	app->walked_map = create_map(rowcol->x, rowcol->y);
-	app->minimap = create_map(rowcol->x, rowcol->y);
+	app->walked_map = create_map(rowcol->x, rowcol->y, app);
+	app->minimap = create_map(rowcol->x, rowcol->y, app);
 	app->check_queue = malloc(rowcol->x * rowcol->y * sizeof(t_vec));
 	if (!app->check_queue)
 	{
-		perror("Memory allocation failed for check_queue");
-		free_map((void **)app->walked_map);
-		free_map((void **)app->minimap);
-		exit(1);
+		printf("Error\n");
+		printf("Memory allocation failed for check_queue\n");
+		emergency_exit(app, app->textures, NULL);
 	}
 	fill_minimap(map, app->minimap, app);
 	if (!fill_map(map, app, directions))
 	{
-		free_map((void **)app->walked_map);
-		free_map((void **)app->minimap);
+		printf("Error\n");
+		printf("Map could not be filled\n");
+		emergency_exit(app, app->textures, NULL);
 		return (0);
 	}
-	replace_adj_doors(app, map);
+	validate_doors(app, map);
 	return (1);
 }

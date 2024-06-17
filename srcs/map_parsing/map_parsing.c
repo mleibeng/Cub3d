@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:34:29 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/17 20:38:22 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/17 23:07:16 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,32 +28,42 @@ int	is_map_line(const char *line)
 	return (1);
 }
 
-void	parse_map(char *line, char ***map, t_vec *rows_cols)
+void	parse_map(char *line, char ***map, t_vec *rows_cols, t_texture *texture)
 {
-	if (ft_strlen(line) > 0)
+	size_t	line_len;
+	int		i;
+
+	if (ft_strlen(line) > 0 && is_map_line(line))
 	{
-		if (is_map_line(line))
+		if (rows_cols->x == 0)
 		{
-			if (rows_cols->x == 0)
-			{
-				*map = malloc(MAX_LINE_LENGTH * sizeof(char *));
-				if (!*map)
-				{
-					free(line);
-					emergency_exit(NULL, NULL, *map);
-				}
-			}
-			(*map)[rows_cols->x] = malloc((ft_strlen(line) + 1) * sizeof(char));
-			if (!(*map)[rows_cols->x])
+			*map = malloc(MAX_LINE_LENGTH * sizeof(char *));
+			if (!*map)
 			{
 				free(line);
-				emergency_exit(NULL, NULL, *map);
+				emergency_exit(NULL, texture, *map);
 			}
-			ft_strlcpy((*map)[rows_cols->x], line, ft_strlen(line) + 1);
-			if ((int)ft_strlen(line) > rows_cols->y)
-				rows_cols->y = (int)ft_strlen(line);
-			(rows_cols->x)++;
 		}
+		line_len = ft_strlen(line);
+		(*map)[rows_cols->x] = malloc((line_len + 1) * sizeof(char));
+		if (!(*map)[rows_cols->x])
+		{
+			free(line);
+			emergency_exit(NULL, texture, *map);
+		}
+		i = 0;
+		while (i < (int)line_len)
+		{
+			if (ft_isspace(line[i]))
+				(*map)[rows_cols->x][i] = '0';
+			else
+				(*map)[rows_cols->x][i] = line[i];
+			i++;
+		}
+		(*map)[rows_cols->x][line_len] = '\0';
+		if ((int)line_len > rows_cols->y)
+			rows_cols->y = (int)line_len;
+		(rows_cols->x)++;
 	}
 }
 
@@ -65,8 +75,8 @@ int	is_texture_line(char *line)
 
 int	are_textures_filled(t_texture *texture)
 {
-	return (texture->n_path != NULL && texture->s_path != NULL && texture->w_path != NULL
-		&& texture->e_path != NULL);
+	return (texture->n_path != NULL && texture->s_path != NULL
+		&& texture->w_path != NULL && texture->e_path != NULL);
 }
 
 int	are_colors_filled(t_texture *texture)
@@ -96,19 +106,19 @@ void	parse_file(int fd, t_texture *texture, char ***map, t_vec *rows_cols)
 				if (map_started)
 				{
 					if (is_map_line(line))
-						parse_map(line, map, rows_cols);
+						parse_map(line, map, rows_cols, texture);
 					else
 						map_ended = 1;
 				}
 				else if ((!ft_strncmp(line, "F ", 2) || !ft_strncmp(line, "C ",
 							2)) && !map_started)
-					parse_floor_ceiling(line, texture);
+					parse_floor_ceiling(line, texture, *map);
 				else if ((is_texture_line(line)) && !map_started)
-					parse_textures(line, texture);
+					parse_textures(line, texture, *map);
 				else if (is_map_line(line))
 				{
 					map_started = 1;
-					parse_map(line, map, rows_cols);
+					parse_map(line, map, rows_cols, texture);
 				}
 			}
 			free(line);
@@ -117,7 +127,8 @@ void	parse_file(int fd, t_texture *texture, char ***map, t_vec *rows_cols)
 				if (!are_textures_filled(texture)
 					|| !are_colors_filled(texture))
 				{
-					perror("Error: Unfilled textures or colors after map\n");
+					printf("Error\n");
+					printf("Unfilled textures or colors after map\n");
 					emergency_exit(NULL, texture, *map);
 				}
 				keep_reading = 0;
@@ -128,7 +139,8 @@ void	parse_file(int fd, t_texture *texture, char ***map, t_vec *rows_cols)
 		(*map)[rows_cols->y] = NULL;
 	if (!are_textures_filled(texture) || !are_colors_filled(texture))
 	{
-		perror("Error: Unfilled textures or colors\n");
+		printf("Error\n");
+		printf("Unfilled textures or colors\n");
 		emergency_exit(NULL, texture, *map);
 	}
 }
@@ -153,16 +165,16 @@ int	fill_map(char **map, t_app *app, t_vec *direct)
 			next_x = app->pos.x + direct[j].x;
 			next_y = app->pos.y + direct[j].y;
 			if (!fill_bounds(next_x, next_y, app, map))
-				return (perror("fill_maperror"), 0);
+				return (printf("Error\n"), printf("fill_maperror\n"), 0);
 		}
 	}
 	if (!check_bounds(app))
-		return (perror("maperror"), 0);
+		return (printf("Error\n"), printf("maperror\n"), 0);
 	free_queue(app);
 	return (1);
 }
 
-int	**create_map(int rows, int columns)
+int	**create_map(int rows, int columns, t_app *app)
 {
 	int	i;
 	int	**map;
@@ -176,11 +188,12 @@ int	**create_map(int rows, int columns)
 		map[i] = ft_calloc(columns, sizeof(int));
 		if (!map[i])
 		{
-			perror("Memory allocation failed for map row");
+			printf("Error\n");
+			printf("Memory allocation failed for map row\n");
 			while (i-- > 0)
 				free(map[i]);
 			free(map);
-			exit(1);
+			emergency_exit(app, app->textures, NULL);
 		}
 		i++;
 	}
