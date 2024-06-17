@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_parsing.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:33:57 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/17 05:25:24 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/17 13:16:50 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,16 @@ t_texture	*init_texture(void)
 
 void	check_path(char *path, t_texture *text, char **map)
 {
-	int fd = open(path, O_RDONLY);
-    
-    if (fd == -1)
+	int	fd;
+
+	fd = open(path, O_RDONLY);
+	if (fd == -1)
 	{
-        perror("Error opening texture file");
-        emergency_exit(NULL,text,map);
-    }
-    close(fd);
-    return ;
+		perror("Error opening texture file");
+		emergency_exit(NULL, text, map);
+	}
+	close(fd);
+	return ;
 }
 
 void	compare_textures(t_texture *texture, char *line)
@@ -46,17 +47,17 @@ void	compare_textures(t_texture *texture, char *line)
 	else if (!ft_strncmp(line, "WE ", 3))
 	{
 		texture->w_path = ft_strdup(line + 3);
-		check_path(texture->w_path, texture,NULL);
+		check_path(texture->w_path, texture, NULL);
 	}
 	else if (!ft_strncmp(line, "SO ", 3))
 	{
 		texture->s_path = ft_strdup(line + 3);
-		check_path(texture->s_path, texture,NULL);
+		check_path(texture->s_path, texture, NULL);
 	}
 	else if (!ft_strncmp(line, "EA ", 3))
 	{
 		texture->e_path = ft_strdup(line + 3);
-		check_path(texture->e_path, texture,NULL);
+		check_path(texture->e_path, texture, NULL);
 	}
 }
 
@@ -87,16 +88,16 @@ void	parse_textures(int fd, t_texture *texture)
 	}
 }
 
-void	dup_door_path(char *line, int *keep_reading, t_texture *texture, char **map)
+void	dup_door_path(char *line, int *keep_read, t_texture *txt, char **map)
 {
 	if (!line)
-		*keep_reading = 0;
+		*keep_read = 0;
 	else if (ft_strlen(line) > 0 && !ft_strncmp(line, "DO ", 3))
 	{
-		texture->d_path = ft_strdup(line + 3);
+		txt->d_path = ft_strdup(line + 3);
 		free(line);
-		check_path(texture->d_path, texture, map);
-		*keep_reading = 0;
+		check_path(txt->d_path, txt, map);
+		*keep_read = 0;
 	}
 	else
 		free(line);

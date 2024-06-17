@@ -7,6 +7,7 @@ Manual, press <I> to quit
 |Move left:      A                                Reset player position : R |
 |Move right:     D                                                          |
 |---------------------------------------------------------------------------|
+
 Mouse functions:
 left button: activate mouse Rotate
 right button: deactiviate mouse rotate

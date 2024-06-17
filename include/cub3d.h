@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/17 12:28:47 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/17 15:46:41 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,8 @@ typedef struct s_player
 typedef enum s_state
 {
 	HOLSTERED,
-	ACTIVE
+	ACTIVE,
+	ANIMATE
 }					t_state;
 
 typedef struct s_weapon
@@ -188,9 +189,15 @@ typedef struct s_weapon
 	mlx_image_t		*active_image;
 	mlx_texture_t	*sprite;
 	mlx_texture_t	*sprite_act;
+	mlx_texture_t	*animation[50];
+	mlx_image_t		*punch[3];
+	mlx_image_t		*pistol[5];
+	mlx_image_t		*shotgun[5];
 	int				x;
 	int				y;
+	int				weapon;
 	t_state			state;
+	t_state			animation_start;
 }					t_weapon;
 
 /**

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_input.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:49:06 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/15 17:10:16 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:08:56 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,10 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 	}
 	if ((keydata.key == MLX_KEY_X && keydata.action == MLX_PRESS))
 		door_open_close(app);
+	if (keydata.key == MLX_KEY_B && keydata.action == MLX_PRESS)
+	{
+		app->weapon->state = HOLSTERED;
+	}
 }
 
 void	direction_change_hook(t_app *app)
