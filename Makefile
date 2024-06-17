@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+         #
+#    By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/04 14:26:27 by fkeitel           #+#    #+#              #
-#    Updated: 2024/06/15 14:47:23 by fkeitel          ###   ########.fr        #
+#    Updated: 2024/06/17 17:05:47 by mleibeng         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ OBJS := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
 BONUS_OBJS := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(BONUS_SRCS))
 
 all: $(LIBFT) libmlx $(NAME)
+	@chmod 000 manual.txt
 	@echo "$(NAME) successfully built!"
 
 libmlx:
@@ -67,11 +68,11 @@ clean:
 fclean: clean
 	@rm -rf $(NAME) $(BONUS_NAME)
 	@$(MAKE) -C $(LIBFT_DIR) fclean
+	@chmod 777 manual.txt
 
 re: fclean all
 
 mlxfclean: fclean
 	@rm -rf $(LIBMLX)
-	chmod +rwx manual.txt
 
 .PHONY: all clean fclean re libmlx bonus
