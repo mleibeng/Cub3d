@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/17 04:22:30 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/17 12:45:47 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,15 +79,18 @@ void	free_all_resources(t_app *app)
 
 void	draw_weapon(t_app *app)
 {
-	mlx_texture_t	*current_texture;
-
 	if (app->weapon->state == ACTIVE)
-		current_texture = app->weapon->sprite_act;
-	else
-		current_texture = app->weapon->sprite;
-	app->weapon->x = app->window_width / 2 - current_texture->width / 2;
-	app->weapon->y = app->window_height - current_texture->height;
-	app->weapon->img = mlx_texture_to_image(app->mlx, current_texture);
+	{
+		app->weapon->x = app->window_width / 2 - app->weapon->img->width / 2;
+		app->weapon->y = app->window_height - app->weapon->img->height;
+		put_img_to_img(app->img, app->weapon->img, app->weapon->x,app->weapon->y);
+	}
+	else if (app->weapon->state == HOLSTERED)
+	{
+		app->weapon->x = app->window_width / 2 - app->weapon->active_image->width / 2;
+		app->weapon->y = app->window_height - app->weapon->active_image->height;
+		put_img_to_img(app->img, app->weapon->active_image, app->weapon->x,app->weapon->y);
+	}
 }
 
 //	function to close a door after certain time
@@ -114,11 +117,9 @@ void	main_loop(void *param)
 	app = (t_app *)param;
 	user_input_hook(app);
 	calc_walls(app); //This causes segfaults on turning...
-	if (app->weapon->state == ACTIVE) // This causes performance issues...
-		put_img_to_img(app->img, app->weapon->img, app->weapon->x,app->weapon->y);
 	display_minimap(app);
-	draw_weapon(app);
 	display_compass(app, app->player.angle);
+	draw_weapon(app);
 	close_last_door(app);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/17 05:09:32 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/17 12:28:47 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,7 @@ typedef enum s_state
 typedef struct s_weapon
 {
 	mlx_image_t		*img;
+	mlx_image_t		*active_image;
 	mlx_texture_t	*sprite;
 	mlx_texture_t	*sprite_act;
 	int				x;

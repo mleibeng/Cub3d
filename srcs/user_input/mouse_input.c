@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mouse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 08:40:59 by flo               #+#    #+#             */
-/*   Updated: 2024/06/15 16:48:14 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/17 12:52:49 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,10 @@ int	check_mouse_clicked(t_app *app, int x, int y, enum mouse_key key)
 		{
 			mlx_set_mouse_pos(app->mlx, app->window_width / 2,
 				app->window_height / 2);
-			app->weapon->state = HOLSTERED;
 			return (1);
 		}
 		if (x > 0 && x < app->window_width && y > 0 && y < app->window_height)
 		{
-			if (key == MLX_MOUSE_BUTTON_LEFT)
-				app->weapon->state = ACTIVE;
 			return (1);
 		}
 	}
@@ -48,11 +45,15 @@ int	mouse_shift(t_app *app)
 	{
 		mlx_set_mouse_pos(app->mlx, app->window_width / 2, app->window_height
 			/ 2);
+		app->weapon->state = ACTIVE;
 		mouse_set = 1;
 	}
 	if (check_mouse_clicked(app, x, y, MLX_MOUSE_BUTTON_RIGHT) == 1
 		&& mouse_set == 1)
+	{
+		app->weapon->state = HOLSTERED;
 		mouse_set = 0;
+	}
 	if (mouse_set == 1)
 	{
 		if (previous_x != -1 && previous_x != x)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_imgs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 18:53:54 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/17 04:27:46 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/17 12:55:16 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,14 @@ t_weapon	*_init_weapon(t_app *app)
 	weapon->sprite = mlx_load_png("./textures/Jagknife.png");
 	if (!weapon->sprite)
 		free_all_resources(app);
-	weapon->sprite_act = mlx_load_png("./textures/Jagknife.png");
+	weapon->sprite_act = mlx_load_png("./textures/Jagpistol.png");
 	if (!weapon->sprite_act)
 		free_all_resources(app);
 	weapon->state = HOLSTERED;
+	weapon->img = mlx_texture_to_image(app->mlx, weapon->sprite);
+	weapon->active_image = mlx_texture_to_image(app->mlx, weapon->sprite_act);
+	mlx_resize_image(weapon->img, weapon->img->width * 2, weapon->img->height * 2);
+	mlx_resize_image(weapon->active_image, weapon->active_image->width * 2, weapon->active_image->height * 2);
 	return (weapon);
 }
 
