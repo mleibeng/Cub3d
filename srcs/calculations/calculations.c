@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calculations.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:03:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/15 20:01:13 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/17 04:52:46 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 //	function to calculate which direction faces tile from players perpective
 void	calc_side(float ray_angle, t_tar *wall)
 {
-	if (wall->distance >= 50.0f)
-		return ;
+	// if (wall->distance >= 50.0f)
+	// 	return ; // This causes the segfault!! so I took it out.
 	if (wall->hit == NONVERTICAL)
 	{
 		if (cos(ray_angle) > 0)
