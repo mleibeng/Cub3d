@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calculations.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:03:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/17 22:16:58 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/17 23:10:51 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 		wall->tar_y = app->player.y + depth * sin(ray_angle);
 		if (wall->tar_y >= 0 && wall->tar_x >= 0 && wall->tar_y <= app->rows
 			&& wall->tar_x <= app->cols
-			&& (app->walked_map[(int)(wall->tar_y)][(int)(wall->tar_x)] != 2))
+			&& (app->walked_map[(int)(wall->tar_y)][(int)(wall->tar_x)] == 1
+				|| app->walked_map[(int)(wall->tar_y)][(int)(wall->tar_x)] == 3))
 			break ;
 		depth += 0.01f;
 	}
