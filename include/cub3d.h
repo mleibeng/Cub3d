@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/17 15:46:41 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/17 20:46:01 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -388,7 +388,7 @@ int					fill_bounds(int next_x, int next_y, t_app *app, char **map);
 int					check_bounds(t_app *app);
 int					check_row_bound(t_app *app);
 int					check_column_bound(t_app *app);
-void				parse_floor_ceiling(int fd, t_texture *texture);
+void				parse_floor_ceiling(char *line, t_texture *texture);
 void				save_rgb(char *line, int *color);
 void				color_validation(char *end, char *line, int val);
 void				replace_adj_doors(t_app *app, char **map);
@@ -409,7 +409,7 @@ int					closed_map(char **map, t_vec *rowcol, t_app *app);
 void				parse_door_text(char *file, t_texture *texture, char **map);
 void				dup_door_path(char *line, int *keep_reading,
 						t_texture *texture, char **map);
-void				parse_textures(int fd, t_texture *texture);
+void				parse_textures(char *line, t_texture *texture);
 void				compare_textures(t_texture *texture, char *line);
 t_texture			*init_texture(void);
 //	minimap_cals.c
