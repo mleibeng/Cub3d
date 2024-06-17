@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:34:14 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 01:05:58 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/18 01:17:43 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	check_valid_colors(char *line)
 		}
 		p++;
 	}
-	return(0);
+	return (0);
 }
 
 int	check_valid_end(char *end)
@@ -58,15 +58,15 @@ int	check_valid_end(char *end)
 		printf("Invalid RGB values: extra characters after blue value\n");
 		return (1);
 	}
-	return(0);
+	return (0);
 }
 
 int	save_rgb(char *line, int *color)
 {
 	char	*end;
 
-	if(check_valid_colors(line))
-		return(1);
+	if (check_valid_colors(line))
+		return (1);
 	while (*line && ft_isspace(*line))
 		line++;
 	color[0] = ft_strtoi(line, &end);
@@ -82,7 +82,7 @@ int	save_rgb(char *line, int *color)
 	color[2] = ft_strtoi(line, &end);
 	color_validation(end, color[2]);
 	if (check_valid_end(end))
-		return(1);
+		return (1);
 	color[3] = 0;
 	return (0);
 }
