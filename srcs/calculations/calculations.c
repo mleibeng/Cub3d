@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calculations.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:03:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/17 04:52:46 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/17 22:16:58 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,26 +36,24 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 	float	start;
 	float	end;
 
-	depth = 0.0f;
+	depth = -0.01f;
 	max_units = 1.0f * (int)fmax(app->rows, app->cols);
 	if (max_units > 100.0f)
 		max_units = 100.0f;
-	wall->hit = VERTICAL;
-	wall->tar_x = 0;
-	wall->tar_y = 0;
+	wall->tar_x = 0.01f;
+	wall->tar_y = 0.01f;
 	while (depth < max_units)
 	{
 		wall->tar_x = app->player.x + depth * cos(ray_angle);
 		wall->tar_y = app->player.y + depth * sin(ray_angle);
 		if (wall->tar_y >= 0 && wall->tar_x >= 0 && wall->tar_y <= app->rows
 			&& wall->tar_x <= app->cols
-			&& (app->walked_map[(ft_ro)(wall->tar_y)][(ft_ro)(wall->tar_x)] == 1
-				|| app->walked_map[(ft_ro)(wall->tar_y)][(ft_ro)(wall->tar_x)] == 3))
+			&& (app->walked_map[(int)(wall->tar_y)][(int)(wall->tar_x)] != 2))
 			break ;
 		depth += 0.01f;
 	}
 	start = depth - 0.01f;
-	end = depth;
+	end = depth + 0.01f;
 	if (depth >= max_units)
 	{
 		wall->hit = NONVERTICAL;
@@ -119,7 +117,7 @@ void	calc_walls(t_app *app)
 	app->cur_ray = 0;
 	while (app->cur_ray <= app->num_rays)
 	{
-		correction = app->cur_ray - app->num_rays / 2;
+		correction = app->cur_ray - (float)(app->num_rays) / 2;
 		ray_angle = app->player.angle + atan(correction / app->num_rays
 				* tan(app->fov / 1.5));
 		ray_angle = norm_ang(ray_angle);
