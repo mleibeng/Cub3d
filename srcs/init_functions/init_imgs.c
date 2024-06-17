@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_imgs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 18:53:54 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/17 17:20:23 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/17 18:23:19 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_weapon	*_init_weapon(t_app *app)
 	j = 0;
 	while (j < 3)
 	{
-		weapon->punch[j] =  mlx_texture_to_image(app->mlx, weapon->animation[i++]);
+		weapon->punch[j] = mlx_texture_to_image(app->mlx, weapon->animation[i++]);
 		mlx_resize_image(weapon->punch[j], weapon->punch[j]->width * 3,
 			weapon->punch[j]->height * 3);
 		j++;
@@ -64,7 +64,7 @@ t_weapon	*_init_weapon(t_app *app)
 	j = 0;
 	while (j < 5)
 	{
-		weapon->pistol[j] =  mlx_texture_to_image(app->mlx, weapon->animation[i++]);
+		weapon->pistol[j] = mlx_texture_to_image(app->mlx, weapon->animation[i++]);
 		mlx_resize_image(weapon->pistol[j], weapon->pistol[j]->width * 3,
 			weapon->pistol[j]->height * 3);
 		j++;
@@ -73,7 +73,7 @@ t_weapon	*_init_weapon(t_app *app)
 	j = 0;
 	while (j < 5)
 	{
-		weapon->shotgun[j] =  mlx_texture_to_image(app->mlx, weapon->animation[i++]);
+		weapon->shotgun[j] = mlx_texture_to_image(app->mlx, weapon->animation[i++]);
 		mlx_resize_image(weapon->shotgun[j], weapon->shotgun[j]->width * 3,
 			weapon->shotgun[j]->height * 3);
 		j++;
@@ -109,7 +109,7 @@ void	load_textures(t_app *app)
 	if (app->textures->d_path)
 		app->textures->d_text = mlx_load_xpm42(app->textures->d_path);
 	if (!app->textures->n_text)
-		printf("hello\n");
+		emergency_exit(app, app->textures, NULL);
 }
 
 //	funciton to initlialize all minmap image instances
