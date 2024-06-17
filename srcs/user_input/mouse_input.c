@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 08:40:59 by flo               #+#    #+#             */
-/*   Updated: 2024/06/17 16:47:00 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/17 17:31:21 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ int	mouse_shift(t_app *app)
 	if (check_mouse_clicked(app, x, y, MLX_MOUSE_BUTTON_LEFT) == 1
 		&& mouse_set == 0)
 	{
-		mlx_set_mouse_pos(app->mlx, app->window_width / 2,
-			app->window_height / 2);
 		app->weapon->state = ACTIVE;
 		mouse_set = 1;
 	}
@@ -64,9 +62,17 @@ int	mouse_shift(t_app *app)
 	{
 		if (previous_x != -1 && previous_x != x)
 			app->player.angle += (x - previous_x) * 0.005;
+		mlx_set_mouse_pos(app->mlx, app->window_width / 2,
+		app->window_height / 2);
+		mlx_get_mouse_pos(app->mlx, &x, &y);
 		previous_x = x;
 	}
 	else
+	{
+		mlx_set_mouse_pos(app->mlx, app->window_width / 2,
+		app->window_height / 2);
+		mlx_get_mouse_pos(app->mlx, &x, &y);
 		previous_x = -1;
+	}
 	return (0);
 }
