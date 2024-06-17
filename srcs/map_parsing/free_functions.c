@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:33:43 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/15 20:02:06 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/17 17:19:22 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	emergency_exit(t_app *app, t_texture *texture, char **map)
 		if (app->check_queue)
 			free(app->check_queue);
 	}
-	perror("Memory allocation failure or other error");
 	exit(EXIT_FAILURE);
 }
 

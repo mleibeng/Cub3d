@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_imgs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 18:53:54 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/17 16:48:22 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/17 17:20:23 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,11 @@ void	_init_texture(t_texture *texture)
 	texture->s_path = NULL;
 	texture->w_path = NULL;
 	texture->d_path = NULL;
+	texture->d_text = NULL;
+	texture->n_text = NULL;
+	texture->s_text = NULL;
+	texture->w_text = NULL;
+	texture->e_text = NULL;
 	ft_memset(texture->floor, 0, sizeof(texture->floor));
 	ft_memset(texture->skybox, 0, sizeof(texture->skybox));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_parsing.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:33:57 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/17 13:16:50 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/17 17:32:51 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,33 +31,41 @@ void	check_path(char *path, t_texture *text, char **map)
 	if (fd == -1)
 	{
 		perror("Error opening texture file");
+		close(fd);
 		emergency_exit(NULL, text, map);
 	}
 	close(fd);
 	return ;
 }
 
+void	fill_texture_paths(char **texture_path, char *line)
+{
+	while (ft_isspace(*line))
+		line++;
+	*texture_path = ft_strdup(line);
+}
+
 void	compare_textures(t_texture *texture, char *line)
 {
 	if (!ft_strncmp(line, "NO ", 3))
 	{
-		texture->n_path = ft_strdup(line + 3);
+		fill_texture_paths(&(texture->n_path), line + 3);
 		check_path(texture->n_path, texture, NULL);
-	}
-	else if (!ft_strncmp(line, "WE ", 3))
-	{
-		texture->w_path = ft_strdup(line + 3);
-		check_path(texture->w_path, texture, NULL);
-	}
-	else if (!ft_strncmp(line, "SO ", 3))
-	{
-		texture->s_path = ft_strdup(line + 3);
-		check_path(texture->s_path, texture, NULL);
 	}
 	else if (!ft_strncmp(line, "EA ", 3))
 	{
-		texture->e_path = ft_strdup(line + 3);
+		fill_texture_paths(&(texture->e_path), line + 3);
 		check_path(texture->e_path, texture, NULL);
+	}
+	else if (!ft_strncmp(line, "SO ", 3))
+	{
+		fill_texture_paths(&(texture->s_path), line + 3);
+		check_path(texture->s_path, texture, NULL);
+	}
+	else if (!ft_strncmp(line, "WE ", 3))
+	{
+		fill_texture_paths(&(texture->w_path), line + 3);
+		check_path(texture->w_path, texture, NULL);
 	}
 }
 
@@ -94,7 +102,7 @@ void	dup_door_path(char *line, int *keep_read, t_texture *txt, char **map)
 		*keep_read = 0;
 	else if (ft_strlen(line) > 0 && !ft_strncmp(line, "DO ", 3))
 	{
-		txt->d_path = ft_strdup(line + 3);
+		fill_texture_paths(&(txt->d_path), line + 3);
 		free(line);
 		check_path(txt->d_path, txt, map);
 		*keep_read = 0;
