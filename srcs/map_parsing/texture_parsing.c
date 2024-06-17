@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:33:57 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/17 17:32:51 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/17 19:33:24 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,26 +69,11 @@ void	compare_textures(t_texture *texture, char *line)
 	}
 }
 
-void	parse_textures(int fd, t_texture *texture)
+void	parse_textures(char *line, t_texture *texture)
 {
-	char	*line;
-	int		keep_reading;
-
-	line = NULL;
-	keep_reading = 1;
-	while (keep_reading && (!texture->e_path || !texture->w_path
-			|| !texture->s_path || !texture->n_path))
-	{
-		line = get_cut_next_line(fd);
-		if (!line)
-			keep_reading = 0;
-		else
-		{
-			if (ft_strlen(line) > 0)
-				compare_textures(texture, line);
-			free(line);
-		}
-	}
+	if ((!texture->e_path || !texture->w_path || !texture->s_path
+		|| !texture->n_path) && *line)
+		compare_textures(texture, line);
 	if (!line)
 	{
 		perror("invalid filestop at texture readin");

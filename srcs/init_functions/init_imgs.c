@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 18:53:54 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/17 17:20:23 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/17 19:47:59 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ void	_init_texture(t_texture *texture)
 	texture->s_text = NULL;
 	texture->w_text = NULL;
 	texture->e_text = NULL;
-	ft_memset(texture->floor, 0, sizeof(texture->floor));
-	ft_memset(texture->skybox, 0, sizeof(texture->skybox));
+	ft_memset(texture->floor, -1, sizeof(texture->floor));
+	ft_memset(texture->skybox, -1, sizeof(texture->skybox));
 }
 
 //	function to convert the texture paths to texture structs
