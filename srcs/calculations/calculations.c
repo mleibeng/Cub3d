@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:03:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/17 20:57:08 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/17 22:16:58 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,33 +36,29 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 	float	start;
 	float	end;
 
-	depth = 0.0f;
+	depth = -0.01f;
 	max_units = 1.0f * (int)fmax(app->rows, app->cols);
 	if (max_units > 100.0f)
 		max_units = 100.0f;
-	wall->hit = VERTICAL;
-	wall->tar_x = 0;
-	wall->tar_y = 0;
+	wall->tar_x = 0.01f;
+	wall->tar_y = 0.01f;
 	while (depth < max_units)
 	{
 		wall->tar_x = app->player.x + depth * cos(ray_angle);
 		wall->tar_y = app->player.y + depth * sin(ray_angle);
 		if (wall->tar_y >= 0 && wall->tar_x >= 0 && wall->tar_y <= app->rows
 			&& wall->tar_x <= app->cols
-			&& (app->walked_map[(int)(wall->tar_y)][(int)(wall->tar_x)] == 1
-				|| app->walked_map[(int)(wall->tar_y)][(int)(wall->tar_x)] == 3))
+			&& (app->walked_map[(int)(wall->tar_y)][(int)(wall->tar_x)] != 2))
 			break ;
 		depth += 0.01f;
 	}
-	start = depth - 0.03f;
-	end = depth;
-	//if (depth >= max_units)
-	//{
-	//	wall->hit = NONVERTICAL;
-	//	return (max_units * cos(app->player.angle - ray_angle));
-	//}
-	if (start > 3.0f)
-		write(1, "t", 1);
+	start = depth - 0.01f;
+	end = depth + 0.01f;
+	if (depth >= max_units)
+	{
+		wall->hit = NONVERTICAL;
+		return (max_units * cos(app->player.angle - ray_angle));
+	}
 	while (end - start > 0.00003f)
 	{
 		depth = (start + end) / 2;
