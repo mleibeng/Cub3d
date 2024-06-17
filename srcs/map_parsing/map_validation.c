@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:35:36 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/17 23:07:22 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/18 00:53:18 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,27 @@ int	is_valid(char c, int *player_count)
 		|| c == 'D');
 }
 
+void	validate_character(char c, int *player_count, t_texture *textures,
+		char **map)
+{
+	if (!is_valid(c, player_count))
+	{
+		if (*player_count > 1)
+			print_error_and_exit("Multiple players found in map", textures,
+				map);
+		else
+			print_error_and_exit("Invalid character inside map", textures, map);
+	}
+	if (!textures->d_path && c == 'D')
+		c = '1';
+}
+
 int	character_validation(char **map, int rows, t_texture *textures)
 {
-	int	player_count;
-	int	i;
-	int	j;
+	int		player_count;
+	int		i;
+	int		j;
+	char	c;
 
 	player_count = 0;
 	i = 0;
@@ -37,38 +53,15 @@ int	character_validation(char **map, int rows, t_texture *textures)
 		j = 0;
 		while (j < (int)ft_strlen(map[i]))
 		{
-			if (ft_isspace(map[i][j]))
-			{
-				j++;
-				continue ;
-			}
-			if (!is_valid(map[i][j], &player_count))
-			{
-				if (player_count > 1)
-				{
-					printf("Error\n");
-					printf("Multiple players found in map\n");
-					emergency_exit(NULL, textures, map);
-				}
-				else
-				{
-					printf("Error\n");
-					printf("Invalid character inside map\n");
-					emergency_exit(NULL, textures, map);
-				}
-			}
-			if (!textures->d_path && map[i][j] == 'D')
-				map[i][j] = '1';
+			c = map[i][j];
+			if (!ft_isspace(map[i][j]))
+				validate_character(map[i][j], &player_count, textures, map);
 			j++;
 		}
 		i++;
 	}
 	if (player_count == 0)
-	{
-		printf("Error\n");
-		printf("No player found in map\n");
-		emergency_exit(NULL, textures, map);
-	}
+		print_error_and_exit("No player found in map", textures, map);
 	return (0);
 }
 
@@ -97,10 +90,6 @@ char	**map_validate(t_app *app, char *file)
 	rowcol.x = 0;
 	rowcol.y = 0;
 	map = NULL;
-	app->map = NULL;
-	app->walked_map = 0;
-	app->check_queue = NULL;
-	app->minimap = 0;
 	app->textures = read_map(file, &map, &rowcol);
 	if (!app->textures)
 	{

@@ -6,42 +6,11 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:33:57 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/17 23:07:27 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/18 00:03:46 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-t_texture	*init_texture(void)
-{
-	t_texture	*texture;
-
-	texture = malloc(sizeof(t_texture));
-	if (!texture)
-	{
-		printf("Error\n");
-		printf("Texture Malloc failed\n");
-		emergency_exit(NULL, NULL, NULL);
-	}
-	_init_texture(texture);
-	return (texture);
-}
-
-void	check_path(char *path, t_texture *text, char **map)
-{
-	int	fd;
-
-	fd = open(path, O_RDONLY);
-	if (fd == -1)
-	{
-		printf("Error\n");
-		printf("Error opening texture file\n");
-		close(fd);
-		emergency_exit(NULL, text, map);
-	}
-	close(fd);
-	return ;
-}
 
 void	fill_texture_paths(char **texture_path, char *line)
 {

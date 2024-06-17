@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/17 23:14:47 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/18 01:06:52 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -376,8 +376,20 @@ xpm_t				*get_text(t_app *app, int side);
 int32_t				ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
 // void				draw_part_ray(t_app *app, int start, int end, int32_t color,
 // 						char dir);
+int					is_map_line(const char *line);
+void				print_error_and_exit(const char *message,
+						t_texture *textures, char **map);
+void				check_path(char *path, t_texture *text, char **map);
+int					check_textures_and_colors(t_texture *texture, char **map);
+void				finalize_parsing(t_texture *texture, char ***map,
+						t_vec *rows_cols);
 void				draw_ray(t_app *app, t_tar *wall);
-
+int					process_non_map_line(char *line, t_texture *texture,
+						char ***map, t_vec *rows_cols, int *map_started);
+int					process_map_line(char *line, char ***map, t_vec *rows_cols,
+						t_texture *texture, int *map_ended);
+int					process_line(char *line, t_texture *texture, char ***map,
+						t_vec *rows_cols, t_vec *map_start_end);
 void				init_directions(t_vec *directions);
 void				f_player_start(t_app *app, char **map, int *player_x,
 						int *player_y);

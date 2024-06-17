@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:42:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/16 13:15:13 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/18 00:03:24 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+t_texture	*init_texture(void)
+{
+	t_texture	*texture;
+
+	texture = malloc(sizeof(t_texture));
+	if (!texture)
+	{
+		printf("Error\n");
+		printf("Texture Malloc failed\n");
+		emergency_exit(NULL, NULL, NULL);
+	}
+	_init_texture(texture);
+	return (texture);
+}
 
 // initialite a coordinate point
 t_coord	init_coord(int point_x, int point_y, int32_t color)

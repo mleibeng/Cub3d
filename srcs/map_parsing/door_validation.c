@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:45:23 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/17 23:07:11 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/18 00:59:35 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	check_adj_doors(t_app *app, char **map, t_vec xy)
 
 void	validate_doors(t_app *app, char **map)
 {
-	t_vec xy;
+	t_vec	xy;
+
 	xy.y = 0;
 	while (xy.y < app->rows)
 	{

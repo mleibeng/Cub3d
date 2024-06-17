@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:34:14 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/17 23:07:08 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/18 01:05:58 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,10 @@ void	color_validation(char *end, int val)
 	}
 }
 
-int	save_rgb(char *line, int *color)
+int	check_valid_colors(char *line)
 {
-	char	*end;
 	char	*p;
 
-	int r, g, b;
 	p = line;
 	while (*p)
 	{
@@ -47,20 +45,11 @@ int	save_rgb(char *line, int *color)
 		}
 		p++;
 	}
-	while (*line && ft_isspace(*line))
-		line++;
-	r = ft_strtoi(line, &end);
-	color_validation(end, r);
-	line = end;
-	while (*line && (ft_isspace(*line) || *line == ','))
-		line++;
-	g = ft_strtoi(line, &end);
-	color_validation(end, g);
-	line = end;
-	while (*line && (ft_isspace(*line) || *line == ','))
-		line++;
-	b = ft_strtoi(line, &end);
-	color_validation(end, b);
+	return(0);
+}
+
+int	check_valid_end(char *end)
+{
 	while (*end && ft_isspace(*end))
 		end++;
 	if (*end != '\0')
@@ -69,9 +58,31 @@ int	save_rgb(char *line, int *color)
 		printf("Invalid RGB values: extra characters after blue value\n");
 		return (1);
 	}
-	color[0] = r;
-	color[1] = g;
-	color[2] = b;
+	return(0);
+}
+
+int	save_rgb(char *line, int *color)
+{
+	char	*end;
+
+	if(check_valid_colors(line))
+		return(1);
+	while (*line && ft_isspace(*line))
+		line++;
+	color[0] = ft_strtoi(line, &end);
+	color_validation(end, color[0]);
+	line = end;
+	while (*line && (ft_isspace(*line) || *line == ','))
+		line++;
+	color[1] = ft_strtoi(line, &end);
+	color_validation(end, color[1]);
+	line = end;
+	while (*line && (ft_isspace(*line) || *line == ','))
+		line++;
+	color[2] = ft_strtoi(line, &end);
+	color_validation(end, color[2]);
+	if (check_valid_end(end))
+		return(1);
 	color[3] = 0;
 	return (0);
 }
