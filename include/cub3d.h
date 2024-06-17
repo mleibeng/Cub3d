@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/16 13:25:00 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/17 05:09:32 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -398,9 +398,9 @@ char				**map_validate(t_app *app, char *file);
 int					open_file(char *file);
 t_texture			*read_map(char *file, char ***map, t_vec *rows_cols);
 int					closed_map(char **map, t_vec *rowcol, t_app *app);
-void				parse_door_text(char *file, t_texture *texture);
+void				parse_door_text(char *file, t_texture *texture, char **map);
 void				dup_door_path(char *line, int *keep_reading,
-						t_texture *texture);
+						t_texture *texture, char **map);
 void				parse_textures(int fd, t_texture *texture);
 void				compare_textures(t_texture *texture, char *line);
 t_texture			*init_texture(void);
