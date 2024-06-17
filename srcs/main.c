@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/16 16:16:27 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/17 04:22:30 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,19 +113,12 @@ void	main_loop(void *param)
 
 	app = (t_app *)param;
 	user_input_hook(app);
-	mlx_delete_image(app->mlx, app->img);
-	app->img = mlx_new_image(app->mlx, app->window_width, app->window_height);
-	if (!app->img)
-		return ;
-	calc_walls(app);
+	calc_walls(app); //This causes segfaults on turning...
+	if (app->weapon->state == ACTIVE) // This causes performance issues...
+		put_img_to_img(app->img, app->weapon->img, app->weapon->x,app->weapon->y);
 	display_minimap(app);
 	draw_weapon(app);
 	display_compass(app, app->player.angle);
-	put_img_to_img(app->img, app->compass, app->window_width - app->compass->width, 0);
-	if (app->weapon->state == ACTIVE)
-		put_img_to_img(app->img, app->weapon->img, app->weapon->x,app->weapon->y);
-	if (mlx_image_to_window(app->mlx, app->img, 0, 0) == -1)
-		exit(1);
 	close_last_door(app);
 }
 

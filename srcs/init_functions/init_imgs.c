@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_imgs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 18:53:54 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/16 15:55:41 by flo              ###   ########.fr       */
+/*   Updated: 2024/06/17 04:27:46 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,7 @@ int	init_compass(t_app *app)
 	if (!app->compass)
 		return (mlx_terminate(app->mlx), 1);
 	app->compass->count = 1;
+	if (mlx_image_to_window(app->mlx, app->compass, WINDOW_WIDTH / 1.1, WINDOW_HEIGHT / 75) == -1)
+		return (1);
 	return (0);
 }
