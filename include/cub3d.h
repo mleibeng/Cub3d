@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/18 01:06:52 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/18 02:22:01 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,6 +224,13 @@ typedef struct s_texture
 	int				skybox[4];
 }					t_texture;
 
+typedef struct s_line_struct
+{
+	t_vec			*rows_cols;
+	t_texture		*texture;
+	char			***map;
+}					t_line_struct;
+
 typedef struct s_minimap
 {
 	int				half_size;
@@ -377,6 +384,8 @@ int32_t				ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
 // void				draw_part_ray(t_app *app, int start, int end, int32_t color,
 // 						char dir);
 int					is_map_line(const char *line);
+int					are_textures_and_colors_filled(t_texture *texture);
+int					is_texture_line(char *line);
 void				print_error_and_exit(const char *message,
 						t_texture *textures, char **map);
 void				check_path(char *path, t_texture *text, char **map);
