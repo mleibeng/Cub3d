@@ -6,24 +6,30 @@
 /*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 00:55:33 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 04:34:00 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/18 19:01:00 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	allocate_map_memory(char ***map, size_t line_len, int row,
-		t_texture *texture)
+int	allocate_map_memory(char ***map, size_t line_len, int row)
 {
 	if (!*map)
 	{
 		*map = malloc(MAX_LINE_LENGTH * sizeof(char *));
 		if (!*map)
-			emergency_exit(NULL, texture, *map);
+		{
+			printf("Error\nMap Malloc failed\n");
+			return(1);
+		}
 	}
 	(*map)[row] = malloc((line_len + 1) * sizeof(char));
 	if (!(*map)[row])
-		emergency_exit(NULL, texture, *map);
+	{
+		printf("Error\nRow Malloc failed\n");
+		return (1);
+	}
+	return (0);
 }
 
 void	copy_line_to_map(char *line, char **map, int row, size_t line_len)
@@ -49,17 +55,19 @@ void	update_rows_cols(size_t line_len, t_vec *rows_cols)
 	(rows_cols->x)++;
 }
 
-void	parse_map(char *line, char ***map, t_vec *rows_cols, t_texture *texture)
+int	parse_map(char *line, char ***map, t_vec *rows_cols)
 {
 	size_t	line_len;
+	int status = 0;
 
 	line_len = ft_strlen(line);
 	if (ft_strlen(line) > 0)
 	{
-		allocate_map_memory(map, line_len, rows_cols->x, texture);
+		status = allocate_map_memory(map, line_len, rows_cols->x);
 		copy_line_to_map(line, *map, rows_cols->x, line_len);
 		update_rows_cols(line_len, rows_cols);
 	}
+	return (status);
 }
 
 int	fill_map(char **map, t_app *app, t_vec *direct)
@@ -72,7 +80,7 @@ int	fill_map(char **map, t_app *app, t_vec *direct)
 	app->start = 0;
 	app->check_queue[app->end++] = (t_vec){app->player.start_x,
 		app->player.start_y};
-	app->walked_map[app->player.start_y][app->player.start_x] = 2;
+	app->walked_map[app->player.start_x][app->player.start_y] = 2;
 	while (app->start < app->end)
 	{
 		app->pos = app->check_queue[app->start++];

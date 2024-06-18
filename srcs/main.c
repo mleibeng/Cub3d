@@ -6,7 +6,7 @@
 /*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/18 03:48:28 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/18 19:25:29 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,24 +68,28 @@ void	free_all_resources(t_app *app)
 {
 	if (app->map)
 	{
-		free_map((void **)app->map);
+		free_map(app->map);
 		app->map = NULL;
 	}
 	if (app->walked_map)
 	{
-		free_map((void **)app->walked_map);
+		free_intmap(app->walked_map, app->rows);
 		app->walked_map = NULL;
 	}
 	if (app->minimap)
 	{
-		free_map((void **)app->minimap);
+		free_intmap(app->minimap, app->rows);
 		app->minimap = NULL;
 	}
 	free_textures(app->textures);
-	mlx_delete_texture(app->weapon->sprite);
-	mlx_delete_texture(app->weapon->sprite_act);
-	free(app->weapon);
-	free_manual(&app->manual);
+	if(app->weapon->sprite)
+		mlx_delete_texture(app->weapon->sprite);
+	if(app->weapon->sprite_act)
+		mlx_delete_texture(app->weapon->sprite_act);
+	if(app->weapon)
+		free(app->weapon);
+	if(app->manual)
+		free_manual(&app->manual);
 }
 
 //	function to animate the weapon firing
@@ -164,11 +168,11 @@ void	main_loop(void *param)
 
 	app = (t_app *)param;
 	user_input_hook(app);
-	calc_walls(app);
+	// calc_walls(app);
 	display_minimap(app);
-	display_compass(app, app->player.angle);
-	draw_weapon(app);
-	close_last_door(app);
+	// display_compass(app, app->player.angle);
+	// draw_weapon(app);
+	// close_last_door(app);
 }
 
 int	is_not_cub(char *file)

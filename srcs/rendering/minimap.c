@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 23:01:46 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/15 18:26:14 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/18 19:25:02 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,21 @@ void	draw_minimap_wall(t_app *app, t_vec map)
 {
 	t_vec	minimap;
 
-	minimap.y = 0;
-	while (minimap.y < app->mini_info.wall_size)
+	minimap.x = 0;
+	while (minimap.x < app->mini_info.wall_size)
 	{
-		minimap.x = 0;
-		while (minimap.x < app->mini_info.wall_size)
+		minimap.y = 0;
+		while (minimap.y < app->mini_info.wall_size)
 		{
 			calculate_xy_coordinates(app, map, minimap);
-			rotate_point(&app->mini_info.xy, -app->player.angle,
+			rotate_point(&app->mini_info.xy, +app->player.angle,
 				app->mini_info.half_size);
 			if (is_within_minimap_bounds(app))
 				mlx_put_pixel(app->minimap_img, app->mini_info.xy.x,
 					app->mini_info.xy.y, WHITE);
-			minimap.x++;
+			minimap.y++;
 		}
-		minimap.y++;
+		minimap.x++;
 	}
 }
 
@@ -38,21 +38,21 @@ void	draw_minimap_door(t_app *app, t_vec map, int32_t color)
 {
 	t_vec	minimap;
 
-	minimap.y = 0;
-	while (minimap.y < app->mini_info.wall_size)
+	minimap.x = 0;
+	while (minimap.x < app->mini_info.wall_size)
 	{
-		minimap.x = 0;
-		while (minimap.x < app->mini_info.wall_size)
+		minimap.y = 0;
+		while (minimap.y < app->mini_info.wall_size)
 		{
 			calculate_xy_coordinates(app, map, minimap);
-			rotate_point(&app->mini_info.xy, -app->player.angle,
+			rotate_point(&app->mini_info.xy, +app->player.angle,
 				app->mini_info.half_size);
 			if (is_within_minimap_bounds(app))
 				mlx_put_pixel(app->minimap_img, app->mini_info.xy.x,
 					app->mini_info.xy.y, color);
-			minimap.x++;
+			minimap.y++;
 		}
-		minimap.y++;
+		minimap.x++;
 	}
 }
 
@@ -60,21 +60,24 @@ void	draw_minimap_walls(t_app *app)
 {
 	t_vec	map;
 
-	map.y = 0;
-	while (map.y < app->map_height)
+	map.x = 0;
+	while (map.x < app->map_width)
 	{
-		map.x = 0;
-		while (map.x < app->map_width)
-		{
-			if (app->map[map.y][map.x] == '1')
+		map.y = 0;
+		while (map.y < app->map_height)
+		{	
+			printf("1\n");
+			if (app->map[map.x][map.y] == '1')
 				draw_minimap_wall(app, map);
-			if (app->map[map.y][map.x] == 'D')
+			printf("2\n");
+			if (app->map[map.x][map.y] == 'D')
 			{
-				if (app->walked_map[map.y][map.x] == 3)
+				if (app->walked_map[map.x][map.y] == 3)
 					draw_minimap_door(app, map, CYAN);
-				else if (app->walked_map[map.y][map.x] == 4)
+				else if (app->walked_map[map.x][map.y] == 4)
 					draw_minimap_door(app, map, GREEN);
 			}
+			printf("3\n");
 			map.x++;
 		}
 		map.y++;
@@ -91,6 +94,7 @@ void	draw_minimap(t_app *app)
 		return ;
 	}
 	draw_minimap_walls(app);
+	printf("1\n");
 	put_player_mini(app);
 }
 

@@ -6,13 +6,13 @@
 /*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:34:14 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 05:20:03 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/18 16:01:57 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	color_validation(char *end, int val)
+int	color_validation(char *end, int val)
 {
 	while (end && *end && ft_isspace(*end))
 		end++;
@@ -20,14 +20,15 @@ void	color_validation(char *end, int val)
 	{
 		printf("Error\n");
 		printf("Invalid RGB values\n");
-		exit(1);
+		return (1);
 	}
 	if (val < 0 || val > 255)
 	{
 		printf("Error\n");
 		printf("RGB values must be between 0 and 255");
-		exit(1);
+		return (1);
 	}
+	return (0);
 }
 
 int	check_valid_colors(char *line)
@@ -42,6 +43,7 @@ int	check_valid_colors(char *line)
 			printf("Error\n");
 			printf("Invalid RGB values: non-numeric characters found\n");
 			free(line - 2);
+			line = NULL;
 			return (1);
 		}
 		p++;
@@ -71,24 +73,27 @@ int	save_rgb(char *line, int *color)
 	while (*line && ft_isspace(*line))
 		line++;
 	color[0] = ft_strtoi(line, &end);
-	color_validation(end, color[0]);
+	if(color_validation(end, color[0]))
+		return (1);
 	line = end;
 	while (*line && (ft_isspace(*line) || *line == ','))
 		line++;
 	color[1] = ft_strtoi(line, &end);
-	color_validation(end, color[1]);
+	if(color_validation(end, color[1]))
+		return (1);
 	line = end;
 	while (*line && (ft_isspace(*line) || *line == ','))
 		line++;
 	color[2] = ft_strtoi(line, &end);
-	color_validation(end, color[2]);
+	if(color_validation(end, color[2]))
+		return (1);
 	if (check_valid_end(end))
 		return (1);
 	color[3] = 0;
 	return (0);
 }
 
-void	parse_floor_ceiling(char *line, t_texture *texture, char **map)
+int	parse_floor_ceiling(char *line, t_texture *texture)
 {
 	int	exit_prog;
 
@@ -99,7 +104,12 @@ void	parse_floor_ceiling(char *line, t_texture *texture, char **map)
 			exit_prog = save_rgb(line + 2, texture->floor);
 		else if (!ft_strncmp(line, "C ", 2))
 			exit_prog = save_rgb(line + 2, texture->skybox);
-		if (!line || exit_prog)
-			emergency_exit(NULL, texture, map);
 	}
+	if (!line)
+	{
+		printf("Error\n");
+		printf("invalid filestop at color readin");
+		exit_prog = 1;
+	}
+	return (exit_prog);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   color_parsing.c                                    :+:      :+:    :+:   */
+/*   color_parsing_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:34:14 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 01:17:43 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/18 16:01:22 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	save_rgb(char *line, int *color)
 	return (0);
 }
 
-void	parse_floor_ceiling(char *line, t_texture *texture, char **map)
+int	parse_floor_ceiling(char *line, t_texture *texture, char **map)
 {
 	int	exit_prog;
 
@@ -101,4 +101,5 @@ void	parse_floor_ceiling(char *line, t_texture *texture, char **map)
 		if (!line || exit_prog)
 			emergency_exit(NULL, texture, map);
 	}
+	return (exit_prog);
 }

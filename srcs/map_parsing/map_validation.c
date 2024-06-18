@@ -6,7 +6,7 @@
 /*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:35:36 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 03:47:45 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/18 18:58:37 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	validate_character(char c, int *player_count, t_texture *textures,
 		c = '1';
 }
 
-int	character_validation(char **map, int rows, t_texture *textures)
+int	character_validation(char **map, t_texture *textures)
 {
 	int		player_count;
 	int		i;
@@ -47,10 +47,10 @@ int	character_validation(char **map, int rows, t_texture *textures)
 
 	player_count = 0;
 	i = 0;
-	while (i < rows)
+	while (map[i])
 	{
 		j = 0;
-		while (j < (int)ft_strlen(map[i]))
+		while (map[i][j] != '\0')
 		{
 			if (!ft_isspace(map[i][j]))
 				validate_character(map[i][j], &player_count, textures, map);
@@ -63,7 +63,7 @@ int	character_validation(char **map, int rows, t_texture *textures)
 	return (0);
 }
 
-void	_validate_field(char **map, t_vec *rowcol, t_app *app)
+void	_validate_field(char **map, t_app *app)
 {
 	f_player_start(app, map, &app->player.start_x, &app->player.start_y);
 	if (app->player.start_y == -1)
@@ -72,7 +72,7 @@ void	_validate_field(char **map, t_vec *rowcol, t_app *app)
 		printf("No player found\n");
 		emergency_exit(app, app->textures, map);
 	}
-	if (!closed_map(map, rowcol, app))
+	if (!closed_map(map, app))
 	{
 		printf("Error\n");
 		printf("Map has leaky walls\n");
@@ -82,27 +82,24 @@ void	_validate_field(char **map, t_vec *rowcol, t_app *app)
 
 char	**map_validate(t_app *app, char *file)
 {
-	t_vec	rowcol;
 	char	**map;
 
-	rowcol.x = 0;
-	rowcol.y = 0;
 	map = NULL;
-	app->textures = read_map(file, &map, &rowcol);
+	app->rows = 0;
+	app->cols = 0;
+	app->textures = read_map(file, &map, app);
 	if (!app->textures)
 	{
 		printf("Error\n");
 		printf("Error in textures\n");
 		emergency_exit(app, app->textures, map);
 	}
-	if (character_validation(map, rowcol.x, app->textures))
+	if (character_validation(map, app->textures))
 	{
 		printf("Error\n");
 		printf("Error in character validation\n");
 		emergency_exit(app, app->textures, map);
 	}
-	app->cols = rowcol.y;
-	app->rows = rowcol.x;
-	_validate_field(map, &rowcol, app);
+	_validate_field(map, app);
 	return (map);
 }

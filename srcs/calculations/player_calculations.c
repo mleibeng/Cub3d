@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_calculations.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:42:49 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/15 19:47:00 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/18 18:59:24 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ void	f_player_start(t_app *app, char **map, int *player_x, int *player_y)
 	while (map[i])
 	{
 		j = 0;
-		while (j < (int)ft_strlen(map[i]))
+		while (map[i][j])
 		{
 			if (map[i][j] == 'N' || map[i][j] == 'W' || map[i][j] == 'S'
 				|| map[i][j] == 'E')
 			{
-				*player_x = j;
-				*player_y = i;
+				*player_x = i;
+				*player_y = j;
 				app->player.angle = check_start_angle(map[i][j]);
 				return ;
 			}

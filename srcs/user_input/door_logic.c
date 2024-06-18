@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   door_logic.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:08:05 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/15 17:11:07 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/18 18:00:31 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 void	update_player_position(t_app *app, float new_x, float new_y)
 {
-	if (app->walked_map[(int)new_y][(int)new_x] == 3)
+	if (app->walked_map[(int)new_x][(int)new_y] == 3)
 	{
 		if (app->l_op_door_y != -1 && app->l_op_door_x != -1
-			&& app->walked_map[app->l_op_door_y][app->l_op_door_x] == 4)
-			app->walked_map[app->l_op_door_y][app->l_op_door_x] = 3;
+			&& app->walked_map[app->l_op_door_x][app->l_op_door_y] == 4)
+			app->walked_map[app->l_op_door_x][app->l_op_door_y] = 3;
 		app->closing_counter = 0;
-		app->walked_map[(int)new_y][(int)new_x] = 4;
+		app->walked_map[(int)new_x][(int)new_y] = 4;
 		app->closing_counter = 100;
 		app->l_op_door_x = (int)new_x;
 		app->l_op_door_y = (int)new_y;

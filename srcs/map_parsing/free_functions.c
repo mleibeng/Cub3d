@@ -6,13 +6,13 @@
 /*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:33:43 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 05:07:30 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/18 16:50:25 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	check_path(char *path, t_texture *text, char **map)
+int	check_path(char *path)
 {
 	int	fd;
 
@@ -22,10 +22,10 @@ void	check_path(char *path, t_texture *text, char **map)
 		printf("Error\n");
 		printf("Error opening texture file\n");
 		close(fd);
-		emergency_exit(NULL, text, map);
+		return (1);
 	}
 	close(fd);
-	return ;
+	return (0);
 }
 
 void	free_textures(t_texture *textures)
@@ -58,20 +58,42 @@ void	emergency_exit(t_app *app, t_texture *texture, char **map)
 	if (texture)
 		free_textures(texture);
 	if (map)
-		free_map((void **)map);
+		free_map(map);
 	if (app)
 	{
 		if (app->walked_map)
-			free_map((void **)app->walked_map);
+			free_intmap(app->walked_map, app->rows);
 		if (app->minimap)
-			free_map((void **)app->minimap);
+			free_intmap(app->minimap, app->rows);
 		if (app->check_queue)
 			free(app->check_queue);
 	}
 	exit(EXIT_FAILURE);
 }
 
-void	free_map(void **map)
+void free_intmap(int **map, int rows)
+{
+    int i;
+
+    if (map)
+    {
+		i = 0;
+        while (i < rows)
+        {
+            if (map[i])
+            {
+                free(map[i]);
+                map[i] = NULL;
+            }
+			i++;
+        }
+        free(map);
+        map = NULL;
+    }
+}
+
+
+void	free_map(char **map)
 {
 	int	i;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debuging.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:39:07 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/13 20:42:52 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/18 19:08:55 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ void	print_walkedmap(int **map, int rows, int cols)
 	if (!map)
 		return ;
 	i = 0;
-	while (i < rows)
+	while (i < cols)
 	{
 		if (!map[i])
 			break ;
 		j = 0;
-		while (j < cols)
+		while (j < rows + 30)
 		{
 			printf("%d ", map[i][j++]);
 		}

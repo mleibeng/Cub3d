@@ -6,7 +6,7 @@
 /*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:33:57 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 05:42:54 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/18 16:50:53 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,78 +29,79 @@ void free_line(char *line)
 	}
 }
 
-void	compare_textures(t_texture *texture, char *line, char **map)
+int	compare_textures(t_texture *texture, char *line)
 {
+	int status = 0;
 	if (!ft_strncmp(line, "NO ", 3))
 	{
 		fill_texture_paths(&(texture->n_path), line + 3);
-		free_line(line);
-		check_path(texture->n_path, texture, map);
+		status = check_path(texture->n_path);
 	}
 	else if (!ft_strncmp(line, "EA ", 3))
 	{
 		fill_texture_paths(&(texture->e_path), line + 3);
-		free_line(line);
-		check_path(texture->e_path, texture, map);
+		status = check_path(texture->e_path);
 	}
 	else if (!ft_strncmp(line, "SO ", 3))
 	{
 		fill_texture_paths(&(texture->s_path), line + 3);
-		free_line(line);
-		check_path(texture->s_path, texture, map);
+		status = check_path(texture->s_path);
 	}
 	else if (!ft_strncmp(line, "WE ", 3))
 	{
 		fill_texture_paths(&(texture->w_path), line + 3);
-		free_line(line);
-		check_path(texture->w_path, texture, map);
+		status = check_path(texture->w_path);
 	}
+	return (status);
 }
 
-void	parse_textures(char *line, t_texture *texture, char **map)
+int	parse_textures(char *line, t_texture *texture)
 {
+	int status = 0;
 	if ((!texture->e_path || !texture->w_path || !texture->s_path
 			|| !texture->n_path) && *line)
-		compare_textures(texture, line, map);
+		status = compare_textures(texture, line);
 	if (!line)
 	{
 		printf("Error\n");
 		printf("invalid filestop at texture readin");
-		emergency_exit(NULL, texture, map);
+		status = 1;
 	}
+	return (status);
 }
 
-void	dup_door_path(char *line, int *keep_read, t_texture *txt, char **map)
+int	dup_door_path(char *line, int *keep_read, t_texture *txt)
 {
+	int status = 0;
 	if (!line)
 		*keep_read = 0;
 	else if (ft_strlen(line) > 0 && !ft_strncmp(line, "DO ", 3))
 	{
 		fill_texture_paths(&(txt->d_path), line + 3);
-		check_path(txt->d_path, txt, map);
+		status = check_path(txt->d_path);
 		*keep_read = 0;
 	}
+	return (status);
 }
 
-void	parse_door_text(char *file, t_texture *texture, char **map)
+void	parse_door_text(char *file, t_texture *texture)
 {
 	int		fd;
 	char	*line;
 	int		keep_reading;
+	int		status = 0;
 
 	line = NULL;
 	keep_reading = 1;
-	fd = open(file, O_RDONLY);
-	if (fd == -1)
-	{
-		printf("Error\n");
-		printf("Error reopening file");
-		emergency_exit(NULL, texture, map);
-	}
-	while (keep_reading)
+	fd = open_file(file);
+	if(fd)
+		return ;
+	while (keep_reading && !status)
 	{
 		line = get_cut_next_line(fd);
-		dup_door_path(line, &keep_reading, texture, map);
+		status = dup_door_path(line, &keep_reading, texture);
+		free(line);
+		line = NULL;
 	}
 	if(line)
 	{

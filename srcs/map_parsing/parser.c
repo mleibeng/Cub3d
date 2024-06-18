@@ -6,7 +6,7 @@
 /*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/18 04:15:41 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/18 18:57:48 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	open_file(char *file)
 	return (fd);
 }
 
-t_texture	*read_map(char *file, char ***map, t_vec *rows_cols)
+t_texture	*read_map(char *file, char ***map, t_app *app)
 {
 	int			fd;
 	t_texture	*texture;
@@ -35,20 +35,20 @@ t_texture	*read_map(char *file, char ***map, t_vec *rows_cols)
 	if (fd == -1)
 		return (NULL);
 	texture = init_texture();
-	parse_file(fd, texture, map, rows_cols);
+	parse_file(fd, texture, map, app);
 	close(fd);
-	parse_door_text(file, texture, *map);
+	parse_door_text(file, texture);
 	return (texture);
 }
 
-int	closed_map(char **map, t_vec *rowcol, t_app *app)
+int	closed_map(char **map, t_app *app)
 {
 	t_vec	directions[4];
 
 	init_directions(directions);
-	app->walked_map = create_map(rowcol->x, rowcol->y, app);
-	app->minimap = create_map(rowcol->x, rowcol->y, app);
-	app->check_queue = malloc(rowcol->x * rowcol->y * sizeof(t_vec));
+	app->walked_map = create_map(app->rows, app->cols, app);
+	app->minimap = create_map(app->rows, app->cols, app);
+	app->check_queue = malloc(app->rows * app->cols * sizeof(t_vec));
 	if (!app->check_queue)
 	{
 		printf("Error\n");
