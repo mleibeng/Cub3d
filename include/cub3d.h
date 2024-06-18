@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/19 01:19:54 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/19 01:44:46 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -411,7 +411,7 @@ int					character_validation(char **map, t_texture *textures);
 void				_validate_field(char **map, t_app *app);
 char				**map_validate(t_app *app, char *file);
 // texture_parsing.c
-void				parse_door_text(char *file, t_texture *texture);
+int					parse_door_text(char *file, t_texture *texture);
 int					dup_door_path(char *line, int *keep_reading,
 						t_texture *texture);
 int					parse_textures(char *line, t_texture *texture);

@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:34:14 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 00:35:02 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 01:39:58 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ int	check_valid_colors(char *line)
 		{
 			printf("Error\n");
 			printf("Invalid RGB values: non-numeric characters found\n");
-			free(line - 2);
-			line = NULL;
 			return (1);
 		}
 		p++;

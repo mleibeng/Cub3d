@@ -1,11 +1,10 @@
 NO ./textures/tyles/bricks.xpm42
 SO ./textures/tyles/drinks.xpm42
+F 30,30,30
 WE ./textures/tyles/gibbon.xpm42
-EA ./textures/tyles/wood.xpm42
+C 30,30,200
 DO ./textures/doors/42_door.xpm42
 
-F 30,30,30
-C 30,30,200
 
 11111111111
 11111D1N01
@@ -17,3 +16,5 @@ C 30,30,200
 1D111111101
 10000000001
 11111111111
+
+EA ./textures/tyles/wood.xpm42

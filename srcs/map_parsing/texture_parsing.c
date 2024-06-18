@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:33:57 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 00:17:21 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 01:44:58 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	dup_door_path(char *line, int *keep_read, t_texture *txt)
 	return (status);
 }
 
-void	parse_door_text(char *file, t_texture *texture)
+int	parse_door_text(char *file, t_texture *texture)
 {
 	int		fd;
 	char	*line;
@@ -108,4 +108,5 @@ void	parse_door_text(char *file, t_texture *texture)
 		line = NULL;
 	}
 	close(fd);
+	return (status);
 }
