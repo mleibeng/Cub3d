@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/19 01:16:54 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/19 01:19:54 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -345,17 +345,23 @@ int					is_integer(float x);
 //	ray_algorithm.c
 void				fine_tuning_algorithm(t_app *app, t_tar *wall, float ang, float depth);
 float				cast_ray(t_app *app, float ray_angle, t_tar *wall);
-
+// player_calculations.c
+void				f_player_start(t_app *app, char **map, int *player_x,
+						int *player_y);
 // -------------------------------- init.c -------------------------------------
 
 //	init.c
 t_coord				init_coord(int point_x, int point_y, int32_t color);
-int					init_compass(t_app *app);
 void				_init_texture(t_texture *texture);
 int					_init_app(t_app *app);
+void				init_directions(t_vec *directions);
+t_texture			*init_texture(void);
 //	init_imgs.c
-t_weapon			*_init_weapon(t_app *app);
+int					init_compass(t_app *app);
 void				load_textures(t_app *app);
+int					init_minimap(t_app *app);
+// init_weapon_anims.c
+t_weapon			*_init_weapon(t_app *app);
 //	manual.c
 void				remove_manual_from_app(t_app *app);
 void				print_manual(t_app *app);
@@ -363,19 +369,57 @@ int					create_manual(t_app *app);
 void				free_manual(t_man **stack);
 
 // ----------------------------- map_parsing -----------------------------------
-
+// main.c
+void				free_all_resources(t_app *app);
 //	free_functions
 void				free_queue(t_app *app);
 void				emergency_exit(t_app *app, t_texture *texture, char **map);
-
-//	map_parsing.c
-char				**map_validate(t_app *app, char *file);
+void				free_map(char **map);
+void				free_intmap(int **map, int rows);
+void				free_textures(t_texture *textures);
+// map_parsing.c
+int					is_map_line(const char *line);
+void				fill_minimap(char **map, int **mini_map, t_app *app);
+int					**create_map(int rows, int columns, t_app *app);
+// debugging.c
 void				print_walkedmap(int **map, int rows, int cols);
 void				print_map(char **map);
-void				free_map(char **map);
-void				free_textures(t_texture *textures);
-void				free_all_resources(t_app *app);
-
+// fill_and_line_checks.c
+int					are_textures_and_colors_filled(t_texture *texture);
+int					is_texture_line(char *line);
+// error_messages.c
+void				print_error_and_exit(const char *message,
+						t_texture *textures, char **map);
+// door_validation.c
+int					check_path(char *path);
+void				validate_doors(t_app *app, char **map);
+// bounds_checking.c
+void				fill_minimap_bounds(char **map, int **mini_map, t_vec *ij);
+int					fill_bounds(int next_x, int next_y, t_app *app, char **map);
+int					check_bounds(t_app *app);
+// color_parsing.c
+int					parse_floor_ceiling(char *line, t_texture *texture);
+// map_filling.c
+int					fill_map(char **map, t_app *app, t_vec *direct);
+int					parse_map(char *line, char ***map, t_vec *rows_cols);
+// map_checking.c
+void				parse_file(int fd, t_texture *texture, char ***map,
+						t_vec *rows_cols);
+// map_validation.c
+int					is_valid(char c, int *player_count);
+int					character_validation(char **map, t_texture *textures);
+void				_validate_field(char **map, t_app *app);
+char				**map_validate(t_app *app, char *file);
+// texture_parsing.c
+void				parse_door_text(char *file, t_texture *texture);
+int					dup_door_path(char *line, int *keep_reading,
+						t_texture *texture);
+int					parse_textures(char *line, t_texture *texture);
+int					compare_textures(t_texture *texture, char *line);
+// parser.c
+int					open_file(char *file);
+t_texture			*read_map(char *file, char ***map, t_vec *rowcol);
+int					closed_map(char **map, t_app *app);
 // ------------------------------ rendering ------------------------------------
 
 //	color_functions.c
@@ -385,60 +429,7 @@ uint32_t			get_texture_pixel(mlx_texture_t *texture, int x, int y,
 						int shade);
 xpm_t				*get_text(t_app *app, int side);
 //	rendering.c
-int32_t				ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
-// void				draw_part_ray(t_app *app, int start, int end, int32_t color,
-// 						char dir);
-int					is_map_line(const char *line);
-int					are_textures_and_colors_filled(t_texture *texture);
-int					is_texture_line(char *line);
-void				print_error_and_exit(const char *message,
-						t_texture *textures, char **map);
-int				check_path(char *path);
-void free_intmap(int **map, int rows);
-int					check_textures_and_colors(t_texture *texture, char **map);
-void				finalize_parsing(t_texture *texture, char ***map,
-						t_vec *rows_cols);
 void				draw_ray(t_app *app, t_tar *wall);
-int					process_non_map_line(char *line, t_texture *texture,
-						char ***map, t_vec *rows_cols, int *map_started);
-int					process_map_line(char *line, char ***map, t_vec *rows_cols,
-						t_texture *texture, int *map_ended);
-int					process_line(char *line, t_texture *texture, char ***map,
-						t_vec *rows_cols, t_vec *map_start_end);
-void				init_directions(t_vec *directions);
-void				f_player_start(t_app *app, char **map, int *player_x,
-						int *player_y);
-float				check_start_angle(char direction);
-void				fill_minimap_bounds(char **map, int **mini_map, t_vec *ij);
-int					fill_bounds(int next_x, int next_y, t_app *app, char **map);
-int					check_bounds(t_app *app);
-int					check_row_bound(t_app *app);
-int					check_column_bound(t_app *app);
-int				parse_floor_ceiling(char *line, t_texture *texture);
-int					save_rgb(char *line, int *color);
-int				color_validation(char *end, int val);
-void				replace_adj_doors(t_app *app, char **map);
-void				validate_doors(t_app *app, char **map);
-void				fill_minimap(char **map, int **mini_map, t_app *app);
-int					**create_map(int rows, int columns, t_app *app);
-int					fill_map(char **map, t_app *app, t_vec *direct);
-void				parse_file(int fd, t_texture *texture, char ***map,
-						t_vec *rows_cols);
-int parse_map(char *line, char ***map, t_vec *rows_cols);
-int					is_valid(char c, int *player_count);
-int					character_validation(char **map,
-						t_texture *textures);
-void				val_and_rep_doors(t_app *app, char **map);
-void				_validate_field(char **map, t_app *app);
-int					open_file(char *file);
-t_texture			*read_map(char *file, char ***map, t_vec *rowcol);
-int					closed_map(char **map, t_app *app);
-void				parse_door_text(char *file, t_texture *texture);
-int				dup_door_path(char *line, int *keep_reading,
-						t_texture *texture);
-int				parse_textures(char *line, t_texture *texture);
-int				compare_textures(t_texture *texture, char *line);
-t_texture			*init_texture(void);
 //	minimap_cals.c
 int					is_within_minimap_bounds(t_app *app);
 void				calculate_xy_coordinates(t_app *app, t_vec map,
@@ -446,11 +437,11 @@ void				calculate_xy_coordinates(t_app *app, t_vec map,
 void				put_player_mini(t_app *app);
 void				rotate_point(t_vec *xy, float angle, int cy);
 void				clear_mini_map(mlx_image_t *img, int32_t background_color);
-//	minimap.c
-int					init_minimap(t_app *app);
+//minimap.c
+void				display_minimap(t_app *app);
 //	compass.c
 void				display_compass(t_app *app, float player_angle);
-void				display_minimap(t_app *app);
+
 // ------------------------------ user input -----------------------------------
 
 //	door_logic.c
