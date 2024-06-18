@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 23:01:46 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 00:28:53 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 01:34:01 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ void	draw_minimap_walls(t_app *app)
 				draw_minimap_wall(app, map);
 			if (app->map[map.y][map.x] == 'D')
 			{
-				if (app->walked_map[map.y][map.x] == 3)
+				if (app->val_map[map.y][map.x] == 3)
 					draw_minimap_door(app, map, CYAN);
-				else if (app->walked_map[map.y][map.x] == 4)
+				else if (app->val_map[map.y][map.x] == 4)
 					draw_minimap_door(app, map, GREEN);
 			}
 			map.x++;

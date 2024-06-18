@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 01:15:06 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/19 01:17:35 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/19 01:34:01 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ void	fine_tuning_algorithm(t_app *app, t_tar *wall, float ang, float depth)
 		depth = (start + end) / 2;
 		wall->tar_x = app->player.x + depth * cos(ang);
 		wall->tar_y = app->player.y + depth * sin(ang);
-		if (app->walked_map[(int)(wall->tar_y)][(int)(wall->tar_x)] == 1)
+		if (app->val_map[(int)(wall->tar_y)][(int)(wall->tar_x)] == 1)
 		{
 			wall->hit = VERTICAL;
 			end = depth;
 		}
-		else if (app->walked_map[(int)(wall->tar_y)][(int)(wall->tar_x)] == 3)
+		else if (app->val_map[(int)(wall->tar_y)][(int)(wall->tar_x)] == 3)
 		{
 			wall->hit = DOOR_VERTIKAL;
 			end = depth;
@@ -60,8 +60,8 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 		wall->tar_y = app->player.y + depth * sin(ray_angle);
 		if (wall->tar_y >= 0 && wall->tar_x >= 0 && wall->tar_y <= app->rows
 			&& wall->tar_x <= app->cols
-			&& (app->walked_map[(int)(wall->tar_y)][(int)(wall->tar_x)] == 1
-				|| app->walked_map[(int)(wall->tar_y)][(int)(wall->tar_x)] == 3))
+			&& (app->val_map[(int)(wall->tar_y)][(int)(wall->tar_x)] == 1
+				|| app->val_map[(int)(wall->tar_y)][(int)(wall->tar_x)] == 3))
 			break ;
 		depth += 0.01f;
 	}

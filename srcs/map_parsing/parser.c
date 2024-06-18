@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/18 23:37:36 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 01:34:01 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	closed_map(char **map, t_app *app)
 	t_vec	directions[4];
 
 	init_directions(directions);
-	app->walked_map = create_map(app->rows, app->cols, app);
+	app->val_map = create_map(app->rows, app->cols, app);
 	app->minimap = create_map(app->rows, app->cols, app);
 	app->check_queue = malloc(app->rows * app->cols * sizeof(t_vec));
 	if (!app->check_queue)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_filling.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 00:55:33 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 00:15:56 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 01:34:47 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	fill_map(char **map, t_app *app, t_vec *direct)
 	app->start = 0;
 	app->check_queue[app->end++] = (t_vec){app->player.start_x,
 		app->player.start_y};
-	app->walked_map[app->player.start_y][app->player.start_x] = 2;
+	app->val_map[app->player.start_y][app->player.start_x] = 2;
 	while (app->start < app->end)
 	{
 		app->pos = app->check_queue[app->start++];

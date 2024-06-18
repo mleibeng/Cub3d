@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/19 01:19:54 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/19 01:47:56 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,7 +277,7 @@ typedef struct s_manual
  * @param cur_ray Current ray being processed.
  * @param pos Current position vector of the player.
  * @param check_queue Queue for pathfinding or other checks.
- * @param walked_map 2D array tracking tiles the player has walked on.
+ * @param val_map 2D array tracking tiles the player has walked on.
  * @param minimap 2D array representing the minimap data.
  * @param mini_info Information and settings for the minimap.
  * @param cols Number of columns in the map.
@@ -310,7 +310,7 @@ typedef struct s_app
 	int				cur_ray;
 	t_vec			pos;
 	t_vec			*check_queue;
-	int				**walked_map;
+	int				**val_map;
 	int				**minimap;
 	t_minimap		mini_info;
 	int				cols;
@@ -441,6 +441,11 @@ void				clear_mini_map(mlx_image_t *img, int32_t background_color);
 void				display_minimap(t_app *app);
 //	compass.c
 void				display_compass(t_app *app, float player_angle);
+//	replace_image.c
+void				put_img_to_img(mlx_image_t *img, mlx_image_t *src, int x, int y);
+//	weapon.c
+void				create_animation(t_app *app, mlx_image_t **weapon);
+void				draw_weapon(t_app *app);
 
 // ------------------------------ user input -----------------------------------
 

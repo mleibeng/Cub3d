@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   door_validation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:45:23 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 00:34:19 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 01:34:01 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	is_valid_door(t_app *app, char **map, t_vec xy)
 
 void	check_adj_doors(t_app *app, char **map, t_vec xy)
 {
-	if (app->walked_map[xy.y][xy.x] == 3 && app->textures->d_path)
+	if (app->val_map[xy.y][xy.x] == 3 && app->textures->d_path)
 	{
 		if (!is_valid_door(app, map, xy))
 		{

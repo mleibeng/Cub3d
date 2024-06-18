@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rendering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 21:50:08 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/15 18:43:41 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 01:41:07 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ void	mix_and_print_text(t_app *app, int32_t color, float percentage, int y)
 }
 
 //	function to draw a partial ray (floor or ceiling)
-void	draw_sky_ceiling(t_app *app, int start, int end, int32_t color,
-		char dir)
+void	draw_sky_ceiling(t_app *app, int start, int end, int32_t color)
 {
 	int		y;
 	float	percentage;
@@ -36,7 +35,7 @@ void	draw_sky_ceiling(t_app *app, int start, int end, int32_t color,
 	y = start;
 	while (y < end)
 	{
-		if (dir == 'C')
+		if (start == 0)
 			percentage = 1.0f - ((float)(y - start) / (float)(app->window_height
 						- start));
 		else
@@ -105,7 +104,7 @@ void	draw_ray(t_app *app, t_tar *wall)
 			app->textures->skybox[2], 150);
 	floor_color = ft_pixel(app->textures->floor[0], app->textures->floor[1],
 			app->textures->floor[2], 150);
-	draw_sky_ceiling(app, 0, wall_start - 1, sky_color, 'C');
+	draw_sky_ceiling(app, 0, wall_start - 1, sky_color);
 	draw_wall(app, wall, wall_start, wall_end);
-	draw_sky_ceiling(app, wall_end, app->window_height, floor_color, 'F');
+	draw_sky_ceiling(app, wall_end, app->window_height, floor_color);
 }

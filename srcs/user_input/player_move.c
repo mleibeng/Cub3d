@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 16:01:27 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/17 21:18:58 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/19 01:34:01 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ int	check_wall_collision(t_app *app, float new_x, float new_y)
 	max_y = (int)(new_y + player_radius);
 	if (min_x < 0 || max_x >= app->cols || min_y < 0 || max_y >= app->rows)
 		return (1);
-	if (app->walked_map[min_y][min_x] == 1 || app->walked_map[min_y][max_x] == 1
-		|| app->walked_map[max_y][min_x] == 1
-		|| app->walked_map[max_y][max_x] == 1)
+	if (app->val_map[min_y][min_x] == 1 || app->val_map[min_y][max_x] == 1
+		|| app->val_map[max_y][min_x] == 1
+		|| app->val_map[max_y][max_x] == 1)
 		return (1);
-	if (app->walked_map[min_y][min_x] == 3 || app->walked_map[min_y][max_x] == 3
-		|| app->walked_map[max_y][min_x] == 3
-		|| app->walked_map[max_y][max_x] == 3)
+	if (app->val_map[min_y][min_x] == 3 || app->val_map[min_y][max_x] == 3
+		|| app->val_map[max_y][min_x] == 3
+		|| app->val_map[max_y][max_x] == 3)
 		return (2);
 	return (0);
 }

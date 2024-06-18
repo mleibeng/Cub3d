@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mouse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 08:40:59 by flo               #+#    #+#             */
-/*   Updated: 2024/06/19 00:17:43 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 01:26:35 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,17 +62,11 @@ int	mouse_shift(t_app *app)
 	{
 		if (previous_x != -1 && previous_x != x)
 			app->player.angle += (x - previous_x) * 0.005;
-		mlx_set_mouse_pos(app->mlx, app->window_width / 2, app->window_height
-			/ 2);
+		mlx_set_mouse_pos(app->mlx, app->window_width / 2,
+			app->window_height / 2);
 		mlx_get_mouse_pos(app->mlx, &x, &y);
-		previous_x = x;
+		return (previous_x = x, 0);
 	}
-	else
-	{
-		mlx_set_mouse_pos(app->mlx, app->window_width / 2, app->window_height
-			/ 2);
-		mlx_get_mouse_pos(app->mlx, &x, &y);
-		previous_x = -1;
-	}
-	return (0);
+	mlx_set_mouse_pos(app->mlx, app->window_width / 2, app->window_height / 2);
+	return (previous_x = -1, 0);
 }

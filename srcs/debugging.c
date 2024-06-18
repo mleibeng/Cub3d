@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debugging.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:39:07 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/19 01:06:52 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 01:37:18 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,32 +59,8 @@ void	print_walkedmap(int **map, int rows, int cols)
 	printf("\n");
 }
 
-//	print all informations from the main struct
-void	print_info(t_app *app)
+void	print_more_statements(t_app *app)
 {
-	if (app == NULL)
-	{
-		printf("Struct is empty!\n");
-		return ;
-	}
-	printf("\n-----Struct data-----\n\n");
-	if (app->map)
-	{
-		printf("Original map\n");
-		print_map(app->map);
-	}
-	if (app->walked_map)
-	{
-		printf("Validated map\n");
-		print_walkedmap(app->walked_map, app->rows, app->cols);
-	}
-	if (app->minimap)
-	{
-		printf("Mini_map\n");
-		print_walkedmap(app->minimap, app->rows, app->cols);
-	}
-	if (app->mlx)
-		printf("mlx: %p\n", app->mlx);
 	if (app->img)
 	{
 		printf("img:\n%p\n", app->img);
@@ -110,6 +86,10 @@ void	print_info(t_app *app)
 		printf("ceiling: (%d, %d, %d)\n", app->textures->skybox[0],
 			app->textures->skybox[1], app->textures->skybox[2]);
 	}
+}
+
+void	print_statements(t_app *app)
+{
 	printf("\n");
 	printf("player:\nstart x: %d\n", app->player.start_x);
 	printf("start y: %d\n", app->player.start_y);
@@ -134,4 +114,34 @@ void	print_info(t_app *app)
 	printf("end: %d\n", app->end);
 	printf("start: %d\n", app->start);
 	printf("----------------------------------------\n");
+}
+
+//	print all informations from the main struct
+void	print_info(t_app *app)
+{
+	if (app == NULL)
+	{
+		printf("Struct is empty!\n");
+		return ;
+	}
+	printf("\n-----Struct data-----\n\n");
+	if (app->map)
+	{
+		printf("Original map\n");
+		print_map(app->map);
+	}
+	if (app->val_map)
+	{
+		printf("Validated map\n");
+		print_walkedmap(app->val_map, app->rows, app->cols);
+	}
+	if (app->minimap)
+	{
+		printf("Mini_map\n");
+		print_walkedmap(app->minimap, app->rows, app->cols);
+	}
+	if (app->mlx)
+		printf("mlx: %p\n", app->mlx);
+	print_more_statements(app);
+	print_statements(app);
 }
