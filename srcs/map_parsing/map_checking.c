@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_checking.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 00:57:13 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 02:21:03 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/18 05:42:24 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	parse_line(char *line, t_line_struct *line_sort, int *map_started)
 	}
 }
 
-int	read_lines_until_end(int fd, t_line_struct *line_sort, int *map_started)
+void	read_lines_until_end(int fd, t_line_struct *line_sort, int *map_started)
 {
 	char	*line;
 	int		keep_reading;
@@ -51,12 +51,14 @@ int	read_lines_until_end(int fd, t_line_struct *line_sort, int *map_started)
 		if (!line)
 			keep_reading = 0;
 		else
-		{
 			parse_line(line, line_sort, map_started);
-			free(line);
-		}
 	}
-	return (keep_reading);
+	if(line)
+	{
+		free(line);
+		line = NULL;
+	}
+	return ;
 }
 
 void	emergency_exit_unfilled_textures_or_colors(t_texture *texture,
@@ -70,15 +72,13 @@ void	emergency_exit_unfilled_textures_or_colors(t_texture *texture,
 void	parse_file(int fd, t_texture *texture, char ***map, t_vec *rows_cols)
 {
 	t_line_struct	line_sort;
-	int				keep_reading;
 	int				map_started;
 
 	line_sort.map = map;
 	line_sort.rows_cols = rows_cols;
 	line_sort.texture = texture;
-	keep_reading = 1;
 	map_started = 0;
-	keep_reading = read_lines_until_end(fd, &line_sort, &map_started);
+	read_lines_until_end(fd, &line_sort, &map_started);
 	if (rows_cols->y > 0)
 		(*map)[rows_cols->y] = NULL;
 	if (!are_textures_and_colors_filled(texture))

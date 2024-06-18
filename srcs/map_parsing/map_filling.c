@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_filling.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 00:55:33 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 00:58:13 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/18 04:34:00 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ void	parse_map(char *line, char ***map, t_vec *rows_cols, t_texture *texture)
 	line_len = ft_strlen(line);
 	if (ft_strlen(line) > 0)
 	{
-		if (rows_cols->x == 0)
-			allocate_map_memory(map, line_len, rows_cols->x, texture);
 		allocate_map_memory(map, line_len, rows_cols->x, texture);
 		copy_line_to_map(line, *map, rows_cols->x, line_len);
 		update_rows_cols(line_len, rows_cols);

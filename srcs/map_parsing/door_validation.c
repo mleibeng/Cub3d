@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   door_validation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:45:23 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 00:59:35 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/18 04:16:14 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	check_adj_doors(t_app *app, char **map, t_vec xy)
 		{
 			printf("Error\n");
 			printf("Invalid door placement\n");
-			emergency_exit(app, app->textures, NULL);
+			emergency_exit(app, app->textures, map);
 		}
 	}
 }

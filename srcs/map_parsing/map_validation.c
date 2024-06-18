@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_validation.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:35:36 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 00:53:18 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/18 03:47:45 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	character_validation(char **map, int rows, t_texture *textures)
 	int		player_count;
 	int		i;
 	int		j;
-	char	c;
 
 	player_count = 0;
 	i = 0;
@@ -53,7 +52,6 @@ int	character_validation(char **map, int rows, t_texture *textures)
 		j = 0;
 		while (j < (int)ft_strlen(map[i]))
 		{
-			c = map[i][j];
 			if (!ft_isspace(map[i][j]))
 				validate_character(map[i][j], &player_count, textures, map);
 			j++;

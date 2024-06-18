@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/18 02:16:07 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/18 04:15:41 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,14 @@ int	closed_map(char **map, t_vec *rowcol, t_app *app)
 	{
 		printf("Error\n");
 		printf("Memory allocation failed for check_queue\n");
-		emergency_exit(app, app->textures, NULL);
+		emergency_exit(app, app->textures, map);
 	}
 	fill_minimap(map, app->minimap, app);
 	if (!fill_map(map, app, directions))
 	{
 		printf("Error\n");
 		printf("Map could not be filled\n");
-		emergency_exit(app, app->textures, NULL);
+		emergency_exit(app, app->textures, map);
 		return (0);
 	}
 	validate_doors(app, map);

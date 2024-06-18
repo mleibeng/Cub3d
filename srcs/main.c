@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/18 02:42:24 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/18 03:48:28 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ void	create_animation(t_app *app, mlx_image_t **weapon)
 	static int	animate = 0;
 	int			set_back;
 	int			new_value;
-	int			stop;
 
 	set_back = 2;
 	new_value = animate / set_back;
@@ -102,12 +101,6 @@ void	create_animation(t_app *app, mlx_image_t **weapon)
 	app->weapon->y = app->window_height - weapon[new_value]->height;
 	put_img_to_img(app->img, weapon[new_value],
 		app->weapon->x, app->weapon->y);
-	if (!weapon[new_value + 1])
-	{
-		stop = new_value + 1;
-	}
-	else
-		stop = 3;
 	if (++animate == 5 * set_back)
 	{
 		animate = 0;
