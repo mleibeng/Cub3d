@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:34:14 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 16:01:57 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/19 00:35:02 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,19 +73,19 @@ int	save_rgb(char *line, int *color)
 	while (*line && ft_isspace(*line))
 		line++;
 	color[0] = ft_strtoi(line, &end);
-	if(color_validation(end, color[0]))
+	if (color_validation(end, color[0]))
 		return (1);
 	line = end;
 	while (*line && (ft_isspace(*line) || *line == ','))
 		line++;
 	color[1] = ft_strtoi(line, &end);
-	if(color_validation(end, color[1]))
+	if (color_validation(end, color[1]))
 		return (1);
 	line = end;
 	while (*line && (ft_isspace(*line) || *line == ','))
 		line++;
 	color[2] = ft_strtoi(line, &end);
-	if(color_validation(end, color[2]))
+	if (color_validation(end, color[2]))
 		return (1);
 	if (check_valid_end(end))
 		return (1);

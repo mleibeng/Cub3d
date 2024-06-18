@@ -6,11 +6,27 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:45:23 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 23:13:56 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 00:34:19 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int	check_path(char *path)
+{
+	int	fd;
+
+	fd = open(path, O_RDONLY);
+	if (fd == -1)
+	{
+		printf("Error\n");
+		printf("Error opening texture file\n");
+		close(fd);
+		return (1);
+	}
+	close(fd);
+	return (0);
+}
 
 int	is_valid_door(t_app *app, char **map, t_vec xy)
 {
@@ -47,6 +63,7 @@ void	check_adj_doors(t_app *app, char **map, t_vec xy)
 void	validate_doors(t_app *app, char **map)
 {
 	t_vec	xy;
+
 	xy.y = 0;
 	while (xy.y < app->rows)
 	{

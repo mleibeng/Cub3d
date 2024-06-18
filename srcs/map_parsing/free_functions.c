@@ -6,27 +6,11 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:33:43 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 23:15:02 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 00:34:34 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-int	check_path(char *path)
-{
-	int	fd;
-
-	fd = open(path, O_RDONLY);
-	if (fd == -1)
-	{
-		printf("Error\n");
-		printf("Error opening texture file\n");
-		close(fd);
-		return (1);
-	}
-	close(fd);
-	return (0);
-}
 
 void	free_textures(t_texture *textures)
 {
@@ -71,9 +55,9 @@ void	emergency_exit(t_app *app, t_texture *texture, char **map)
 	exit(EXIT_FAILURE);
 }
 
-void free_intmap(int **map, int rows)
+void	free_intmap(int **map, int rows)
 {
-	int i;
+	int	i;
 
 	if (map)
 	{
