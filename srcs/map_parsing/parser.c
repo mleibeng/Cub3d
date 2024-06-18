@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/19 01:50:44 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/19 01:52:44 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ t_texture	*read_map(char *file, char ***map, t_vec *rows_cols)
 	texture = init_texture();
 	parse_file(fd, texture, map, rows_cols);
 	close(fd);
-	if(parse_door_text(file, texture))
-		emergency_exit(NULL,texture,*map);
+	if (parse_door_text(file, texture))
+		emergency_exit(NULL, texture,*map);
 	return (texture);
 }
 
