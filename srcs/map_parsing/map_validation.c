@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:35:36 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 00:17:40 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 01:31:03 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,10 @@ char	**map_validate(t_app *app, char *file)
 	rowcol.y = 0;
 	map = NULL;
 	app->textures = read_map(file, &map, &rowcol);
-	if (!app->textures)
+	if (!app->textures || !map)
 	{
-		printf("Error\n");
-		printf("Error in textures\n");
-		emergency_exit(app, app->textures, map);
+		printf("Error\nIn read_map\n");
+		emergency_exit(NULL, app->textures, map);
 	}
 	if (character_validation(map, app->textures))
 	{
