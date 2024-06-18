@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   texture_parsing.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:33:57 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 16:50:53 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/18 23:36:43 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void fill_texture_paths(char **texture_path, char *line) 
+void fill_texture_paths(char **texture_path, char *line)
 {
 	char *trimmed_line = line;
 	while (ft_isspace(*trimmed_line))
@@ -63,8 +63,7 @@ int	parse_textures(char *line, t_texture *texture)
 		status = compare_textures(texture, line);
 	if (!line)
 	{
-		printf("Error\n");
-		printf("invalid filestop at texture readin");
+		printf("Error\nInvalid filestop at texture readin");
 		status = 1;
 	}
 	return (status);
@@ -94,8 +93,8 @@ void	parse_door_text(char *file, t_texture *texture)
 	line = NULL;
 	keep_reading = 1;
 	fd = open_file(file);
-	if(fd)
-		return ;
+	if(!fd)
+		exit(1);
 	while (keep_reading && !status)
 	{
 		line = get_cut_next_line(fd);

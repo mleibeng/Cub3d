@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/18 19:25:29 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/18 23:48:04 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,11 +168,11 @@ void	main_loop(void *param)
 
 	app = (t_app *)param;
 	user_input_hook(app);
-	// calc_walls(app);
+	calc_walls(app);
 	display_minimap(app);
-	// display_compass(app, app->player.angle);
-	// draw_weapon(app);
-	// close_last_door(app);
+	display_compass(app, app->player.angle);
+	draw_weapon(app);
+	close_last_door(app);
 }
 
 int	is_not_cub(char *file)

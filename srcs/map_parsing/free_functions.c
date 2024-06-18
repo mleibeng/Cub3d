@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:33:43 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 16:50:25 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/18 23:15:02 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,25 +73,24 @@ void	emergency_exit(t_app *app, t_texture *texture, char **map)
 
 void free_intmap(int **map, int rows)
 {
-    int i;
+	int i;
 
-    if (map)
-    {
+	if (map)
+	{
 		i = 0;
-        while (i < rows)
-        {
-            if (map[i])
-            {
-                free(map[i]);
-                map[i] = NULL;
-            }
+		while (i < rows)
+		{
+			if (map[i])
+			{
+				free(map[i]);
+				map[i] = NULL;
+			}
 			i++;
-        }
-        free(map);
-        map = NULL;
-    }
+		}
+		free(map);
+		map = NULL;
+	}
 }
-
 
 void	free_map(char **map)
 {

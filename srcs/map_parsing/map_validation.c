@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_validation.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:35:36 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 18:58:37 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/18 23:39:56 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,12 @@ void	_validate_field(char **map, t_app *app)
 char	**map_validate(t_app *app, char *file)
 {
 	char	**map;
+	t_vec	rowcol;
 
+	rowcol.x = 0;
+	rowcol.y = 0;
 	map = NULL;
-	app->rows = 0;
-	app->cols = 0;
-	app->textures = read_map(file, &map, app);
+	app->textures = read_map(file, &map, &rowcol);
 	if (!app->textures)
 	{
 		printf("Error\n");
@@ -100,6 +101,8 @@ char	**map_validate(t_app *app, char *file)
 		printf("Error in character validation\n");
 		emergency_exit(app, app->textures, map);
 	}
+	app->cols = rowcol.y;
+	app->rows = rowcol.x;
 	_validate_field(map, app);
 	return (map);
 }

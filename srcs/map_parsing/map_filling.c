@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_filling.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 00:55:33 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 19:01:00 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/18 23:10:00 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	fill_map(char **map, t_app *app, t_vec *direct)
 	app->start = 0;
 	app->check_queue[app->end++] = (t_vec){app->player.start_x,
 		app->player.start_y};
-	app->walked_map[app->player.start_x][app->player.start_y] = 2;
+	app->walked_map[app->player.start_y][app->player.start_x] = 2;
 	while (app->start < app->end)
 	{
 		app->pos = app->check_queue[app->start++];
@@ -90,11 +90,11 @@ int	fill_map(char **map, t_app *app, t_vec *direct)
 			next_x = app->pos.x + direct[j].x;
 			next_y = app->pos.y + direct[j].y;
 			if (!fill_bounds(next_x, next_y, app, map))
-				return (printf("Error\n"), printf("fill_maperror\n"), 0);
+				return (printf("Error\nFill_maperror\n"), 0);
 		}
 	}
 	if (!check_bounds(app))
-		return (printf("Error\n"), printf("maperror\n"), 0);
+		return (printf("Error\nMaperror\n"), 0);
 	free_queue(app);
 	return (1);
 }

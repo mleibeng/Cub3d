@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/18 18:43:37 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/19 00:04:32 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -419,7 +419,7 @@ void				fill_minimap(char **map, int **mini_map, t_app *app);
 int					**create_map(int rows, int columns, t_app *app);
 int					fill_map(char **map, t_app *app, t_vec *direct);
 void				parse_file(int fd, t_texture *texture, char ***map,
-						t_app *app);
+						t_vec *rows_cols);
 int parse_map(char *line, char ***map, t_vec *rows_cols);
 int					is_valid(char c, int *player_count);
 int					character_validation(char **map,
@@ -427,7 +427,7 @@ int					character_validation(char **map,
 void				val_and_rep_doors(t_app *app, char **map);
 void				_validate_field(char **map, t_app *app);
 int					open_file(char *file);
-t_texture			*read_map(char *file, char ***map, t_app *app);
+t_texture			*read_map(char *file, char ***map, t_vec *rowcol);
 int					closed_map(char **map, t_app *app);
 void				parse_door_text(char *file, t_texture *texture);
 int				dup_door_path(char *line, int *keep_reading,

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bounds_checking.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:34:39 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 17:37:51 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/18 23:13:19 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,19 +79,19 @@ int	check_bounds(t_app *app)
 
 int	fill_bounds(int next_x, int next_y, t_app *app, char **map)
 {
-	if (next_x >= 0 && next_x < app->rows && next_y >= 0 && next_y < app->cols
-		&& !app->walked_map[next_x][next_y])
+	if (next_x >= 0 && next_x < app->cols && next_y >= 0 && next_y < app->rows
+		&& !app->walked_map[next_y][next_x])
 	{
-		if (map[next_x][next_y] == '0')
+		if (map[next_y][next_x] == '0')
 		{
 			app->check_queue[app->end++] = (t_vec){next_x, next_y};
-			app->walked_map[next_x][next_y] = 2;
+			app->walked_map[next_y][next_x] = 2;
 		}
-		else if (map[next_x][next_y] == '1')
-			app->walked_map[next_x][next_y] = 1;
-		else if (map[next_x][next_y] == 'D')
+		else if (map[next_y][next_x] == '1')
+			app->walked_map[next_y][next_x] = 1;
+		else if (map[next_y][next_x] == 'D')
 		{
-			app->walked_map[next_x][next_y] = 3;
+			app->walked_map[next_y][next_x] = 3;
 			app->check_queue[app->end++] = (t_vec){next_x, next_y};
 		}
 		else

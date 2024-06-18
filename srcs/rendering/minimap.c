@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 23:01:46 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 19:25:02 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/18 23:49:42 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,24 +60,21 @@ void	draw_minimap_walls(t_app *app)
 {
 	t_vec	map;
 
-	map.x = 0;
-	while (map.x < app->map_width)
+	map.y = 0;
+	while (map.y < app->map_height)
 	{
-		map.y = 0;
-		while (map.y < app->map_height)
-		{	
-			printf("1\n");
-			if (app->map[map.x][map.y] == '1')
+		map.x = 0;
+		while (map.x < app->map_width)
+		{
+			if (app->map[map.y][map.x] == '1')
 				draw_minimap_wall(app, map);
-			printf("2\n");
-			if (app->map[map.x][map.y] == 'D')
+			if (app->map[map.y][map.x] == 'D')
 			{
-				if (app->walked_map[map.x][map.y] == 3)
+				if (app->walked_map[map.y][map.x] == 3)
 					draw_minimap_door(app, map, CYAN);
-				else if (app->walked_map[map.x][map.y] == 4)
+				else if (app->walked_map[map.y][map.x] == 4)
 					draw_minimap_door(app, map, GREEN);
 			}
-			printf("3\n");
 			map.x++;
 		}
 		map.y++;
@@ -94,7 +91,6 @@ void	draw_minimap(t_app *app)
 		return ;
 	}
 	draw_minimap_walls(app);
-	printf("1\n");
 	put_player_mini(app);
 }
 

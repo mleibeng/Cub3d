@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_checking.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 00:57:13 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 18:54:17 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/18 23:45:47 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 int	parse_line(char *line, t_line_struct *line_sort, int *map_started)
 {
-	int status = 0;
+	int	status;
+
+	status = 0;
 	if (ft_strlen(line) > 0)
 	{
 		if (*map_started)
@@ -33,8 +35,7 @@ int	parse_line(char *line, t_line_struct *line_sort, int *map_started)
 	}
 	else if (*map_started)
 	{
-		printf("Error\n");
-		printf("Empty line inside the map\n");
+		printf("Error\nEmpty line inside the map\n");
 		return (1);
 	}
 	return (status);
@@ -44,8 +45,9 @@ int	read_lines_until_end(int fd, t_line_struct *line_sort, int *map_started)
 {
 	char	*line;
 	int		keep_reading;
-	int		status = 0;
+	int		status;
 
+	status = 0;
 	keep_reading = 1;
 	while (keep_reading)
 	{
@@ -57,41 +59,36 @@ int	read_lines_until_end(int fd, t_line_struct *line_sort, int *map_started)
 		free(line);
 		line = NULL;
 	}
-	if(line)
+	if (line)
+	{
 		free(line);
+		line = NULL;
+	}
 	return (status);
 }
 
 void	emergency_exit_unfilled_textures_or_colors(t_texture *texture,
 		char **map)
 {
-	printf("Error\n");
-	printf("Unfilled textures or colors\n");
+	printf("Error\nUnfilled textures or colors\n");
 	emergency_exit(NULL, texture, map);
 }
 
-void parse_file(int fd, t_texture *texture, char ***map, t_app *app)
+void	parse_file(int fd, t_texture *texture, char ***map, t_vec *rows_cols)
 {
-	t_line_struct line_sort;
-	t_vec row_col;
-	int map_started = 0;
+	t_line_struct	line_sort;
+	int				map_started;
 
-	row_col.x = app->rows;
-	row_col.y = app->cols;
-
+	map_started = 0;
 	line_sort.map = map;
-	line_sort.rows_cols = &row_col;
+	line_sort.rows_cols = rows_cols;
 	line_sort.texture = texture;
-
 	if (read_lines_until_end(fd, &line_sort, &map_started))
 		emergency_exit(NULL, texture, *map);
-	if (line_sort.rows_cols->x > 0)
-		(*map)[line_sort.rows_cols->x] = NULL;
+	// if (line_sort.rows_cols->x > 0)
+	// 	(*map)[line_sort.rows_cols->x] = NULL;
 	if (line_sort.rows_cols->y > 0)
 		(*map)[line_sort.rows_cols->y] = NULL;
-	app->rows = line_sort.rows_cols->x;
-	app->cols = line_sort.rows_cols->y;
 	if (!are_textures_and_colors_filled(texture))
 		emergency_exit_unfilled_textures_or_colors(texture, *map);
 }
-

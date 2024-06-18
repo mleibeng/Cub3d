@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/18 18:57:48 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/18 23:37:36 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	open_file(char *file)
 	return (fd);
 }
 
-t_texture	*read_map(char *file, char ***map, t_app *app)
+t_texture	*read_map(char *file, char ***map, t_vec *rows_cols)
 {
 	int			fd;
 	t_texture	*texture;
@@ -35,7 +35,7 @@ t_texture	*read_map(char *file, char ***map, t_app *app)
 	if (fd == -1)
 		return (NULL);
 	texture = init_texture();
-	parse_file(fd, texture, map, app);
+	parse_file(fd, texture, map, rows_cols);
 	close(fd);
 	parse_door_text(file, texture);
 	return (texture);
