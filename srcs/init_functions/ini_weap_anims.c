@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 01:53:51 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 02:01:39 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 00:15:26 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,18 @@
 const char	**animation_file_names(void)
 {
 	static const char	*ani_fname[] = {"./textures/FPS/frames/punch1.png",
-		"./textures/FPS/frames/punch2.png",
-		"./textures/FPS/frames/punch3.png",
-		"./textures/FPS/frames/pistol1.png",
-		"./textures/FPS/frames/pistol2.png",
-		"./textures/FPS/frames/pistol3.png",
-		"./textures/FPS/frames/pistol4.png",
-		"./textures/FPS/frames/pistol5.png",
-		"./textures/FPS/frames/shotgun1.png",
-		"./textures/FPS/frames/shotgun2.png",
-		"./textures/FPS/frames/shotgun3.png",
-		"./textures/FPS/frames/shotgun4.png",
-		"./textures/FPS/frames/shotgun5.png", NULL};
+			"./textures/FPS/frames/punch2.png",
+			"./textures/FPS/frames/punch3.png",
+			"./textures/FPS/frames/pistol1.png",
+			"./textures/FPS/frames/pistol2.png",
+			"./textures/FPS/frames/pistol3.png",
+			"./textures/FPS/frames/pistol4.png",
+			"./textures/FPS/frames/pistol5.png",
+			"./textures/FPS/frames/shotgun1.png",
+			"./textures/FPS/frames/shotgun2.png",
+			"./textures/FPS/frames/shotgun3.png",
+			"./textures/FPS/frames/shotgun4.png",
+			"./textures/FPS/frames/shotgun5.png", NULL};
 
 	return (ani_fname);
 }

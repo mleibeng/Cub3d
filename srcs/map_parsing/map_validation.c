@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:35:36 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 23:39:56 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 00:17:40 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void	validate_character(char c, int *player_count, t_texture *textures,
 
 int	character_validation(char **map, t_texture *textures)
 {
-	int		player_count;
-	int		i;
-	int		j;
+	int	player_count;
+	int	i;
+	int	j;
 
 	player_count = 0;
 	i = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:34:29 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 17:33:42 by marvinleibe      ###   ########.fr       */
+/*   Updated: 2024/06/19 00:25:32 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ int	**create_map(int rows, int columns, t_app *app)
 	return (map);
 }
 
-void fill_minimap(char **map, int **mini_map, t_app *app)
+void	fill_minimap(char **map, int **mini_map, t_app *app)
 {
-	t_vec ij;
+	t_vec	ij;
 
 	ij.x = 0;
 	while (ij.x < app->rows)
@@ -65,7 +65,7 @@ void fill_minimap(char **map, int **mini_map, t_app *app)
 		if (map[ij.x] == NULL)
 		{
 			ij.x++;
-			continue;
+			continue ;
 		}
 		ij.y = 0;
 		while (ij.y < app->cols)
@@ -76,5 +76,3 @@ void fill_minimap(char **map, int **mini_map, t_app *app)
 		ij.x++;
 	}
 }
-
-

@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:03:36 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/17 23:10:51 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 00:17:41 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,8 @@ void	calc_walls(t_app *app)
 		wall.distance = cast_ray(app, ray_angle, &wall);
 		if (wall.hit == VERTICAL || wall.hit == DOOR_VERTIKAL)
 		{
-			if ((fabsf(wall.tar_y - roundf(wall.tar_y)))
-				> (fabsf(wall.tar_x - roundf(wall.tar_x))))
+			if ((fabsf(wall.tar_y - roundf(wall.tar_y))) > (fabsf(wall.tar_x
+						- roundf(wall.tar_x))))
 			{
 				if (wall.hit == VERTICAL)
 					wall.hit = NONVERTICAL;

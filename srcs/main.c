@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/18 23:48:04 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 00:24:25 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ void	put_img_to_img(mlx_image_t *img, mlx_image_t *src, int x, int y)
 		{
 			if (check_pixel_is_not_null(src, i, j))
 			{
-				mlx_put_pixel(img, x + i, y + j,
-					get_pixel_from_text(src, i, j));
+				mlx_put_pixel(img, x + i, y + j, get_pixel_from_text(src, i,
+						j));
 			}
 			j++;
 		}
@@ -82,13 +82,13 @@ void	free_all_resources(t_app *app)
 		app->minimap = NULL;
 	}
 	free_textures(app->textures);
-	if(app->weapon->sprite)
+	if (app->weapon->sprite)
 		mlx_delete_texture(app->weapon->sprite);
-	if(app->weapon->sprite_act)
+	if (app->weapon->sprite_act)
 		mlx_delete_texture(app->weapon->sprite_act);
-	if(app->weapon)
+	if (app->weapon)
 		free(app->weapon);
-	if(app->manual)
+	if (app->manual)
 		free_manual(&app->manual);
 }
 
@@ -103,14 +103,12 @@ void	create_animation(t_app *app, mlx_image_t **weapon)
 	new_value = animate / set_back;
 	app->weapon->x = app->window_width / 2 - weapon[new_value]->width / 2;
 	app->weapon->y = app->window_height - weapon[new_value]->height;
-	put_img_to_img(app->img, weapon[new_value],
-		app->weapon->x, app->weapon->y);
+	put_img_to_img(app->img, weapon[new_value], app->weapon->x, app->weapon->y);
 	if (++animate == 5 * set_back)
 	{
 		animate = 0;
 		app->weapon->animation_start = HOLSTERED;
-		put_img_to_img(app->img, weapon[0],
-			app->weapon->x, app->weapon->y);
+		put_img_to_img(app->img, weapon[0], app->weapon->x, app->weapon->y);
 	}
 }
 
@@ -133,8 +131,7 @@ void	draw_weapon(t_app *app)
 	{
 		app->weapon->x = app->window_width / 2 - cur_weapon[0]->width / 2;
 		app->weapon->y = app->window_height - cur_weapon[0]->height;
-		put_img_to_img(app->img, cur_weapon[0],
-			app->weapon->x, app->weapon->y);
+		put_img_to_img(app->img, cur_weapon[0], app->weapon->x, app->weapon->y);
 	}
 	else
 	{
@@ -151,8 +148,7 @@ void	close_last_door(t_app *app)
 		&& (int)app->player.y != app->l_op_door_y)
 		app->closing_counter--;
 	if (app->l_op_door_x != -1 && app->l_op_door_y != -1
-		&& app->closing_counter == 0
-		&& (int)app->player.x != app->l_op_door_x
+		&& app->closing_counter == 0 && (int)app->player.x != app->l_op_door_x
 		&& (int)app->player.y != app->l_op_door_y)
 	{
 		app->walked_map[app->l_op_door_y][app->l_op_door_x] = 3;
@@ -177,10 +173,12 @@ void	main_loop(void *param)
 
 int	is_not_cub(char *file)
 {
-	int len = ft_strlen(file);
+	int	len;
+
+	len = ft_strlen(file);
 	if (len < 4)
 		return (1);
-	return(ft_strcmp(file + len - 4, ".cub"));
+	return (ft_strcmp(file + len - 4, ".cub"));
 }
 
 int	main(int argc, char **argv)
@@ -202,7 +200,7 @@ int	main(int argc, char **argv)
 		return (1);
 	if (_init_app(&app))
 		return (1);
-	//print_info(&app);
+	// print_info(&app);
 	mlx_set_cursor_mode(app.mlx, MLX_MOUSE_HIDDEN);
 	if (app.map)
 	{

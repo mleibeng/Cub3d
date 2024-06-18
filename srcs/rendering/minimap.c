@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 23:01:46 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 23:49:42 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 00:28:53 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,21 @@ void	draw_minimap_wall(t_app *app, t_vec map)
 {
 	t_vec	minimap;
 
-	minimap.x = 0;
-	while (minimap.x < app->mini_info.wall_size)
+	minimap.y = 0;
+	while (minimap.y < app->mini_info.wall_size)
 	{
-		minimap.y = 0;
-		while (minimap.y < app->mini_info.wall_size)
+		minimap.x = 0;
+		while (minimap.x < app->mini_info.wall_size)
 		{
 			calculate_xy_coordinates(app, map, minimap);
-			rotate_point(&app->mini_info.xy, +app->player.angle,
+			rotate_point(&app->mini_info.xy, -app->player.angle,
 				app->mini_info.half_size);
 			if (is_within_minimap_bounds(app))
 				mlx_put_pixel(app->minimap_img, app->mini_info.xy.x,
 					app->mini_info.xy.y, WHITE);
-			minimap.y++;
+			minimap.x++;
 		}
-		minimap.x++;
+		minimap.y++;
 	}
 }
 
@@ -38,21 +38,21 @@ void	draw_minimap_door(t_app *app, t_vec map, int32_t color)
 {
 	t_vec	minimap;
 
-	minimap.x = 0;
-	while (minimap.x < app->mini_info.wall_size)
+	minimap.y = 0;
+	while (minimap.y < app->mini_info.wall_size)
 	{
-		minimap.y = 0;
-		while (minimap.y < app->mini_info.wall_size)
+		minimap.x = 0;
+		while (minimap.x < app->mini_info.wall_size)
 		{
 			calculate_xy_coordinates(app, map, minimap);
-			rotate_point(&app->mini_info.xy, +app->player.angle,
+			rotate_point(&app->mini_info.xy, -app->player.angle,
 				app->mini_info.half_size);
 			if (is_within_minimap_bounds(app))
 				mlx_put_pixel(app->minimap_img, app->mini_info.xy.x,
 					app->mini_info.xy.y, color);
-			minimap.y++;
+			minimap.x++;
 		}
-		minimap.x++;
+		minimap.y++;
 	}
 }
 

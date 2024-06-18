@@ -6,32 +6,27 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:33:57 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 23:36:43 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 00:17:21 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void fill_texture_paths(char **texture_path, char *line)
+void	fill_texture_paths(char **texture_path, char *line)
 {
-	char *trimmed_line = line;
+	char	*trimmed_line;
+
+	trimmed_line = line;
 	while (ft_isspace(*trimmed_line))
 		trimmed_line++;
 	*texture_path = ft_strdup(trimmed_line);
 }
 
-void free_line(char *line)
-{
-	if(line)
-	{
-		free(line);
-		line = NULL;
-	}
-}
-
 int	compare_textures(t_texture *texture, char *line)
 {
-	int status = 0;
+	int	status;
+
+	status = 0;
 	if (!ft_strncmp(line, "NO ", 3))
 	{
 		fill_texture_paths(&(texture->n_path), line + 3);
@@ -57,7 +52,9 @@ int	compare_textures(t_texture *texture, char *line)
 
 int	parse_textures(char *line, t_texture *texture)
 {
-	int status = 0;
+	int	status;
+
+	status = 0;
 	if ((!texture->e_path || !texture->w_path || !texture->s_path
 			|| !texture->n_path) && *line)
 		status = compare_textures(texture, line);
@@ -71,7 +68,9 @@ int	parse_textures(char *line, t_texture *texture)
 
 int	dup_door_path(char *line, int *keep_read, t_texture *txt)
 {
-	int status = 0;
+	int	status;
+
+	status = 0;
 	if (!line)
 		*keep_read = 0;
 	else if (ft_strlen(line) > 0 && !ft_strncmp(line, "DO ", 3))
@@ -88,12 +87,13 @@ void	parse_door_text(char *file, t_texture *texture)
 	int		fd;
 	char	*line;
 	int		keep_reading;
-	int		status = 0;
+	int		status;
 
+	status = 0;
 	line = NULL;
 	keep_reading = 1;
 	fd = open_file(file);
-	if(!fd)
+	if (!fd)
 		exit(1);
 	while (keep_reading && !status)
 	{
@@ -102,7 +102,7 @@ void	parse_door_text(char *file, t_texture *texture)
 		free(line);
 		line = NULL;
 	}
-	if(line)
+	if (line)
 	{
 		free(line);
 		line = NULL;

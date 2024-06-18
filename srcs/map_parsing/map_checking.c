@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 00:57:13 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 23:45:47 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 00:26:58 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ void	parse_file(int fd, t_texture *texture, char ***map, t_vec *rows_cols)
 	line_sort.texture = texture;
 	if (read_lines_until_end(fd, &line_sort, &map_started))
 		emergency_exit(NULL, texture, *map);
-	// if (line_sort.rows_cols->x > 0)
-	// 	(*map)[line_sort.rows_cols->x] = NULL;
+	if (line_sort.rows_cols->x > 0)
+		(*map)[line_sort.rows_cols->x] = NULL;
 	if (line_sort.rows_cols->y > 0)
 		(*map)[line_sort.rows_cols->y] = NULL;
 	if (!are_textures_and_colors_filled(texture))
