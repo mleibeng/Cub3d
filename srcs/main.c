@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/17 21:50:38 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/18 02:42:24 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,12 +178,28 @@ void	main_loop(void *param)
 	close_last_door(app);
 }
 
+int	is_not_cub(char *file)
+{
+	int len = ft_strlen(file);
+	if (len < 4)
+		return (1);
+	return(ft_strcmp(file + len - 4, ".cub"));
+}
+
 int	main(int argc, char **argv)
 {
 	t_app	app;
 
 	if (argc != 2)
+	{
+		printf("Error\nNo *.cub file as argument\n");
 		return (1);
+	}
+	if (is_not_cub(argv[1]))
+	{
+		printf("Error\nNo .cub file handed as argument\n");
+		return (1);
+	}
 	app.map = map_validate(&app, argv[1]);
 	if (!app.map)
 		return (1);
