@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/19 00:04:32 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 01:16:54 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@
 # define WEST 4
 # define DOOR 5
 //	size of the player
-# define PLAYER_SIZE 0.01
+# define PLAYER_SIZE 0.2
 
 /* ----------------------- adjustable pre-settings -------------------------- */
 
@@ -341,6 +341,10 @@ void				draw_line(t_app *app, t_coord point_a, t_coord point_b);
 int					ft_ro(float num);
 float				norm_ang(float angle);
 double				get_fractional_part(double num);
+int					is_integer(float x);
+//	ray_algorithm.c
+void				fine_tuning_algorithm(t_app *app, t_tar *wall, float ang, float depth);
+float				cast_ray(t_app *app, float ray_angle, t_tar *wall);
 
 // -------------------------------- init.c -------------------------------------
 
