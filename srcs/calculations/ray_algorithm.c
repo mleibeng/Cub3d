@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 01:15:06 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/19 01:34:01 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/19 16:43:24 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,12 @@ void	fine_tuning_algorithm(t_app *app, t_tar *wall, float ang, float depth)
 	float	start;
 	float	end;
 
-	start = depth - 0.01f;
-	end = depth + 0.01f;
-	while (end - start > 0.00003f)
+	start = depth - 0.015f;
+	end = depth + 0.015f;
+	const float ABSOLUTE_THRESHOLD = 0.000001f; // Absolute threshold for small ranges
+	const float RELATIVE_THRESHOLD = 0.000000001f; // Relative threshold for larger ranges
+
+	while (end - start > fmax(ABSOLUTE_THRESHOLD, (end - start) * RELATIVE_THRESHOLD))
 	{
 		depth = (start + end) / 2;
 		wall->tar_x = app->player.x + depth * cos(ang);
@@ -48,7 +51,7 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 	float	depth;
 	float	max_units;
 
-	depth = -0.01f;
+	depth = 0.00f;
 	max_units = 1.0f * (int)fmax(app->rows, app->cols);
 	if (max_units > 100.0f)
 		max_units = 100.0f;
@@ -58,7 +61,7 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 	{
 		wall->tar_x = app->player.x + depth * cos(ray_angle);
 		wall->tar_y = app->player.y + depth * sin(ray_angle);
-		if (wall->tar_y >= 0 && wall->tar_x >= 0 && wall->tar_y <= app->rows
+		if (wall->tar_y >= -0.5f && wall->tar_x >= -0.5f && wall->tar_y <= app->rows
 			&& wall->tar_x <= app->cols
 			&& (app->val_map[(int)(wall->tar_y)][(int)(wall->tar_x)] == 1
 				|| app->val_map[(int)(wall->tar_y)][(int)(wall->tar_x)] == 3))

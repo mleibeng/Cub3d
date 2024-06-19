@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 18:22:29 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/19 01:12:26 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/19 16:37:14 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ double	get_fractional_part(double num)
 	return (fractional_part);
 }
 
-int	is_integer(float x)
+int is_integer(float x)
 {
-	return (fabsf(x - roundf(x)) < 1e-15);
+    float fractional_part = fabsf(fmodf(x, 1.0f));
+    return (fractional_part <= 0.0003f && fractional_part >= 0.9997f);
 }
