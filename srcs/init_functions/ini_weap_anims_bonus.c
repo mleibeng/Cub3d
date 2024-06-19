@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ini_weap_anims_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 01:53:51 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 20:38:45 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 22:01:00 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	load_and_resize_animation(t_app *app, mlx_image_t **animation,
 	{
 		texture = load_image(app, ani_fnames[i++]);
 		animation[j] = mlx_texture_to_image(app->mlx, texture);
+		mlx_delete_texture(texture);
 		mlx_resize_image(animation[j], animation[j]->width * 3,
 			animation[j]->height * 3);
 		j++;
@@ -71,8 +72,6 @@ t_weapon	*_init_weapon(t_app *app)
 	weapon = malloc(sizeof(t_weapon));
 	if (!weapon)
 		free_all_resources(app);
-	weapon->sprite = load_image(app, "./textures/weapons/Jagknife.png");
-	weapon->sprite_act = load_image(app, "./textures/weapons/Jagpistol.png");
 	weapon->state = HOLSTERED;
 	weapon->weapon = 0;
 	i = 0;
@@ -81,10 +80,12 @@ t_weapon	*_init_weapon(t_app *app)
 		weapon->animation[i] = load_image(app, ani_fnames[i]);
 		i++;
 	}
-	weapon->img = mlx_texture_to_image(app->mlx, weapon->sprite);
-	weapon->active_image = mlx_texture_to_image(app->mlx, weapon->sprite_act);
+	weapon->animation[i] = NULL;
 	load_and_resize_animation(app, weapon->punch, ani_fnames, 3);
 	load_and_resize_animation(app, weapon->pistol, ani_fnames + 3, 5);
 	load_and_resize_animation(app, weapon->shotgun, ani_fnames + 8, 5);
+	i = 0;
+	while (weapon->animation[i])
+		mlx_delete_texture(weapon->animation[i++]);
 	return (weapon);
 }

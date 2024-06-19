@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/19 20:53:51 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 21:50:29 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,8 +184,6 @@ typedef struct s_weapon
 {
 	mlx_image_t		*img;
 	mlx_image_t		*active_image;
-	mlx_texture_t	*sprite;
-	mlx_texture_t	*sprite_act;
 	mlx_texture_t	*animation[50];
 	mlx_image_t		*punch[3];
 	mlx_image_t		*pistol[5];

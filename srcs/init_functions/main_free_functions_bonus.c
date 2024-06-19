@@ -3,21 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   main_free_functions_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 18:32:03 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 20:38:41 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 21:50:13 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-void	free_weapon(t_weapon *weapon)
+void	free_weapon(t_app *app, t_weapon *weapon)
 {
-	if (weapon->sprite)
-		mlx_delete_texture(weapon->sprite);
-	if (weapon->sprite_act)
-		mlx_delete_texture(weapon->sprite_act);
+	int	i;
+
+	i = 0;
+	while (weapon->pistol[i])
+		mlx_delete_image(app->mlx, weapon->pistol[i++]);
+	i = 0;
+	while (weapon->shotgun[i])
+		mlx_delete_image(app->mlx, weapon->shotgun[i++]);
+	i = 0;
 	free(weapon);
 }
 
@@ -40,7 +45,7 @@ void	free_all_resources(t_app *app)
 	}
 	free_textures(app->textures);
 	if (app->weapon)
-		free_weapon(app->weapon);
+		free_weapon(app, app->weapon);
 	if (app->manual)
 		free_manual(&app->manual);
 }

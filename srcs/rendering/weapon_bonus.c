@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   weapon_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 01:47:07 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/19 20:38:06 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 21:54:21 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,5 @@ void	draw_weapon(t_app *app)
 		app->weapon->x = app->window_width / 2 - cur_weapon[0]->width / 2;
 		app->weapon->y = app->window_height - cur_weapon[0]->height;
 		put_img_to_img(app->img, cur_weapon[0], app->weapon->x, app->weapon->y);
-	}
-	else
-	{
-		app->weapon->x = app->window_width / 2
-			- app->weapon->active_image->width / 2;
-		app->weapon->y = app->window_height - app->weapon->active_image->height;
 	}
 }

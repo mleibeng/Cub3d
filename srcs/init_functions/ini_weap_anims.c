@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 01:53:51 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 01:28:41 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/19 21:50:25 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ t_weapon	*_init_weapon(t_app *app)
 	weapon = malloc(sizeof(t_weapon));
 	if (!weapon)
 		free_all_resources(app);
-	weapon->sprite = load_image(app, "./textures/weapons/Jagknife.png");
-	weapon->sprite_act = load_image(app, "./textures/weapons/Jagpistol.png");
 	weapon->state = HOLSTERED;
 	weapon->weapon = 0;
 	i = 0;
@@ -81,8 +79,6 @@ t_weapon	*_init_weapon(t_app *app)
 		weapon->animation[i] = load_image(app, ani_fnames[i]);
 		i++;
 	}
-	weapon->img = mlx_texture_to_image(app->mlx, weapon->sprite);
-	weapon->active_image = mlx_texture_to_image(app->mlx, weapon->sprite_act);
 	load_and_resize_animation(app, weapon->punch, ani_fnames, 3);
 	load_and_resize_animation(app, weapon->pistol, ani_fnames + 3, 5);
 	load_and_resize_animation(app, weapon->shotgun, ani_fnames + 8, 5);

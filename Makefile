@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+         #
+#    By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/04 14:26:27 by fkeitel           #+#    #+#              #
-#    Updated: 2024/06/19 20:45:32 by mleibeng         ###   ########.fr        #
+#    Updated: 2024/06/19 21:29:13 by fkeitel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ LIBMLX_URL := https://github.com/codam-coding-college/MLX42.git
 LIBFT_DIR := libft
 LIBFT := $(LIBFT_DIR)/libft.a
 HEADERS := -I ./include -I $(LIBMLX)/include
+LEAKFLAG := -L/Users/fkeitel/Documents/LeakSanitizer  -llsan
 
 # Directories
 SRC_DIR := srcs
@@ -90,12 +91,12 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
 $(NAME): $(OBJS)
-	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME)
+	@$(CC) $(OBJS) $(LIBS) $(HEADERS) $(LEAKFLAG) -o $(NAME)
 
 bonus: $(LIBFT) libmlx $(BONUS_NAME)
 
 $(BONUS_NAME): $(BONUS_OBJS)
-	@$(CC) $(BONUS_OBJS) $(LIBS) $(HEADERS) -o $(BONUS_NAME)
+	@$(CC) $(BONUS_OBJS) $(LIBS) $(HEADERS) -o $(BONUS_NAME) $(LEAKFLAG)
 
 clean:
 	@rm -rf $(OBJ_DIR)
