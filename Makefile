@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+         #
+#    By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/04 14:26:27 by fkeitel           #+#    #+#              #
-#    Updated: 2024/06/19 17:57:52 by mleibeng         ###   ########.fr        #
+#    Updated: 2024/06/19 19:00:55 by fkeitel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,6 +73,8 @@ fclean: clean
 	@chmod 777 manual.txt
 
 re: fclean all
+
+re_bonus: fclean bonus
 
 mlxfclean: fclean
 	@rm -rf $(LIBMLX)
