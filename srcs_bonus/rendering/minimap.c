@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 23:01:46 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 18:07:54 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:46:55 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	draw_minimap_wall(t_app *app, t_vec map)
 {
 	t_vec	minimap;
 
-	minimap.y = 0;
+	minimap.y = 1;
 	while (minimap.y < app->mini_info.wall_size)
 	{
-		minimap.x = 0;
+		minimap.x = 1;
 		while (minimap.x < app->mini_info.wall_size)
 		{
 			calculate_xy_coordinates(app, map, minimap);
@@ -38,10 +38,10 @@ void	draw_minimap_door(t_app *app, t_vec map, int32_t color)
 {
 	t_vec	minimap;
 
-	minimap.y = 0;
+	minimap.y = 1;
 	while (minimap.y < app->mini_info.wall_size)
 	{
-		minimap.x = 0;
+		minimap.x = 1;
 		while (minimap.x < app->mini_info.wall_size)
 		{
 			calculate_xy_coordinates(app, map, minimap);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rendering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 21:50:08 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/19 18:07:58 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:47:18 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	draw_sky_ceiling(t_app *app, int start, int end, int32_t color)
 						- start));
 		else
 			percentage = (float)(((float)(y - end) / y) * 0.9);
-		if (app->cur_ray >= 0 && app->cur_ray < app->window_width && y >= 0
+		if (app->cur_ray > 0 && app->cur_ray < app->window_width && y > 0
 			&& y < app->window_height)
 		{
 			mix_and_print_text(app, color, percentage, y);

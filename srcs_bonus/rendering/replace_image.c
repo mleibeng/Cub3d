@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace_image.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 01:44:27 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/19 18:08:01 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:47:50 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ void	put_img_to_img(mlx_image_t *img, mlx_image_t *src, int x, int y)
 		j = 0;
 		while (j < src->height)
 		{
-			if (check_pixel_is_not_null(src, i, j))
+			if (check_pixel_is_not_null(src, i, j)
+				&& (x + i) > 0 && (x + i) < WINDOW_WIDTH
+				&& (y + j) > 0 && (y + j) < WINDOW_HEIGHT)
 			{
 				mlx_put_pixel(img, x + i, y + j, get_pixel_from_text(src, i,
 						j));

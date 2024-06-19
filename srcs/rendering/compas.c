@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   compas.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 22:37:06 by flo               #+#    #+#             */
-/*   Updated: 2024/06/19 17:29:50 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:41:10 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	draw_compass_ring(mlx_image_t *compass, int32_t color)
 		{
 			x = CENTER + (CENTER - 1 - thickness) * cos(angle * M_PI / 180);
 			y = CENTER + (CENTER - 1 - thickness) * sin(angle * M_PI / 180);
-			if (x > 0 && y > 0 && x <= WINDOW_WIDTH && y <= WINDOW_HEIGHT)
+			if (x > 0 && y > 0 && x < WINDOW_WIDTH && y < WINDOW_HEIGHT)
 			{
 				mlx_put_pixel(compass, x, y, color);
 			}

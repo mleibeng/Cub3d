@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap_calcs.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 18:25:52 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 18:07:51 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:46:28 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	clear_mini_map(mlx_image_t *img, int32_t background_color)
 	int	y;
 	int	x;
 
-	y = 0;
+	y = 1;
 	while (y < MINIMAP_SIZE)
 	{
-		x = 0;
+		x = 1;
 		while (x < MINIMAP_SIZE)
 		{
 			mlx_put_pixel(img, x, y, background_color);
@@ -54,7 +54,10 @@ void	put_player_mini(t_app *app)
 	while (py <= 2)
 	{
 		px = -2;
-		while (px <= 2)
+		while (px <= 2 && (app->mini_info.half_size + px) > 0
+			&& (app->mini_info.half_size + px) < WINDOW_WIDTH
+			&& (app->mini_info.half_size + py) > 0
+			&& (app->mini_info.half_size + py) < WINDOW_HEIGHT)
 		{
 			mlx_put_pixel(app->minimap_img, app->mini_info.half_size + px,
 				app->mini_info.half_size + py, RED);
@@ -75,6 +78,6 @@ void	calculate_xy_coordinates(t_app *app, t_vec map, t_vec minimap)
 
 int	is_within_minimap_bounds(t_app *app)
 {
-	return (app->mini_info.xy.x >= 0 && app->mini_info.xy.x < MINIMAP_SIZE
-		&& app->mini_info.xy.y >= 0 && app->mini_info.xy.y < MINIMAP_SIZE);
+	return (app->mini_info.xy.x > 0 && app->mini_info.xy.x < MINIMAP_SIZE
+		&& app->mini_info.xy.y > 0 && app->mini_info.xy.y < MINIMAP_SIZE);
 }
