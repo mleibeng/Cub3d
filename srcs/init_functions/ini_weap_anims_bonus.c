@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 01:53:51 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 22:01:00 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/19 23:06:53 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	load_and_resize_animation(t_app *app, mlx_image_t **animation,
 	j = 0;
 	while (j < frame_count)
 	{
+		animation[j] = NULL;
 		texture = load_image(app, ani_fnames[i++]);
 		animation[j] = mlx_texture_to_image(app->mlx, texture);
 		mlx_delete_texture(texture);
@@ -59,7 +60,6 @@ void	load_and_resize_animation(t_app *app, mlx_image_t **animation,
 			animation[j]->height * 3);
 		j++;
 	}
-	animation[j] = NULL;
 }
 
 //	function to initialize the weapon struct

@@ -2,10 +2,8 @@ NO ./textures/tyles/bricks.xpm42
 SO ./textures/tyles/drinks.xpm42
 WE ./textures/tyles/gibbon.xpm42
 EA ./textures/tyles/wood.xpm42
-
 F 220,100,0
 C 225,30,0
-
 1111111111111111111111111
 1000000000110000000000001
 1011000001110000000000001
