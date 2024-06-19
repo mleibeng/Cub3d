@@ -6,11 +6,11 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 18:53:54 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 17:16:30 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:07:00 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../include_bonus/cub3d_bonus.h"
 
 //	function toi nitialize the texture of the tyles
 void	_init_texture(t_texture *texture)

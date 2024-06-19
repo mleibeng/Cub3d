@@ -6,11 +6,11 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 22:37:06 by flo               #+#    #+#             */
-/*   Updated: 2024/06/15 20:02:20 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:07:47 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../include_bonus/cub3d_bonus.h"
 
 // Function to clear the compass background
 void	clear_compass(mlx_image_t *img, int32_t background_color)

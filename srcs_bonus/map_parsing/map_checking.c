@@ -6,11 +6,11 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 00:57:13 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 17:19:36 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:07:25 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../include_bonus/cub3d_bonus.h"
 
 int	parse_line(char *line, t_line_struct *line_sort, int *map_started)
 {

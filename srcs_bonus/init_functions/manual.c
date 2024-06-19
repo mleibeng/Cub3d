@@ -6,11 +6,11 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 14:00:03 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/15 19:46:40 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:07:05 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../include_bonus/cub3d_bonus.h"
 
 //	function to add line to the manual list
 void	read_manual(t_man **lst, char **string, int fd)

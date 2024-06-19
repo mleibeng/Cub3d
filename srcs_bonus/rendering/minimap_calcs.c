@@ -6,11 +6,11 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 18:25:52 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 00:10:29 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:07:51 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../include_bonus/cub3d_bonus.h"
 
 void	clear_mini_map(mlx_image_t *img, int32_t background_color)
 {

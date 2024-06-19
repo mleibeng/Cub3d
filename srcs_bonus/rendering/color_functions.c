@@ -6,11 +6,11 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 21:35:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/15 18:43:54 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:07:44 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../include_bonus/cub3d_bonus.h"
 
 // combines rgb and alpha(transparency) values into single color
 int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)

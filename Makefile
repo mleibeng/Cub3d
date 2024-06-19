@@ -6,7 +6,7 @@
 #    By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/04 14:26:27 by fkeitel           #+#    #+#              #
-#    Updated: 2024/06/17 17:05:47 by mleibeng         ###   ########.fr        #
+#    Updated: 2024/06/19 17:57:52 by mleibeng         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,14 +18,16 @@ LIBMLX_URL := https://github.com/codam-coding-college/MLX42.git
 LIBFT_DIR := libft
 LIBFT := $(LIBFT_DIR)/libft.a
 HEADERS := -I ./include -I $(LIBMLX)/include
+BONUS_HEADER := -I ./include_bonus -I$(LIBMLX)/include
 
 # Directories
 SRC_DIR := srcs
+SRC_BONUS_DIR := srcs_bonus
 OBJ_DIR := obj
 
 LIBS := $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm -L$(LIBFT_DIR) -lft
 SRCS := $(shell find $(SRC_DIR) -name '*.c')
-BONUS_SRCS :=
+BONUS_SRCS := $(shell find $(SRC_BONUS_DIR) -name '*.c')
 
 OBJS := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
 BONUS_OBJS := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(BONUS_SRCS))
@@ -58,7 +60,7 @@ $(NAME): $(OBJS)
 bonus: $(LIBFT) libmlx $(BONUS_NAME)
 
 $(BONUS_NAME): $(BONUS_OBJS)
-	@$(CC) $(BONUS_OBJS) $(LIBS) $(HEADERS) -o $(BONUS_NAME)
+	@$(CC) $(BONUS_OBJS) $(LIBS) $(BONUS_HEADERS) -o $(BONUS_NAME)
 
 clean:
 	@rm -rf $(OBJ_DIR)

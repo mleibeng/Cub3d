@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ray_algorithm.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 01:15:06 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/19 01:34:01 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/19 18:06:55 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../include_bonus/cub3d_bonus.h"
 
 //	finer algorithm when a rounded target on the map is found
 void	fine_tuning_algorithm(t_app *app, t_tar *wall, float ang, float depth)

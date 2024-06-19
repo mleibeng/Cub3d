@@ -6,11 +6,11 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:42:49 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 23:41:06 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:06:53 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../include_bonus/cub3d_bonus.h"
 
 float	check_start_angle(char direction)
 {

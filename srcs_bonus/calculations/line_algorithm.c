@@ -6,11 +6,11 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:54:25 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/15 16:47:33 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:06:48 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../include_bonus/cub3d_bonus.h"
 
 //	function to check if there is an error with the pixel position
 int	check_error_pixel(t_coord *pt_a, t_coord *pt_b, int *x0, int *y0)

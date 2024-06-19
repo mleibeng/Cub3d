@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   weapon.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 01:47:07 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/19 01:47:27 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/19 18:08:04 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../include_bonus/cub3d_bonus.h"
 
 //	function to animate the weapon firing
 void	create_animation(t_app *app, mlx_image_t **weapon)

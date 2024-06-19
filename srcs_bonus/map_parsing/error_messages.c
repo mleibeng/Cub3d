@@ -6,11 +6,11 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 00:53:28 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 00:33:43 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:07:17 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../include_bonus/cub3d_bonus.h"
 
 void	print_error_and_exit(const char *message, t_texture *textures,
 		char **map)

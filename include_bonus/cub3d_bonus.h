@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/19 15:27:18 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/19 18:06:19 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 ------------------------------- initial setup ----------------------------------
  */
 
-#if !defined(CUB3D_H)
-# define CUB3D_H
+#if !defined(CUB3D_BONUS_H)
+# define CUB3D_BONUS_H
 
 # include "../libft/libft.h"
-# include "MLX42/MLX42.h"
+# include "../MLX42/include/MLX42/MLX42.h"
 # include "color.h"
 # include <errno.h>
 # include <fcntl.h>

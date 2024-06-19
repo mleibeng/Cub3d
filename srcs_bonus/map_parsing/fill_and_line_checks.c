@@ -6,11 +6,11 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 02:20:36 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/18 02:23:07 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:07:19 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../include_bonus/cub3d_bonus.h"
 
 int	is_texture_line(char *line)
 {

@@ -6,11 +6,11 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:34:29 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 00:25:32 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:07:31 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../include_bonus/cub3d_bonus.h"
 
 int	is_map_line(const char *line)
 {
