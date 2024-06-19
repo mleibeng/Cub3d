@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/19 18:27:59 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 20:24:56 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@
 # define WEST 4
 # define DOOR 5
 //	size of the player
-# define PLAYER_SIZE 0.3
+# define PLAYER_SIZE 0.2
 
 /* ----------------------- adjustable pre-settings -------------------------- */
 

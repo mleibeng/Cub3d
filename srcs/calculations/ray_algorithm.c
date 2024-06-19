@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_algorithm.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 01:15:06 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/19 19:13:41 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 20:28:33 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,29 @@ void	fine_tuning_algorithm(t_app *app, t_tar *wall, float ang, float depth)
 	}
 }
 
+void	adjust_depth_increment(float *depth, float max_depth)
+{
+	float	trans;
+	float	max_inc;
+	float	min_inc;
+	float	interpolation;
+
+	trans = 2.0f;
+	max_inc = 0.1f;
+	min_inc = 0.0007f;
+	if (*depth > max_depth)
+	{
+		*depth += max_inc;
+	}
+	else if (*depth > trans)
+	{
+		interpolation = (*depth - trans) / (max_depth - trans);
+		*depth += min_inc + (max_inc - min_inc) * interpolation;
+	}
+	else
+		*depth += min_inc;
+}
+
 //	function for raycasting the return value will be taken with the cos
 //	from the player angle and the actual angle (fisheye)
 //	improved algorithm, higher accuracy for smaller distances
@@ -63,7 +86,7 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 			&& (app->val_map[(int)(wall->tar_y)][(int)(wall->tar_x)] == 1
 				|| app->val_map[(int)(wall->tar_y)][(int)(wall->tar_x)] == 3))
 			break ;
-		depth += 0.0007f;
+		adjust_depth_increment(&depth, max_units);
 	}
 	if (depth >= max_units)
 		return (wall->hit = NONVERTICAL, max_units * cos(app->player.angle
