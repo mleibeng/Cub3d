@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   user_input.c                                       :+:      :+:    :+:   */
+/*   error_messages.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/08 09:34:11 by flo               #+#    #+#             */
-/*   Updated: 2024/06/19 17:21:07 by mleibeng         ###   ########.fr       */
+/*   Created: 2024/06/18 00:53:28 by mleibeng          #+#    #+#             */
+/*   Updated: 2024/06/19 00:33:43 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-//	function to handle all key and mouse hooks
-void	user_input_hook(t_app *app)
+void	print_error_and_exit(const char *message, t_texture *textures,
+		char **map)
 {
-	view_change_hook(app);
-	// mouse_shift(app);
-	direction_change_hook(app);
+	printf("Error\n%s\n", message);
+	emergency_exit(NULL, textures, map);
 }

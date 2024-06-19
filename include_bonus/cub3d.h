@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/19 17:25:04 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 15:27:18 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@
 # define WEST 4
 # define DOOR 5
 //	size of the player
-# define PLAYER_SIZE 0.3
+# define PLAYER_SIZE 0.2
 
 /* ----------------------- adjustable pre-settings -------------------------- */
 
@@ -293,9 +293,9 @@ typedef struct s_app
 {
 	mlx_t			*mlx;
 	mlx_image_t		*img;
-	// mlx_image_t		*compass;
-	// mlx_image_t		*minimap_img;
-	// mlx_image_t		*player_on_mini;
+	mlx_image_t		*compass;
+	mlx_image_t		*minimap_img;
+	mlx_image_t		*player_on_mini;
 	t_weapon		*weapon;
 	t_texture		*textures;
 	int				needle_x;
@@ -311,8 +311,8 @@ typedef struct s_app
 	t_vec			pos;
 	t_vec			*check_queue;
 	int				**val_map;
-	// int				**minimap;
-	// t_minimap		mini_info;
+	int				**minimap;
+	t_minimap		mini_info;
 	int				cols;
 	int				rows;
 	int				end;
@@ -321,8 +321,8 @@ typedef struct s_app
 	int				l_op_door_x;
 	int				l_op_door_y;
 	int				closing_counter;
-	// mlx_image_t		*man;
-	// t_man			*manual;
+	mlx_image_t		*man;
+	t_man			*manual;
 }					t_app;
 
 /*
