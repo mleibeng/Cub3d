@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/19 01:50:22 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/19 15:27:18 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -343,7 +343,8 @@ float				norm_ang(float angle);
 double				get_fractional_part(double num);
 int					is_integer(float x);
 //	ray_algorithm.c
-void				fine_tuning_algorithm(t_app *app, t_tar *wall, float ang, float depth);
+void				fine_tuning_algorithm(t_app *app, t_tar *wall, float ang,
+						float depth);
 float				cast_ray(t_app *app, float ray_angle, t_tar *wall);
 // player_calculations.c
 void				f_player_start(t_app *app, char **map, int *player_x,
@@ -442,7 +443,8 @@ void				display_minimap(t_app *app);
 //	compass.c
 void				display_compass(t_app *app, float player_angle);
 //	replace_image.c
-void				put_img_to_img(mlx_image_t *img, mlx_image_t *src, int x, int y);
+void				put_img_to_img(mlx_image_t *img, mlx_image_t *src, int x,
+						int y);
 //	weapon.c
 void				create_animation(t_app *app, mlx_image_t **weapon);
 void				draw_weapon(t_app *app);
