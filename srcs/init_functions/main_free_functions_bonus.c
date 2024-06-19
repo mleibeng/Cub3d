@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_free_functions_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 18:32:03 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 23:04:49 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/20 00:16:31 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	free_weapon(t_app *app, t_weapon *weapon)
 	free(weapon);
 }
 
-void	free_all_resources(t_app *app)
+void	free_all_resources_bonus(t_app *app)
 {
 	if (app->map)
 	{

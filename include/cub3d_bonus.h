@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/19 23:20:43 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/20 00:13:08 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 #if !defined(CUB3D_BONUS_H)
 # define CUB3D_BONUS_H
 
-# include "../libft/libft.h"
 # include "../MLX42/include/MLX42/MLX42.h"
+# include "../libft/libft.h"
 # include "color.h"
 # include <errno.h>
 # include <fcntl.h>
@@ -371,7 +371,7 @@ void				free_manual(t_man **stack);
 
 // ----------------------------- map_parsing -----------------------------------
 // main.c
-void				free_all_resources(t_app *app);
+void				free_all_resources_bonus(t_app *app);
 //	free_functions
 void				free_queue(t_app *app);
 void				emergency_exit(t_app *app, t_texture *texture, char **map);
@@ -438,7 +438,7 @@ void				calculate_xy_coordinates(t_app *app, t_vec map,
 void				put_player_mini(t_app *app);
 void				rotate_point(t_vec *xy, float angle, int cy);
 void				clear_mini_map(mlx_image_t *img, int32_t background_color);
-//minimap.c
+// minimap.c
 void				display_minimap(t_app *app);
 //	compass.c
 void				display_compass(t_app *app, float player_angle);

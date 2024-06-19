@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 00:55:33 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 20:38:54 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/20 00:09:55 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	allocate_map_memory(char ***map, size_t line_len, int row)
 			return (1);
 		}
 	}
-	(*map)[row] = malloc((line_len + 1) * sizeof(char));
+	(*map)[row] = ft_calloc((line_len + 1) * sizeof(char), '0');
 	if (!(*map)[row])
 	{
 		printf("Error\nRow Malloc failed\n");

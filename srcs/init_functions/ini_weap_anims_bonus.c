@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ini_weap_anims_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 01:53:51 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 23:06:53 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/20 00:14:21 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ mlx_texture_t	*load_image(t_app *app, const char *path)
 
 	texture = mlx_load_png(path);
 	if (!texture)
-		free_all_resources(app);
+		free_all_resources_bonus(app);
 	return (texture);
 }
 
@@ -71,7 +71,7 @@ t_weapon	*_init_weapon(t_app *app)
 
 	weapon = malloc(sizeof(t_weapon));
 	if (!weapon)
-		free_all_resources(app);
+		free_all_resources_bonus(app);
 	weapon->state = HOLSTERED;
 	weapon->weapon = 0;
 	i = 0;

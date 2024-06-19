@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/19 20:38:17 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/20 00:12:31 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	main(int argc, char **argv)
 		mlx_loop(app.mlx);
 		mlx_delete_image(app.mlx, app.img);
 		mlx_terminate(app.mlx);
-		free_all_resources(&app);
+		free_all_resources_bonus(&app);
 	}
 	return (0);
 }
