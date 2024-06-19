@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_validation.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:35:36 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 17:05:52 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 03:15:30 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	is_valid(char c, int *player_count)
 		if (*player_count > 1)
 			return (0);
 	}
-	return (c == '0' || c == '1' || c == 'N' || c == 'S' || c == 'W'
-		|| c == 'E');
+	return (c == '0' || c == '1' || c == 'N' || c == 'S' || c == 'W' || c == 'E'
+		|| c == 'D');
 }
 
 void	validate_character(char c, int *player_count, t_texture *textures,
@@ -35,8 +35,8 @@ void	validate_character(char c, int *player_count, t_texture *textures,
 		else
 			print_error_and_exit("Invalid character inside map", textures, map);
 	}
-	// if (!textures->d_path && c == 'D')
-	// 	c = '1';
+	if (!textures->d_path && c == 'D')
+		c = '1';
 }
 
 int	character_validation(char **map, t_texture *textures)

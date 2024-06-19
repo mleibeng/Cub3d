@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 22:37:06 by flo               #+#    #+#             */
-/*   Updated: 2024/06/19 17:29:50 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/15 20:02:20 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,29 +63,29 @@ void	draw_compass_ring(mlx_image_t *compass, int32_t color)
 }
 
 // Function to create and display the compass
-// void	display_compass(t_app *app, float player_angle)
-// {
-// 	int32_t	color;
-// 	int		needle_length;
-// 	int32_t	background_color;
+void	display_compass(t_app *app, float player_angle)
+{
+	int32_t	color;
+	int		needle_length;
+	int32_t	background_color;
 
-// 	color = CLEAR;
-// 	color += 0xCC;
-// 	background_color = BLACK;
-// 	app->compass->pixels[3] = 255;
-// 	clear_compass(app->compass, background_color);
-// 	draw_compass_ring(app->compass, color);
-// 	draw_line(app, init_coord(CENTER, CENTER, color), init_coord(CENTER,
-// 			COMPASS_SIZE, color));
-// 	draw_line(app, init_coord(CENTER, CENTER, color), init_coord(CENTER,
-// 			-COMPASS_SIZE, color));
-// 	draw_line(app, init_coord(CENTER, CENTER, color), init_coord(CENTER
-// 			+ COMPASS_SIZE, CENTER, color));
-// 	draw_line(app, init_coord(CENTER, CENTER, color), init_coord(CENTER
-// 			- COMPASS_SIZE, CENTER, color));
-// 	needle_length = CENTER - 5;
-// 	app->needle_x = CENTER + needle_length * cos(player_angle);
-// 	app->needle_y = CENTER + needle_length * sin(player_angle);
-// 	draw_line(app, init_coord(CENTER, CENTER, 0xFF0000FF),
-// 		init_coord(app->needle_x, app->needle_y, 0xFF0000FF));
-// }
+	color = CLEAR;
+	color += 0xCC;
+	background_color = BLACK;
+	app->compass->pixels[3] = 255;
+	clear_compass(app->compass, background_color);
+	draw_compass_ring(app->compass, color);
+	draw_line(app, init_coord(CENTER, CENTER, color), init_coord(CENTER,
+			COMPASS_SIZE, color));
+	draw_line(app, init_coord(CENTER, CENTER, color), init_coord(CENTER,
+			-COMPASS_SIZE, color));
+	draw_line(app, init_coord(CENTER, CENTER, color), init_coord(CENTER
+			+ COMPASS_SIZE, CENTER, color));
+	draw_line(app, init_coord(CENTER, CENTER, color), init_coord(CENTER
+			- COMPASS_SIZE, CENTER, color));
+	needle_length = CENTER - 5;
+	app->needle_x = CENTER + needle_length * cos(player_angle);
+	app->needle_y = CENTER + needle_length * sin(player_angle);
+	draw_line(app, init_coord(CENTER, CENTER, 0xFF0000FF),
+		init_coord(app->needle_x, app->needle_y, 0xFF0000FF));
+}

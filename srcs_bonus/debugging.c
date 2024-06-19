@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debugging.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:39:07 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/19 17:28:38 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 01:37:18 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ void	print_more_statements(t_app *app)
 		printf("width: %d\n", app->img->width);
 		printf("height: %d\n", app->img->height);
 	}
-	// if (app->compass)
-	// 	printf("compass: %p\n", app->compass);
+	if (app->compass)
+		printf("compass: %p\n", app->compass);
 	printf("\n");
 	if (app->textures)
 	{
@@ -135,11 +135,11 @@ void	print_info(t_app *app)
 		printf("Validated map\n");
 		print_walkedmap(app->val_map, app->rows, app->cols);
 	}
-	// if (app->minimap)
-	// {
-	// 	printf("Mini_map\n");
-	// 	print_walkedmap(app->minimap, app->rows, app->cols);
-	// }
+	if (app->minimap)
+	{
+		printf("Mini_map\n");
+		print_walkedmap(app->minimap, app->rows, app->cols);
+	}
 	if (app->mlx)
 		printf("mlx: %p\n", app->mlx);
 	print_more_statements(app);
