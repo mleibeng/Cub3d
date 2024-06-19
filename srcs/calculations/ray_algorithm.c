@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 01:15:06 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/19 18:29:50 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 19:13:41 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,9 @@ void	fine_tuning_algorithm(t_app *app, t_tar *wall, float ang, float depth)
 	float	start;
 	float	end;
 
-	start = depth - 0.015f;
-	end = depth + 0.015f;
-	const float ABSOLUTE_THRESHOLD = 0.000001f;
-		// Absolute threshold for small ranges
-	const float RELATIVE_THRESHOLD = 0.000000001f;
-		// Relative threshold for larger ranges
-	while (end - start > fmax(ABSOLUTE_THRESHOLD, (end - start)
-			* RELATIVE_THRESHOLD))
+	start = depth - 0.01f;
+	end = depth + 0.01f;
+	while (end - start > 0.00003f)
 	{
 		depth = (start + end) / 2;
 		wall->tar_x = app->player.x + depth * cos(ang);
@@ -68,7 +63,7 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 			&& (app->val_map[(int)(wall->tar_y)][(int)(wall->tar_x)] == 1
 				|| app->val_map[(int)(wall->tar_y)][(int)(wall->tar_x)] == 3))
 			break ;
-		depth += 0.01f;
+		depth += 0.0007f;
 	}
 	if (depth >= max_units)
 		return (wall->hit = NONVERTICAL, max_units * cos(app->player.angle
