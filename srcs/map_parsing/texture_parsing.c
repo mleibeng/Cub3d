@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_parsing.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:33:57 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 01:44:58 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 13:41:20 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	parse_door_text(char *file, t_texture *texture)
 	keep_reading = 1;
 	fd = open_file(file);
 	if (!fd)
-		exit(1);
+		return(1);
 	while (keep_reading && !status)
 	{
 		line = get_cut_next_line(fd);

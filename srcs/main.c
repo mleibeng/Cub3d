@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvinleibenguth <marvinleibenguth@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/19 01:49:16 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/19 13:40:44 by marvinleibe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	main(int argc, char **argv)
 		return (printf("Error\nNo .cub file handed as argument\n"));
 	app.map = map_validate(&app, argv[1]);
 	if (!app.map)
-		return (1);
+		emergency_exit(&app, app.textures, app.map);
 	if (_init_app(&app))
 		return (1);
 	// print_info(&app);
