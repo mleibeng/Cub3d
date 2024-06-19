@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/19 18:30:33 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 23:17:48 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,11 @@ t_texture	*read_map(char *file, char ***map, t_vec *rows_cols)
 	if (fd == -1)
 		return (NULL);
 	texture = init_texture();
-	parse_file(fd, texture, map, rows_cols);
+	if (parse_file(fd, texture, map, rows_cols))
+	{
+		close(fd);
+		emergency_exit(NULL, texture, *map);
+	}
 	close(fd);
 	return (texture);
 }

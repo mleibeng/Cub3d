@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_checking.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 00:57:13 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 17:19:54 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 23:19:42 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	read_lines_until_end(int fd, t_line_struct *line_sort, int *map_started)
 	while (keep_reading)
 	{
 		line = get_cut_next_line(fd);
-		if (!line || status)
+		if (!line)
 			keep_reading = 0;
 		else
 			status = parse_line(line, line_sort, map_started);
@@ -70,11 +70,11 @@ int	read_lines_until_end(int fd, t_line_struct *line_sort, int *map_started)
 void	emergency_exit_unfilled_textures_or_colors(t_texture *texture,
 		char **map)
 {
-	printf("Error\nUnfilled textures or colors\n");
+
 	emergency_exit(NULL, texture, map);
 }
 
-void	parse_file(int fd, t_texture *texture, char ***map, t_vec *rows_cols)
+int	parse_file(int fd, t_texture *texture, char ***map, t_vec *rows_cols)
 {
 	t_line_struct	line_sort;
 	int				map_started;
@@ -84,17 +84,15 @@ void	parse_file(int fd, t_texture *texture, char ***map, t_vec *rows_cols)
 	line_sort.rows_cols = rows_cols;
 	line_sort.texture = texture;
 	if (read_lines_until_end(fd, &line_sort, &map_started))
-	{
-		close(fd);
-		emergency_exit(NULL, texture, *map);
-	}
+		return (1);
 	if (line_sort.rows_cols->x > 0)
 		(*map)[line_sort.rows_cols->x] = NULL;
 	if (line_sort.rows_cols->y > 0)
 		(*map)[line_sort.rows_cols->y] = NULL;
 	if (!are_textures_and_colors_filled(texture))
 	{
-		close(fd);
-		emergency_exit_unfilled_textures_or_colors(texture, *map);
+		printf("Error\nUnfilled textures or colors\n");
+		return (1);
 	}
+	return (0);
 }

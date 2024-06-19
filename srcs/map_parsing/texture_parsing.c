@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:33:57 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 15:28:36 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/19 23:24:01 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	parse_door_text(char *file, t_texture *texture)
 	fd = open_file(file);
 	if (!fd)
 		return (1);
-	while (keep_reading && !status)
+	while (keep_reading)
 	{
 		line = get_cut_next_line(fd);
 		status = dup_door_path(line, &keep_reading, texture);

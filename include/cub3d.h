@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/19 21:50:29 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/19 23:14:20 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -389,7 +389,7 @@ int					parse_floor_ceiling(char *line, t_texture *texture);
 int					fill_map(char **map, t_app *app, t_vec *direct);
 int					parse_map(char *line, char ***map, t_vec *rows_cols);
 //	map_checking.c
-void				parse_file(int fd, t_texture *texture, char ***map,
+int					parse_file(int fd, t_texture *texture, char ***map,
 						t_vec *rows_cols);
 //	map_validation.c
 int					is_valid(char c, int *player_count);

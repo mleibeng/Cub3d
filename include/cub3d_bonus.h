@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/19 20:38:18 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 23:20:43 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -404,7 +404,7 @@ int					parse_floor_ceiling(char *line, t_texture *texture);
 int					fill_map(char **map, t_app *app, t_vec *direct);
 int					parse_map(char *line, char ***map, t_vec *rows_cols);
 // map_checking.c
-void				parse_file(int fd, t_texture *texture, char ***map,
+int					parse_file(int fd, t_texture *texture, char ***map,
 						t_vec *rows_cols);
 // map_validation.c
 int					is_valid(char c, int *player_count);
