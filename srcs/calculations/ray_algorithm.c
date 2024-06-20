@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_algorithm.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 01:15:06 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/19 20:28:33 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/20 04:20:41 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ float	cast_ray(t_app *app, float ray_angle, t_tar *wall)
 	{
 		wall->tar_x = app->player.x + depth * cos(ray_angle);
 		wall->tar_y = app->player.y + depth * sin(ray_angle);
-		if (wall->tar_y >= -0.5f && wall->tar_x >= -0.5f
-			&& wall->tar_y <= app->rows && wall->tar_x <= app->cols
+		if (wall->tar_y > 0.0f && wall->tar_x > 0.0f
+			&& wall->tar_y < app->rows && wall->tar_x < app->cols
 			&& (app->val_map[(int)(wall->tar_y)][(int)(wall->tar_x)] == 1
 				|| app->val_map[(int)(wall->tar_y)][(int)(wall->tar_x)] == 3))
 			break ;
