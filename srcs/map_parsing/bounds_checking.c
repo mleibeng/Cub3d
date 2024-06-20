@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:34:39 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 01:34:01 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/20 01:19:50 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,23 +82,25 @@ int	fill_bounds(int next_x, int next_y, t_app *app, char **map)
 	if (next_x >= 0 && next_x < app->cols && next_y >= 0 && next_y < app->rows
 		&& !app->val_map[next_y][next_x])
 	{
-		if (map[next_y][next_x] == '0')
+		if (map[next_y])
 		{
-			app->check_queue[app->end++] = (t_vec){next_x, next_y};
-			app->val_map[next_y][next_x] = 2;
-		}
-		else if (map[next_y][next_x] == '1')
-			app->val_map[next_y][next_x] = 1;
-		else if (map[next_y][next_x] == 'D')
-		{
-			app->val_map[next_y][next_x] = 3;
-			app->check_queue[app->end++] = (t_vec){next_x, next_y};
-		}
-		else
-		{
-			printf("Error\n");
-			printf("error in fill_bounds, leaky walls\n");
-			emergency_exit(app, app->textures, map);
+			if (map[next_y][next_x] == '0')
+			{
+				app->check_queue[app->end++] = (t_vec){next_x, next_y};
+				app->val_map[next_y][next_x] = 2;
+			}
+			else if (map[next_y][next_x] == '1')
+				app->val_map[next_y][next_x] = 1;
+			else if (map[next_y][next_x] == 'D')
+			{
+				app->val_map[next_y][next_x] = 3;
+				app->check_queue[app->end++] = (t_vec){next_x, next_y};
+			}
+			else
+			{
+				printf("Error\nError in fill_bounds, leaky walls\n");
+				emergency_exit(app, app->textures, map);
+			}
 		}
 	}
 	return (1);

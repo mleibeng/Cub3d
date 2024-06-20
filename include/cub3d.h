@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/19 23:14:20 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/20 03:35:42 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,6 @@ typedef struct s_weapon
 {
 	mlx_image_t		*img;
 	mlx_image_t		*active_image;
-	mlx_texture_t	*animation[50];
 	mlx_image_t		*punch[3];
 	mlx_image_t		*pistol[5];
 	mlx_image_t		*shotgun[5];

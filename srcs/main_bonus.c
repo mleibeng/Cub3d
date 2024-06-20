@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/20 00:12:31 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/20 03:25:56 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ int	main(int argc, char **argv)
 		mlx_loop_hook(app.mlx, main_loop, &app);
 		mlx_loop(app.mlx);
 		mlx_delete_image(app.mlx, app.img);
-		mlx_terminate(app.mlx);
 		free_all_resources_bonus(&app);
+		mlx_terminate(app.mlx);
 	}
 	return (0);
 }

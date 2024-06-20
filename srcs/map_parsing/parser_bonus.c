@@ -6,7 +6,7 @@
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/19 23:23:59 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/20 03:01:50 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,22 @@ int	closed_map(char **map, t_app *app)
 	}
 	validate_doors(app, map);
 	return (1);
+}
+
+int	parse_door_text(char *file, t_texture *texture)
+{
+	int		fd;
+	char	*line;
+	int		final_status;
+
+	final_status = 0;
+	line = NULL;
+	fd = open_file(file);
+	if (!fd)
+		return (1);
+	final_status = door_text_loop(fd, line, texture);
+	if (line)
+		free(line);
+	close(fd);
+	return (final_status);
 }

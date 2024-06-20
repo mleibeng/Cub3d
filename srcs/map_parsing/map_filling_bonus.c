@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_filling_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 00:55:33 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/20 00:09:55 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/20 02:15:24 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	allocate_map_memory(char ***map, size_t line_len, int row)
 		printf("Error\nRow Malloc failed\n");
 		return (1);
 	}
+	(*map)[row][line_len] = '\0';
 	return (0);
 }
 

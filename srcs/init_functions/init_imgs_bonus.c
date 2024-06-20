@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_imgs_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 18:53:54 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 23:40:43 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/20 01:47:41 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,20 @@ void	_init_texture(t_texture *texture)
 //	function to convert the texture paths to texture structs
 void	load_textures(t_app *app)
 {
-	if(!check_path(app->textures->n_path))
+	if (!check_path(app->textures->n_path))
 		app->textures->n_text = mlx_load_xpm42(app->textures->n_path);
-	if(!check_path(app->textures->s_path))
+	if (!check_path(app->textures->s_path))
 		app->textures->s_text = mlx_load_xpm42(app->textures->s_path);
-	if(!check_path(app->textures->e_path))
+	if (!check_path(app->textures->e_path))
 		app->textures->e_text = mlx_load_xpm42(app->textures->e_path);
-	if(!check_path(app->textures->w_path))
+	if (!check_path(app->textures->w_path))
 		app->textures->w_text = mlx_load_xpm42(app->textures->w_path);
 	if (app->textures->d_path)
 		app->textures->d_text = mlx_load_xpm42(app->textures->d_path);
-	if (!app->textures->n_text)
+	if (!app->textures->n_text
+		|| !app->textures->s_text
+		|| !app->textures->e_text
+		|| !app->textures->w_text)
 		emergency_exit(app, app->textures, NULL);
 }
 

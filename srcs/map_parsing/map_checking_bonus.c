@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_checking_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 00:57:13 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/20 00:22:10 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/20 02:13:24 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,25 +46,28 @@ int	read_lines_until_end(int fd, t_line_struct *line_sort, int *map_started)
 	char	*line;
 	int		keep_reading;
 	int		status;
+	int		final_status;
 
 	status = 0;
+	final_status = 0;
 	keep_reading = 1;
 	while (keep_reading)
 	{
 		line = get_cut_next_line(fd);
+		if (status)
+			final_status = status;
 		if (!line)
 			keep_reading = 0;
-		else
+		else if (ft_strlen(line) < MAX_LINE_LENGTH)
 			status = parse_line(line, line_sort, map_started);
+		else
+			status = 1;
 		free(line);
 		line = NULL;
 	}
 	if (line)
-	{
 		free(line);
-		line = NULL;
-	}
-	return (status);
+	return (final_status);
 }
 
 void	emergency_exit_unfilled_textures_or_colors(t_texture *texture,
@@ -85,10 +88,6 @@ int	parse_file(int fd, t_texture *texture, char ***map, t_vec *rows_cols)
 	line_sort.texture = texture;
 	if (read_lines_until_end(fd, &line_sort, &map_started))
 		return (1);
-	if (line_sort.rows_cols->x > 0)
-		(*map)[line_sort.rows_cols->x] = NULL;
-	if (line_sort.rows_cols->y > 0)
-		(*map)[line_sort.rows_cols->y] = NULL;
 	if (!are_textures_and_colors_filled(texture))
 	{
 		printf("Error\nUnfilled textures or colors\n");

@@ -5,7 +5,7 @@ EA ./textures/tyles/wood.xpm42
 DO ./textures/doors/42_door.xpm42
 
 F 30,30,30
-C 30,30,2awd00
+C 30,30,awd200
 
 11111111111
 1111111N01

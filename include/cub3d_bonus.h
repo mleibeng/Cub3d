@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/20 00:13:08 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/20 03:47:11 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@
 # define PLAYER_MOVE_SPEED 0.06
 //	speed in which the player will rotate with left or right arrow key
 # define PLAYER_ROTATE_SPEED 0.06
-
-/*--------------------------------- Macros ---------------------------------- */
 
 /* -------------------------------- structs --------------------------------- */
 
@@ -189,10 +187,9 @@ typedef struct s_weapon
 	mlx_image_t		*active_image;
 	mlx_texture_t	*sprite;
 	mlx_texture_t	*sprite_act;
-	mlx_texture_t	*animation[50];
-	mlx_image_t		*punch[3];
-	mlx_image_t		*pistol[5];
-	mlx_image_t		*shotgun[5];
+	mlx_image_t		*punch[6];
+	mlx_image_t		*pistol[6];
+	mlx_image_t		*shotgun[6];
 	int				x;
 	int				y;
 	int				weapon;
@@ -412,12 +409,11 @@ int					character_validation(char **map, t_texture *textures);
 void				_validate_field(char **map, t_app *app);
 char				**map_validate(t_app *app, char *file);
 // texture_parsing.c
-int					parse_door_text(char *file, t_texture *texture);
-int					dup_door_path(char *line, int *keep_reading,
-						t_texture *texture);
+int					door_text_loop(int fd, char *line, t_texture *texture);
 int					parse_textures(char *line, t_texture *texture);
 int					compare_textures(t_texture *texture, char *line);
 // parser.c
+int					parse_door_text(char *file, t_texture *texture);
 int					open_file(char *file);
 t_texture			*read_map(char *file, char ***map, t_vec *rowcol);
 int					closed_map(char **map, t_app *app);

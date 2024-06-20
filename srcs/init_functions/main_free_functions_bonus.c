@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_free_functions_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 18:32:03 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/20 00:16:31 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/20 03:25:22 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	free_weapon(t_app *app, t_weapon *weapon)
 	while (weapon->shotgun[i])
 		mlx_delete_image(app->mlx, weapon->shotgun[i++]);
 	i = 0;
+	while (weapon->punch[i])
+		mlx_delete_image(app->mlx, weapon->punch[i++]);
 	free(weapon);
 }
 

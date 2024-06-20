@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_validation.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:35:36 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 18:30:34 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/20 01:45:46 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,19 @@ int	character_validation(char **map, t_texture *textures)
 
 	player_count = 0;
 	i = 0;
-	while (map[i])
+	if (map)
 	{
-		j = 0;
-		while (map[i][j] != '\0')
+		while (map[i])
 		{
-			if (!ft_isspace(map[i][j]))
-				validate_character(map[i][j], &player_count, textures, map);
-			j++;
+			j = 0;
+			while (map[i][j])
+			{
+				if (!ft_isspace(map[i][j]))
+					validate_character(map[i][j], &player_count, textures, map);
+				j++;
+			}
+			i++;
 		}
-		i++;
 	}
 	if (player_count == 0)
 		print_error_and_exit("No player found in map", textures, map);
