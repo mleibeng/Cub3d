@@ -1,42 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   key_input.c                                        :+:      :+:    :+:   */
+/*   key_input_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:49:06 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/19 18:30:49 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 20:38:10 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 //	function enables the manual
-// int	information(t_app *app)
-// {
-// 	static int	key_pressed = OFF;
-// 	static int	manual_status = ON;
+int	information(t_app *app)
+{
+	static int	key_pressed = OFF;
+	static int	manual_status = ON;
 
-// 	if (mlx_is_key_down(app->mlx, MLX_KEY_I) && key_pressed == OFF)
-// 	{
-// 		if (manual_status == OFF)
-// 		{
-// 			remove_manual_from_app(app);
-// 			manual_status = ON;
-// 		}
-// 		else if (manual_status == ON)
-// 		{
-// 			manual_status = OFF;
-// 			print_manual(app);
-// 		}
-// 		key_pressed = ON;
-// 		return (1);
-// 	}
-// 	else if (!mlx_is_key_down(app->mlx, MLX_KEY_I))
-// 		key_pressed = OFF;
-// 	return (0);
-// }
+	if (mlx_is_key_down(app->mlx, MLX_KEY_I) && key_pressed == OFF)
+	{
+		if (manual_status == OFF)
+		{
+			remove_manual_from_app(app);
+			manual_status = ON;
+		}
+		else if (manual_status == ON)
+		{
+			manual_status = OFF;
+			print_manual(app);
+		}
+		key_pressed = ON;
+		return (1);
+	}
+	else if (!mlx_is_key_down(app->mlx, MLX_KEY_I))
+		key_pressed = OFF;
+	return (0);
+}
 
 //	key functions
 void	key_hook(mlx_key_data_t keydata, void *param)
@@ -62,6 +62,10 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 		app->player.y = player.std_y;
 		app->player.angle = player.std_angle;
 	}
+	if ((keydata.key == MLX_KEY_X && keydata.action == MLX_PRESS))
+		door_open_close(app);
+	if (keydata.key == MLX_KEY_B && keydata.action == MLX_PRESS)
+		app->weapon->state = HOLSTERED;
 }
 
 void	direction_change_hook(t_app *app)
@@ -73,6 +77,7 @@ void	direction_change_hook(t_app *app)
 	new_y = 0.0f;
 	move_for_back(app, &new_x, &new_y);
 	move_sideways(app, &new_x, &new_y);
+	information(app);
 }
 
 //	this function calculates the shift of the coordinates with the A and D keys

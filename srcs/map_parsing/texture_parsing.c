@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   texture_parsing.c                                  :+:      :+:    :+:   */
+/*   texture_parsing_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:33:57 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/19 23:24:01 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/20 03:00:27 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,47 +66,41 @@ int	parse_textures(char *line, t_texture *texture)
 	return (status);
 }
 
-int	dup_door_path(char *line, int *keep_read, t_texture *txt)
+int	dup_door_path(char *line, t_texture *txt)
 {
 	int	status;
 
 	status = 0;
-	if (!line)
-		*keep_read = 0;
-	else if (ft_strlen(line) > 0 && !ft_strncmp(line, "DO ", 3))
+	if (ft_strlen(line) > 0 && !ft_strncmp(line, "DO ", 3))
 	{
 		fill_texture_paths(&(txt->d_path), line + 3);
 		status = check_path(txt->d_path);
-		*keep_read = 0;
 	}
 	return (status);
 }
 
-int	parse_door_text(char *file, t_texture *texture)
+int	door_text_loop(int fd, char *line, t_texture *texture)
 {
-	int		fd;
-	char	*line;
-	int		keep_reading;
-	int		status;
+	int	status;
+	int	keep_reading;
+	int	final_status;
 
 	status = 0;
-	line = NULL;
 	keep_reading = 1;
-	fd = open_file(file);
-	if (!fd)
-		return (1);
+	final_status = 0;
 	while (keep_reading)
 	{
 		line = get_cut_next_line(fd);
-		status = dup_door_path(line, &keep_reading, texture);
+		if (status)
+			final_status = 1;
+		if (!line)
+			keep_reading = 0;
+		else if (ft_strlen(line) < MAX_LINE_LENGTH)
+			status = dup_door_path(line, texture);
+		else
+			status = 1;
 		free(line);
 		line = NULL;
 	}
-	if (line)
-	{
-		free(line);
-		line = NULL;
-	}
-	close(fd);
-	return (status);
+	return (final_status);
 }

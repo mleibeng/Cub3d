@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   math.c                                             :+:      :+:    :+:   */
+/*   math_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 18:22:29 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/19 18:29:35 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 20:38:50 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,5 @@ double	get_fractional_part(double num)
 
 int	is_integer(float x)
 {
-	float	fractional_part;
-
-	fractional_part = fabsf(fmodf(x, 1.0f));
-	return (fractional_part <= 0.0003f && fractional_part >= 0.9997f);
+	return (fabsf(x - roundf(x)) < 1e-15);
 }

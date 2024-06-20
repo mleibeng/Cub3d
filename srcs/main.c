@@ -1,31 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:10:14 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/20 03:28:04 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/20 03:25:56 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void	free_all_resources(t_app *app)
-{
-	if (app->map)
-	{
-		free_map(app->map);
-		app->map = NULL;
-	}
-	if (app->val_map)
-	{
-		free_intmap(app->val_map, app->rows);
-		app->val_map = NULL;
-	}
-	free_textures(app->textures);
-}
 
 //	function to close a door after certain time
 void	close_last_door(t_app *app)
@@ -51,6 +36,10 @@ void	main_loop(void *param)
 	app = (t_app *)param;
 	user_input_hook(app);
 	calc_walls(app);
+	display_minimap(app);
+	display_compass(app, app->player.angle);
+	draw_weapon(app);
+	close_last_door(app);
 }
 
 int	is_not_cub(char *file)
@@ -68,7 +57,7 @@ int	main(int argc, char **argv)
 	t_app	app;
 
 	if (argc != 2)
-		return (printf("Error\nNo file as argument\n"));
+		return (printf("Error\nNo *.cub file as argument\n"));
 	if (is_not_cub(argv[1]))
 		return (printf("Error\nNo .cub file handed as argument\n"));
 	app.map = map_validate(&app, argv[1]);
@@ -76,14 +65,15 @@ int	main(int argc, char **argv)
 		emergency_exit(&app, app.textures, app.map);
 	if (_init_app(&app))
 		return (1);
+	mlx_set_cursor_mode(app.mlx, MLX_MOUSE_HIDDEN);
 	if (app.map)
 	{
 		mlx_key_hook(app.mlx, key_hook, &app);
 		mlx_loop_hook(app.mlx, main_loop, &app);
 		mlx_loop(app.mlx);
 		mlx_delete_image(app.mlx, app.img);
+		free_all_resources_bonus(&app);
 		mlx_terminate(app.mlx);
-		free_all_resources(&app);
 	}
 	return (0);
 }

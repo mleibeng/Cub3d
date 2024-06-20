@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   replace_image.c                                    :+:      :+:    :+:   */
+/*   replace_image_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 01:44:27 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/19 20:39:06 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 20:38:02 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ int32_t	get_pixel_from_text(mlx_image_t *image, uint32_t x, uint32_t y)
 //	returns one if a pixel at a ceratin position is not null, or 0 if yes
 int	check_pixel_is_not_null(mlx_image_t *img, uint32_t x, uint32_t y)
 {
-	if (get_pixel_from_text(img, x, y) != 0)
+	int32_t	color;
+
+	color = get_pixel_from_text(img, x, y);
+	if (color != 0 && color != 0x333333)
 	{
 		return (1);
 	}
@@ -53,7 +56,7 @@ void	put_img_to_img(mlx_image_t *img, mlx_image_t *src, int x, int y)
 		j = 0;
 		while (j < src->height)
 		{
-			if (check_pixel_is_not_null(src, i, j)
+			if (check_pixel_is_not_null(src, i, j) == 1
 				&& (x + i) > 0 && (x + i) < WINDOW_WIDTH
 				&& (y + j) > 0 && (y + j) < WINDOW_HEIGHT)
 			{

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   parser_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 09:35:57 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/20 02:09:13 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/20 03:01:50 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ t_texture	*read_map(char *file, char ***map, t_vec *rows_cols)
 		emergency_exit(NULL, texture, *map);
 	}
 	close(fd);
+	if (parse_door_text(file, texture))
+		emergency_exit(NULL, texture,*map);
 	return (texture);
 }
 
@@ -50,6 +52,7 @@ int	closed_map(char **map, t_app *app)
 
 	init_directions(directions);
 	app->val_map = create_map(app->rows, app->cols, app);
+	app->minimap = create_map(app->rows, app->cols, app);
 	app->check_queue = malloc(app->rows * app->cols * sizeof(t_vec));
 	if (!app->check_queue)
 	{
@@ -57,6 +60,7 @@ int	closed_map(char **map, t_app *app)
 		printf("Memory allocation failed for check_queue\n");
 		emergency_exit(app, app->textures, map);
 	}
+	fill_minimap(map, app->minimap, app);
 	if (!fill_map(map, app, directions))
 	{
 		printf("Error\n");
@@ -64,5 +68,24 @@ int	closed_map(char **map, t_app *app)
 		emergency_exit(app, app->textures, map);
 		return (0);
 	}
+	validate_doors(app, map);
 	return (1);
+}
+
+int	parse_door_text(char *file, t_texture *texture)
+{
+	int		fd;
+	char	*line;
+	int		final_status;
+
+	final_status = 0;
+	line = NULL;
+	fd = open_file(file);
+	if (!fd)
+		return (1);
+	final_status = door_text_loop(fd, line, texture);
+	if (line)
+		free(line);
+	close(fd);
+	return (final_status);
 }

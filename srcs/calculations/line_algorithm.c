@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   line_algorithm.c                                   :+:      :+:    :+:   */
+/*   line_algorithm_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:54:25 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/19 18:29:17 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 20:38:51 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ void	draw_line(t_app *app, t_coord point_a, t_coord point_b)
 	y0 = point_a.yw;
 	while (1)
 	{
+		if (x0 > 0 && x0 < app->window_width && y0 > 0
+			&& y0 < app->window_height)
+			mlx_put_pixel(app->compass, x0, y0, point_a.color);
 		err = check_error_pixel(&point_a, &point_b, &x0, &y0);
 		if (err == INT_MAX)
 			break ;

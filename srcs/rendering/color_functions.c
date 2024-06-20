@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   color_functions.c                                  :+:      :+:    :+:   */
+/*   color_functions_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 21:35:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/19 17:46:46 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/19 20:39:01 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void	mix_and_put_color(t_app *app, t_put_col info)
 	g = ((info.color >> 16) & 0xFF) * info.factor;
 	b = ((info.color >> 8) & 0xFF) * info.factor;
 	a = (info.color & 0xFF);
-	if (app->cur_ray > 0 && info.y > 0 && app->cur_ray < app->window_width
+	if ((app->cur_ray >= MINIMAP_SIZE || info.y >= MINIMAP_SIZE)
+		&& app->cur_ray > 0 && info.y > 0 && app->cur_ray < app->window_width
 		&& info.y < app->window_height)
 	{
 		if (info.shade == 1)

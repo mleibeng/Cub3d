@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_checking.c                                     :+:      :+:    :+:   */
+/*   map_checking_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 00:57:13 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/20 01:43:39 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/20 02:13:24 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int	read_lines_until_end(int fd, t_line_struct *line_sort, int *map_started)
 void	emergency_exit_unfilled_textures_or_colors(t_texture *texture,
 		char **map)
 {
+	printf("Error\nUnfilled textures or colors\n");
 	emergency_exit(NULL, texture, map);
 }
 

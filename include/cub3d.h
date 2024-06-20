@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:14:31 by marvinleibe       #+#    #+#             */
-/*   Updated: 2024/06/20 03:35:42 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/20 03:47:11 by fkeitel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 ------------------------------- initial setup ----------------------------------
  */
 
-#if !defined(CUB3D_H)
-# define CUB3D_H
+#if !defined(CUB3D_BONUS_H)
+# define CUB3D_BONUS_H
 
+# include "../MLX42/include/MLX42/MLX42.h"
 # include "../libft/libft.h"
-# include "MLX42/MLX42.h"
 # include "color.h"
 # include <errno.h>
 # include <fcntl.h>
@@ -27,6 +27,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/stat.h> //	for chmod()
 # include <unistd.h>
 
 /*--------------------- OS-specific constant definitions--------------------- */
@@ -184,9 +185,11 @@ typedef struct s_weapon
 {
 	mlx_image_t		*img;
 	mlx_image_t		*active_image;
-	mlx_image_t		*punch[3];
-	mlx_image_t		*pistol[5];
-	mlx_image_t		*shotgun[5];
+	mlx_texture_t	*sprite;
+	mlx_texture_t	*sprite_act;
+	mlx_image_t		*punch[6];
+	mlx_image_t		*pistol[6];
+	mlx_image_t		*shotgun[6];
 	int				x;
 	int				y;
 	int				weapon;
@@ -287,6 +290,10 @@ typedef struct s_app
 {
 	mlx_t			*mlx;
 	mlx_image_t		*img;
+	mlx_image_t		*compass;
+	mlx_image_t		*minimap_img;
+	mlx_image_t		*player_on_mini;
+	t_weapon		*weapon;
 	t_texture		*textures;
 	int				needle_x;
 	int				needle_y;
@@ -301,6 +308,8 @@ typedef struct s_app
 	t_vec			pos;
 	t_vec			*check_queue;
 	int				**val_map;
+	int				**minimap;
+	t_minimap		mini_info;
 	int				cols;
 	int				rows;
 	int				end;
@@ -309,7 +318,13 @@ typedef struct s_app
 	int				l_op_door_x;
 	int				l_op_door_y;
 	int				closing_counter;
+	mlx_image_t		*man;
+	t_man			*manual;
 }					t_app;
+
+/*
+--------------------------------- functions ------------------------------------
+*/
 
 // ----------------------------- calculations ----------------------------------
 
@@ -328,10 +343,9 @@ int					is_integer(float x);
 void				fine_tuning_algorithm(t_app *app, t_tar *wall, float ang,
 						float depth);
 float				cast_ray(t_app *app, float ray_angle, t_tar *wall);
-//	player_calculations.c
+// player_calculations.c
 void				f_player_start(t_app *app, char **map, int *player_x,
 						int *player_y);
-
 // -------------------------------- init.c -------------------------------------
 
 //	init.c
@@ -344,7 +358,7 @@ t_texture			*init_texture(void);
 int					init_compass(t_app *app);
 void				load_textures(t_app *app);
 int					init_minimap(t_app *app);
-//	init_weapon_anims.c
+// init_weapon_anims.c
 t_weapon			*_init_weapon(t_app *app);
 //	manual.c
 void				remove_manual_from_app(t_app *app);
@@ -353,59 +367,56 @@ int					create_manual(t_app *app);
 void				free_manual(t_man **stack);
 
 // ----------------------------- map_parsing -----------------------------------
-
-//	main.c
-void				free_all_resources(t_app *app);
+// main.c
+void				free_all_resources_bonus(t_app *app);
 //	free_functions
 void				free_queue(t_app *app);
 void				emergency_exit(t_app *app, t_texture *texture, char **map);
 void				free_map(char **map);
 void				free_intmap(int **map, int rows);
 void				free_textures(t_texture *textures);
-//	map_parsing.c
+// map_parsing.c
 int					is_map_line(const char *line);
 void				fill_minimap(char **map, int **mini_map, t_app *app);
 int					**create_map(int rows, int columns, t_app *app);
-//	debugging.c
+// debugging.c
 void				print_walkedmap(int **map, int rows, int cols);
 void				print_map(char **map);
-//	fill_and_line_checks.c
+// fill_and_line_checks.c
 int					are_textures_and_colors_filled(t_texture *texture);
 int					is_texture_line(char *line);
-//	error_messages.c
+// error_messages.c
 void				print_error_and_exit(const char *message,
 						t_texture *textures, char **map);
-//	door_validation.c
+// door_validation.c
 int					check_path(char *path);
 void				validate_doors(t_app *app, char **map);
-//	bounds_checking.c
+// bounds_checking.c
 void				fill_minimap_bounds(char **map, int **mini_map, t_vec *ij);
 int					fill_bounds(int next_x, int next_y, t_app *app, char **map);
 int					check_bounds(t_app *app);
-//	color_parsing.c
+// color_parsing.c
 int					parse_floor_ceiling(char *line, t_texture *texture);
-//	map_filling.c
+// map_filling.c
 int					fill_map(char **map, t_app *app, t_vec *direct);
 int					parse_map(char *line, char ***map, t_vec *rows_cols);
-//	map_checking.c
+// map_checking.c
 int					parse_file(int fd, t_texture *texture, char ***map,
 						t_vec *rows_cols);
-//	map_validation.c
+// map_validation.c
 int					is_valid(char c, int *player_count);
 int					character_validation(char **map, t_texture *textures);
 void				_validate_field(char **map, t_app *app);
 char				**map_validate(t_app *app, char *file);
-//	texture_parsing.c
-int					parse_door_text(char *file, t_texture *texture);
-int					dup_door_path(char *line, int *keep_reading,
-						t_texture *texture);
+// texture_parsing.c
+int					door_text_loop(int fd, char *line, t_texture *texture);
 int					parse_textures(char *line, t_texture *texture);
 int					compare_textures(t_texture *texture, char *line);
-//	parser.c
+// parser.c
+int					parse_door_text(char *file, t_texture *texture);
 int					open_file(char *file);
 t_texture			*read_map(char *file, char ***map, t_vec *rowcol);
 int					closed_map(char **map, t_app *app);
-
 // ------------------------------ rendering ------------------------------------
 
 //	color_functions.c
@@ -423,7 +434,7 @@ void				calculate_xy_coordinates(t_app *app, t_vec map,
 void				put_player_mini(t_app *app);
 void				rotate_point(t_vec *xy, float angle, int cy);
 void				clear_mini_map(mlx_image_t *img, int32_t background_color);
-//minimap.c
+// minimap.c
 void				display_minimap(t_app *app);
 //	compass.c
 void				display_compass(t_app *app, float player_angle);
@@ -452,7 +463,6 @@ void				move_for_back(t_app *app, float *new_x, float *new_y);
 void				user_input_hook(t_app *app);
 
 // ------------------------------  debugging -----------------------------------
-
 void				print_info(t_app *app);
 
 #endif

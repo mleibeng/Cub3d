@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_validation.c                                   :+:      :+:    :+:   */
+/*   map_validation_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 19:35:36 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/20 01:45:46 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/19 20:38:57 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	is_valid(char c, int *player_count)
 		if (*player_count > 1)
 			return (0);
 	}
-	return (c == '0' || c == '1' || c == 'N' || c == 'S' || c == 'W'
-		|| c == 'E');
+	return (c == '0' || c == '1' || c == 'N' || c == 'S' || c == 'W' || c == 'E'
+		|| c == 'D');
 }
 
 void	validate_character(char c, int *player_count, t_texture *textures,
@@ -35,6 +35,8 @@ void	validate_character(char c, int *player_count, t_texture *textures,
 		else
 			print_error_and_exit("Invalid character inside map", textures, map);
 	}
+	if (!textures->d_path && c == 'D')
+		c = '1';
 }
 
 int	character_validation(char **map, t_texture *textures)
@@ -45,19 +47,16 @@ int	character_validation(char **map, t_texture *textures)
 
 	player_count = 0;
 	i = 0;
-	if (map)
+	while (map[i])
 	{
-		while (map[i])
+		j = 0;
+		while (map[i][j] != '\0')
 		{
-			j = 0;
-			while (map[i][j])
-			{
-				if (!ft_isspace(map[i][j]))
-					validate_character(map[i][j], &player_count, textures, map);
-				j++;
-			}
-			i++;
+			if (!ft_isspace(map[i][j]))
+				validate_character(map[i][j], &player_count, textures, map);
+			j++;
 		}
+		i++;
 	}
 	if (player_count == 0)
 		print_error_and_exit("No player found in map", textures, map);

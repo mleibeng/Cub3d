@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:42:00 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/19 18:33:56 by mleibeng         ###   ########.fr       */
+/*   Updated: 2024/06/19 20:38:44 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,12 @@ void	_init_vars(t_app *app)
 	app->window_height = WINDOW_HEIGHT;
 	app->num_rays = app->window_width;
 	app->cur_ray = 0;
+	app->minimap_img = NULL;
+	app->compass = NULL;
 	app->closing_counter = 0;
 	app->l_op_door_x = -1;
 	app->l_op_door_y = -1;
+	app->manual = NULL;
 }
 
 //	function to initialize all the application struct
@@ -78,10 +81,18 @@ int	_init_app(t_app *app)
 	app->mlx = mlx_init(app->window_width, app->window_height, "cub3d", false);
 	if (!app->mlx)
 		return (1);
+	app->weapon = _init_weapon(app);
 	app->img = mlx_new_image(app->mlx, app->window_width, app->window_height);
 	if (!app->img)
 		return (mlx_terminate(app->mlx), 1);
-	if (mlx_image_to_window(app->mlx, app->img, 0, 0) == -1)
+	app->img->count = 1;
+	if (mlx_image_to_window(app->mlx, app->img, 0, 0) == -1 || init_compass(app)
+		|| init_minimap(app))
 		return (1);
+	app->man = mlx_new_image(app->mlx, app->window_width, app->window_height);
+	app->man = mlx_put_string(app->mlx, "Press <I> for manual",
+			app->window_width / 2 - 100, 8);
+	if (!app->man || create_manual(app) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	return (load_textures(app), 0);
 }

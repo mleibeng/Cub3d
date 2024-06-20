@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rendering.c                                        :+:      :+:    :+:   */
+/*   rendering_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 21:50:08 by fkeitel           #+#    #+#             */
-/*   Updated: 2024/06/19 18:41:33 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/19 20:38:20 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	mix_and_print_text(t_app *app, int32_t color, float percentage, int y)
 	new_color = ft_pixel(((color >> 24) & 0xFF), 1 + ((color >> 16) & 0xFF)
 			* percentage, 1 + ((color >> 8) & 0xFF) * percentage, 0);
 	new_color = (color & 0xFFFFFF00) | (uint8_t)(alpha * percentage);
+	if (app->cur_ray <= MINIMAP_SIZE && y <= MINIMAP_SIZE)
+		new_color = (color & 0xFFFFFF00);
 	mlx_put_pixel(app->img, app->cur_ray, y, new_color);
 }
 
