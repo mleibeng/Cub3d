@@ -27,9 +27,9 @@ void	calc_side(float ray_angle, t_tar *wall)
 	if (wall->hit == NONVERTICAL)
 	{
 		if (cos(ray_angle) > 0)
-			wall->side = NORTH;
-		else
 			wall->side = EAST;
+		else
+			wall->side = WEST;
 	}
 	else if (wall->hit == DOOR_HOR || wall->hit == DOOR_VERTIKAL)
 	{
@@ -40,7 +40,7 @@ void	calc_side(float ray_angle, t_tar *wall)
 		if (sin(ray_angle) > 0)
 			wall->side = SOUTH;
 		else
-			wall->side = WEST;
+			wall->side = NORTH;
 	}
 }
 
