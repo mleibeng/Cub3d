@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_filling_bonus.c                                :+:      :+:    :+:   */
+/*   map_filling.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkeitel <fkeitel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: flo <flo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 00:55:33 by mleibeng          #+#    #+#             */
-/*   Updated: 2024/06/20 02:15:24 by fkeitel          ###   ########.fr       */
+/*   Updated: 2024/06/28 16:58:50 by flo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,30 +23,32 @@ int	allocate_map_memory(char ***map, size_t line_len, int row)
 			return (1);
 		}
 	}
-	(*map)[row] = ft_calloc((line_len + 1) * sizeof(char), '0');
+	(*map)[row] = malloc((line_len + 1) * sizeof(char));
 	if (!(*map)[row])
 	{
 		printf("Error\nRow Malloc failed\n");
 		return (1);
 	}
 	(*map)[row][line_len] = '\0';
+	(*map)[row + 1] = NULL;
 	return (0);
 }
 
-void	copy_line_to_map(char *line, char **map, int row, size_t line_len)
+void	copy_line_to_map(char *line, char ***map, int row, size_t line_len)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
-	while (i < (int)line_len)
+
+	while (i < line_len)
 	{
 		if (ft_isspace(line[i]))
-			map[row][i] = '0';
+			(*map)[row][i] = '0';
 		else
-			map[row][i] = line[i];
+			(*map)[row][i] = line[i];
 		i++;
 	}
-	map[row][line_len] = '\0';
+	(*map)[row][i] = '\0';
 }
 
 void	update_rows_cols(size_t line_len, t_vec *rows_cols)
@@ -63,10 +65,10 @@ int	parse_map(char *line, char ***map, t_vec *rows_cols)
 
 	status = 0;
 	line_len = ft_strlen(line);
-	if (ft_strlen(line) > 0)
+	if (line_len > 0)
 	{
 		status = allocate_map_memory(map, line_len, rows_cols->x);
-		copy_line_to_map(line, *map, rows_cols->x, line_len);
+		copy_line_to_map(line, map, rows_cols->x, line_len);
 		update_rows_cols(line_len, rows_cols);
 	}
 	return (status);
